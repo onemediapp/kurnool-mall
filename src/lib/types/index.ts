@@ -644,3 +644,167 @@ export interface RevenueStream {
   commission: number
   gst: number
 }
+
+// ═══════════════════════════════════════════════════════════════
+// V4 Enhancement - Multi-Section Taxonomy & Booking System
+// ═══════════════════════════════════════════════════════════════
+
+// ── Sections (Top-level categorization) ────────────────────────
+export type SectionType = 'shopping' | 'services'
+
+export interface Section {
+  id: string
+  name_en: string
+  name_te: string
+  slug: string
+  type: SectionType
+  icon: string | null
+  description: string | null
+  is_active: boolean
+  sort_order: number
+  created_at: string
+  updated_at: string
+}
+
+// ── Subcategories (Three-tier taxonomy) ──────────────────────────
+export interface Subcategory {
+  id: string
+  category_id: string
+  name_en: string
+  name_te: string
+  slug: string
+  icon: string | null
+  is_active: boolean
+  sort_order: number
+  created_at: string
+  updated_at: string
+  category?: Category
+}
+
+// ── Service Providers (Enhanced with ratings) ────────────────────
+export interface ServiceProvider {
+  id: string
+  user_id: string | null
+  name: string
+  category_id: string
+  service_type: string
+  description: string | null
+  phone: string | null
+  image_url: string | null
+  address: string | null
+  rating: number
+  total_reviews: number
+  verified: boolean
+  is_active: boolean
+  created_at: string
+  updated_at: string
+  category?: Category
+  time_slots?: ServiceTimeSlot[]
+}
+
+// ── Service Time Slots (Availability management) ──────────────────
+export interface ServiceTimeSlot {
+  id: string
+  provider_id: string
+  day_of_week: number // 0=Monday, ..., 6=Sunday
+  start_time: string  // HH:MM format
+  end_time: string    // HH:MM format
+  available: boolean
+  created_at: string
+  provider?: ServiceProvider
+}
+
+// ── Service Bookings (Appointment system) ────────────────────────
+export type ServiceBookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled'
+
+export interface ServiceBookingRecord {
+  id: string
+  customer_id: string
+  provider_id: string
+  service_type: string
+  booking_date: string // Date format YYYY-MM-DD
+  booking_time: string // Time format HH:MM
+  status: ServiceBookingStatus
+  notes: string | null
+  price: number
+  rating: number | null
+  review_text: string | null
+  created_at: string
+  updated_at: string
+  customer?: User
+  provider?: ServiceProvider
+}
+
+// ── Function Halls (Venue rental system) ──────────────────────────
+export interface FunctionHallRecord {
+  id: string
+  name: string
+  category_id: string
+  description: string | null
+  capacity: number
+  location: string
+  price_per_hour: number
+  amenities: string[] | Record<string, unknown>
+  images: string[]
+  rating: number
+  total_reviews: number
+  phone: string | null
+  email: string | null
+  is_active: boolean
+  created_at: string
+  updated_at: string
+  category?: Category
+}
+
+// ── Hall Bookings (Venue reservation system) ──────────────────────
+export type HallBookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled'
+
+export interface HallBookingRecord {
+  id: string
+  hall_id: string
+  customer_id: string
+  booking_date: string // Date format YYYY-MM-DD
+  start_time: string   // Time format HH:MM
+  end_time: string     // Time format HH:MM
+  num_guests: number
+  status: HallBookingStatus
+  total_price: number
+  customer_name: string
+  customer_phone: string
+  customer_email: string | null
+  event_type: string | null
+  special_requirements: string | null
+  rating: number | null
+  review_text: string | null
+  created_at: string
+  updated_at: string
+  hall?: FunctionHallRecord
+  customer?: User
+}
+
+// ── Category Vendor Assignments (Many-to-many mapping) ────────────
+export interface CategoryVendorAssignment {
+  id: string
+  vendor_id: string
+  category_id: string
+  subcategory_id: string | null
+  assigned_by: string | null
+  created_at: string
+  vendor?: Vendor
+  category?: Category
+  subcategory?: Subcategory
+}
+
+// ── Admin Audit (Compliance & Debugging) ────────────────────────
+export interface AdminAuditLog {
+  id: string
+  admin_id: string | null
+  action: string
+  entity_type: string
+  entity_id: string | null
+  changes: Record<string, unknown>
+  ip_address: string | null
+  user_agent: string | null
+  created_at: string
+  admin?: User
+}
