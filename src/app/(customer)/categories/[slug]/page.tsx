@@ -4,7 +4,7 @@ import { ProductCard } from '@/components/customer/product-card'
 import { EmptyState } from '@/components/shared'
 import { CATEGORY_EMOJIS } from '@/lib/utils'
 import type { Product, Category } from '@/lib/types'
-import { ShoppingBag } from 'lucide-react'
+import { ShoppingBag, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function CategoryPage({ params }: Props) {
   const supabase = createClient()
 
+  // Fetch current category
   const { data: category } = await supabase
     .from('categories')
     .select('*')
@@ -39,6 +40,28 @@ export default async function CategoryPage({ params }: Props) {
 
   const cat = category as Category
 
+  // Fetch parent category if exists
+  let parentCategory: Category | null = null
+  if (cat.parent_id) {
+    const { data: parentData } = await supabase
+      .from('categories')
+      .select('*')
+      .eq('id', cat.parent_id)
+      .eq('is_active', true)
+      .single()
+    parentCategory = parentData as Category
+  }
+
+  // Fetch subcategories
+  const { data: subCategoriesData } = await supabase
+    .from('categories')
+    .select('*')
+    .eq('parent_id', cat.id)
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true })
+  const subCategories = (subCategoriesData ?? []) as Category[]
+
+  // Fetch products
   const { data: productsData } = await supabase
     .from('products')
     .select('*, vendor:vendors(id, shop_name, address_line, rating), category:categories(id, name_en, name_te, slug)')
@@ -50,11 +73,28 @@ export default async function CategoryPage({ params }: Props) {
   const products = (productsData ?? []) as unknown as Product[]
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen pb-24">
+      {/* Breadcrumb Navigation */}
+      {parentCategory && (
+        <div className="bg-white border-b border-gray-100 px-4 py-2">
+          <div className="flex items-center gap-2 text-xs text-gray-600">
+            <Link href="/" className="hover:text-gray-900">
+              Home
+            </Link>
+            <ChevronRight className="h-3 w-3 text-gray-400" />
+            <Link href={`/categories/${parentCategory.slug}`} className="hover:text-gray-900">
+              {parentCategory.name_en}
+            </Link>
+            <ChevronRight className="h-3 w-3 text-gray-400" />
+            <span className="text-gray-900 font-medium">{cat.name_en}</span>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 py-3 flex items-center gap-3">
         <Link
-          href="/"
+          href={parentCategory ? `/categories/${parentCategory.slug}` : '/'}
           className="p-2 -ml-2 rounded-full hover:bg-gray-100 active:bg-gray-200 touch-target flex items-center justify-center"
           aria-label="Go back"
         >
@@ -74,10 +114,39 @@ export default async function CategoryPage({ params }: Props) {
             <p className="text-xs text-gray-500">{cat.name_te}</p>
           </div>
         </div>
-        <span className="ml-auto text-xs text-gray-400">{products.length} products</span>
+        <span className="ml-auto text-xs text-gray-400">{products.length}</span>
       </div>
 
-      <div className="p-4">
+      <div className="p-4 space-y-4">
+        {/* Subcategories Section */}
+        {subCategories.length > 0 && (
+          <div>
+            <h2 className="text-sm font-semibold text-gray-900 mb-3">Subcategories</h2>
+            <div className="grid grid-cols-2 gap-2">
+              {subCategories.map((subCat) => (
+                <Link
+                  key={subCat.id}
+                  href={`/categories/${subCat.slug}`}
+                  className="bg-white rounded-lg p-3 border border-gray-200 hover:border-blue-400 hover:shadow-sm transition-all"
+                >
+                  <div className="text-center">
+                    <span className="text-lg block mb-1">
+                      {subCat.icon_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={subCat.icon_url} alt="" className="w-6 h-6 object-contain mx-auto" />
+                      ) : (
+                        CATEGORY_EMOJIS[subCat.slug] || '📦'
+                      )}
+                    </span>
+                    <p className="text-xs font-medium text-gray-900 line-clamp-2">{subCat.name_en}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Products Section */}
         {products.length === 0 ? (
           <EmptyState
             icon={<ShoppingBag className="h-12 w-12" />}
@@ -90,10 +159,15 @@ export default async function CategoryPage({ params }: Props) {
             }
           />
         ) : (
-          <div className="grid grid-cols-2 gap-3">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+          <div>
+            <h2 className="text-sm font-semibold text-gray-900 mb-3">
+              Products ({products.length})
+            </h2>
+            <div className="grid grid-cols-2 gap-3">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
           </div>
         )}
       </div>
