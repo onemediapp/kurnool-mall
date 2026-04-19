@@ -24,6 +24,23 @@ interface AddressForm {
 export default function BookServicePage({ params }: Props) {
   const router = useRouter()
 
+  // Services mode colors - Orange theme
+  const colors = {
+    bg: 'bg-orange-50',
+    bgLight: 'bg-orange-50',
+    bgDark: 'bg-orange-600',
+    border: 'border-orange-200',
+    text: 'text-orange-600',
+    textDark: 'text-orange-700',
+    accent: 'bg-orange-100',
+    accentText: 'text-orange-800',
+    header: 'text-orange-600',
+    button: 'bg-orange-600 hover:bg-orange-700',
+    buttonHover: 'hover:bg-orange-700',
+    ring: 'ring-orange-600/20',
+    focus: 'focus:ring-orange-600/20',
+  }
+
   const [pkg, setPkg] = useState<ServicePackage | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
@@ -79,9 +96,9 @@ export default function BookServicePage({ params }: Props) {
 
   if (!pkg) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
+      <div className={`min-h-screen ${colors.bgLight} flex flex-col items-center justify-center p-6`}>
         <p className="text-sm text-gray-600">Package not found.</p>
-        <Link href="/services" className="text-sm text-[#1A56DB] mt-2">Back to services</Link>
+        <Link href="/services" className={`text-sm ${colors.text} mt-2`}>Back to services</Link>
       </div>
     )
   }
@@ -162,9 +179,9 @@ export default function BookServicePage({ params }: Props) {
       canAdvance: canStepOne,
       content: (
         <div className="space-y-3">
-          <div className="bg-white rounded-xl border border-gray-100 p-4">
+          <div className={`bg-white rounded-xl border ${colors.border} p-4`}>
             <div className="flex items-start gap-3">
-              <div className="h-12 w-12 rounded-full bg-blue-50 flex items-center justify-center text-2xl">
+              <div className={`h-12 w-12 rounded-full ${colors.accent} flex items-center justify-center text-2xl`}>
                 {pkg.category?.emoji || '🛠️'}
               </div>
               <div className="flex-1 min-w-0">
@@ -179,7 +196,7 @@ export default function BookServicePage({ params }: Props) {
                   </span>
                 </div>
               </div>
-              <p className="text-base font-bold text-[#1A56DB]">{formatPrice(pkg.price)}</p>
+              <p className={`text-base font-bold ${colors.text}`}>{formatPrice(pkg.price)}</p>
             </div>
             {pkg.inclusions && pkg.inclusions.length > 0 && (
               <div className="mt-3 pt-3 border-t border-gray-100">
@@ -212,7 +229,7 @@ export default function BookServicePage({ params }: Props) {
                 value={scheduledDate}
                 min={minDateTime.slice(0, 10)}
                 onChange={(e) => setScheduledDate(e.target.value)}
-                className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1A56DB]/20"
+                className={`mt-1 w-full px-3 py-2 border ${colors.border} rounded-lg text-sm focus:outline-none focus:ring-2 ${colors.focus}`}
               />
             </div>
             <div>
@@ -221,7 +238,7 @@ export default function BookServicePage({ params }: Props) {
                 type="time"
                 value={scheduledTime}
                 onChange={(e) => setScheduledTime(e.target.value)}
-                className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1A56DB]/20"
+                className={`mt-1 w-full px-3 py-2 border ${colors.border} rounded-lg text-sm focus:outline-none focus:ring-2 ${colors.focus}`}
               />
             </div>
           </div>
@@ -248,7 +265,7 @@ export default function BookServicePage({ params }: Props) {
                   type="button"
                   onClick={() => setSelectedAddressId(a.id)}
                   className={`w-full text-left bg-white rounded-xl border p-3 ${
-                    selectedAddressId === a.id ? 'border-[#1A56DB] ring-1 ring-[#1A56DB]/20' : 'border-gray-200'
+                    selectedAddressId === a.id ? `border-orange-600 ring-1 ${colors.ring}` : 'border-gray-200'
                   }`}
                 >
                   <div className="flex items-start gap-2">
@@ -276,14 +293,14 @@ export default function BookServicePage({ params }: Props) {
                 placeholder="Label (Home, Work...)"
                 value={manualAddress.label}
                 onChange={(e) => setManualAddress({ ...manualAddress, label: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                className={`w-full px-3 py-2 border ${colors.border} rounded-lg text-sm`}
               />
               <textarea
                 placeholder="Full address"
                 value={manualAddress.address_line}
                 onChange={(e) => setManualAddress({ ...manualAddress, address_line: e.target.value })}
                 rows={2}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                className={`w-full px-3 py-2 border ${colors.border} rounded-lg text-sm`}
               />
               <div className="grid grid-cols-2 gap-2">
                 <input
@@ -291,14 +308,14 @@ export default function BookServicePage({ params }: Props) {
                   placeholder="City"
                   value={manualAddress.city}
                   onChange={(e) => setManualAddress({ ...manualAddress, city: e.target.value })}
-                  className="px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                  className={`px-3 py-2 border ${colors.border} rounded-lg text-sm`}
                 />
                 <input
                   type="text"
                   placeholder="Pincode"
                   value={manualAddress.pincode}
                   onChange={(e) => setManualAddress({ ...manualAddress, pincode: e.target.value })}
-                  className="px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                  className={`px-3 py-2 border ${colors.border} rounded-lg text-sm`}
                 />
               </div>
               {savedAddresses.length > 0 && (
@@ -362,9 +379,9 @@ export default function BookServicePage({ params }: Props) {
                 <p className="text-gray-700 text-xs">{notes}</p>
               </div>
             )}
-            <div className="p-3 flex justify-between text-sm bg-blue-50">
+            <div className={`p-3 flex justify-between text-sm ${colors.accent}`}>
               <span className="font-semibold text-gray-900">Total</span>
-              <span className="font-bold text-[#1A56DB]">{formatPrice(pkg.price)}</span>
+              <span className={`font-bold ${colors.text}`}>{formatPrice(pkg.price)}</span>
             </div>
           </div>
           <p className="text-[11px] text-gray-500">
@@ -376,16 +393,16 @@ export default function BookServicePage({ params }: Props) {
   ]
 
   return (
-    <div className="bg-gray-50 min-h-screen flex flex-col">
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 py-3 flex items-center gap-3">
+    <div className={`${colors.bgLight} min-h-screen flex flex-col`}>
+      <div className={`sticky top-0 z-10 bg-white border-b ${colors.border} px-4 py-3 flex items-center gap-3`}>
         <Link
           href={`/services/${pkg.category?.slug ?? ''}`}
-          className="p-2 -ml-2 rounded-full hover:bg-gray-100 active:bg-gray-200 touch-target flex items-center justify-center"
+          className={`p-2 -ml-2 rounded-full hover:bg-orange-50 active:bg-orange-100 touch-target flex items-center justify-center`}
           aria-label="Go back"
         >
-          <ArrowLeft className="h-5 w-5 text-gray-700" />
+          <ArrowLeft className={`h-5 w-5 ${colors.textDark}`} />
         </Link>
-        <h1 className="text-base font-semibold text-gray-900">Book service</h1>
+        <h1 className={`text-base font-semibold ${colors.textDark}`}>Book service</h1>
       </div>
 
       <div className="flex-1 p-4 flex flex-col" style={{ minHeight: 'calc(100vh - 60px)' }}>

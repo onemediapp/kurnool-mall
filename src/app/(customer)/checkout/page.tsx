@@ -37,6 +37,23 @@ function CheckoutContent() {
 
   const { items, vendor_id, totalPrice, clearCart } = useCartStore()
 
+  // Shopping mode colors - Blue theme
+  const colors = {
+    bg: 'bg-blue-50',
+    bgLight: 'bg-blue-50',
+    bgDark: 'bg-blue-600',
+    border: 'border-blue-200',
+    text: 'text-blue-600',
+    textDark: 'text-blue-700',
+    accent: 'bg-blue-100',
+    accentText: 'text-blue-800',
+    header: 'text-blue-600',
+    button: 'bg-blue-600 hover:bg-blue-700',
+    buttonHover: 'hover:bg-blue-700',
+    ring: 'ring-blue-600/20',
+    focus: 'focus:ring-blue-600/20',
+  }
+
   const [addresses, setAddresses] = useState<Address[]>([])
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null)
   const [deliverySlot, setDeliverySlot] = useState<DeliverySlot>('morning')
@@ -138,22 +155,22 @@ function CheckoutContent() {
   ]
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-36">
+    <div className={`${colors.bgLight} min-h-screen pb-36`}>
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 flex items-center h-14 gap-3">
-        <Link href="/cart" className="p-1 -ml-1 rounded-full hover:bg-gray-100">
-          <MapPin className="h-5 w-5 text-gray-600" />
+      <div className={`sticky top-0 z-10 bg-white border-b ${colors.border} px-4 flex items-center h-14 gap-3`}>
+        <Link href="/cart" className={`p-1 -ml-1 rounded-full hover:bg-blue-50`}>
+          <MapPin className={`h-5 w-5 ${colors.text}`} />
         </Link>
-        <h1 className="text-base font-semibold text-gray-900">Checkout</h1>
+        <h1 className={`text-base font-semibold ${colors.textDark}`}>Checkout</h1>
       </div>
 
       {/* Section 1: Delivery Address */}
       <div className="mx-4 mt-4">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-[#1A56DB]" /> Delivery Address
+          <h2 className={`text-sm font-semibold text-gray-900 flex items-center gap-2`}>
+            <MapPin className={`h-4 w-4 ${colors.text}`} /> Delivery Address
           </h2>
-          <Link href="/account/addresses/new" className="text-xs text-[#1A56DB] font-medium flex items-center gap-1">
+          <Link href="/account/addresses/new" className={`text-xs ${colors.text} font-medium flex items-center gap-1`}>
             <Plus className="h-3.5 w-3.5" /> Add New
           </Link>
         </div>
@@ -173,12 +190,12 @@ function CheckoutContent() {
                   key={addr.id}
                   onClick={() => setSelectedAddressId(addr.id)}
                   className={`bg-white rounded-2xl p-4 shadow-card cursor-pointer transition-all border-2 ${
-                    selectedAddressId === addr.id ? 'border-[#1A56DB]' : 'border-transparent'
+                    selectedAddressId === addr.id ? `border-blue-600` : 'border-transparent'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      selectedAddressId === addr.id ? 'bg-[#1A56DB] text-white' : 'bg-gray-100 text-gray-500'
+                      selectedAddressId === addr.id ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500'
                     }`}>
                       {icon}
                     </div>
@@ -202,8 +219,8 @@ function CheckoutContent() {
 
       {/* Section 2: Delivery Time */}
       <div className="mx-4 mt-4">
-        <h2 className="text-sm font-semibold text-gray-900 flex items-center gap-2 mb-3">
-          <Clock className="h-4 w-4 text-[#1A56DB]" /> Delivery Time
+        <h2 className={`text-sm font-semibold text-gray-900 flex items-center gap-2 mb-3`}>
+          <Clock className={`h-4 w-4 ${colors.text}`} /> Delivery Time
         </h2>
         <div className="grid grid-cols-2 gap-2">
           {deliverySlots.map((slot) => (
@@ -211,7 +228,7 @@ function CheckoutContent() {
               key={slot.id}
               onClick={() => slot.available !== false && setDeliverySlot(slot.id)}
               className={`bg-white rounded-2xl p-3 shadow-card cursor-pointer border-2 transition-all ${
-                deliverySlot === slot.id ? 'border-[#1A56DB]' : 'border-transparent'
+                deliverySlot === slot.id ? `border-blue-600` : 'border-transparent'
               } ${slot.available === false ? 'opacity-40 pointer-events-none' : ''}`}
             >
               <p className="text-sm font-medium text-gray-900">{slot.label}</p>
@@ -223,8 +240,8 @@ function CheckoutContent() {
 
       {/* Section 3: Payment Method */}
       <div className="mx-4 mt-4">
-        <h2 className="text-sm font-semibold text-gray-900 flex items-center gap-2 mb-3">
-          <Banknote className="h-4 w-4 text-[#1A56DB]" /> Payment Method
+        <h2 className={`text-sm font-semibold text-gray-900 flex items-center gap-2 mb-3`}>
+          <Banknote className={`h-4 w-4 ${colors.text}`} /> Payment Method
         </h2>
         <div className="space-y-2">
           {paymentOptions.map((option) => (
@@ -232,12 +249,12 @@ function CheckoutContent() {
               key={option.id}
               onClick={() => setPaymentMethod(option.id)}
               className={`bg-white rounded-2xl p-4 shadow-card cursor-pointer border-2 transition-all ${
-                paymentMethod === option.id ? 'border-[#1A56DB]' : 'border-transparent'
+                paymentMethod === option.id ? `border-blue-600` : 'border-transparent'
               }`}
             >
               <div className="flex items-center gap-3">
                 <div className={`h-9 w-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  paymentMethod === option.id ? 'bg-[#1A56DB] text-white' : 'bg-gray-100 text-gray-500'
+                  paymentMethod === option.id ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500'
                 }`}>
                   <option.icon className="h-4 w-4" />
                 </div>

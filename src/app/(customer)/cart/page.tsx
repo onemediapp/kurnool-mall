@@ -18,6 +18,15 @@ export default function CartPage() {
   const [couponResult, setCouponResult] = useState<CouponValidation | null>(null)
   const [showClearConfirm, setShowClearConfirm] = useState(false)
 
+  // Shopping mode colors - Blue theme
+  const colors = {
+    bg: 'bg-blue-50',
+    bgLight: 'bg-blue-50',
+    text: 'text-blue-600',
+    border: 'border-blue-200',
+    button: 'bg-blue-600 hover:bg-blue-700',
+  }
+
   useEffect(() => { setMounted(true) }, [])
 
   if (!mounted) {
@@ -34,7 +43,7 @@ export default function CartPage() {
           icon="🛍️"
           title="Your cart is empty"
           description="Add items from your favourite local vendors to get started."
-          action={<Link href="/" className="text-sm text-[#1A56DB] font-medium hover:underline">Browse Products</Link>}
+          action={<Link href="/" className={`text-sm ${colors.text} font-medium hover:underline`}>Browse Products</Link>}
         />
       </div>
     )
@@ -70,7 +79,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-36">
+    <div className={`${colors.bgLight} min-h-screen pb-36`}>
       {/* Header */}
       <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 flex items-center justify-between h-14">
         <h1 className="text-base font-semibold text-gray-900">My Cart ({items.length} items)</h1>
@@ -126,10 +135,10 @@ export default function CartPage() {
               >
                 <Trash2 className="h-4 w-4" />
               </button>
-              <div className="flex items-center gap-1 bg-[#1A56DB] rounded-lg overflow-hidden">
+              <div className="flex items-center gap-1 bg-blue-600 rounded-lg overflow-hidden">
                 <button
                   onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
-                  className="flex items-center justify-center w-7 h-7 text-white hover:bg-[#1746C0] transition-colors"
+                  className="flex items-center justify-center w-7 h-7 text-white hover:bg-blue-700 transition-colors"
                   aria-label="Decrease quantity"
                 >
                   <Minus className="h-3 w-3" />
@@ -140,7 +149,7 @@ export default function CartPage() {
                 <button
                   onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
                   disabled={item.quantity >= item.max_qty}
-                  className="flex items-center justify-center w-7 h-7 text-white hover:bg-[#1746C0] transition-colors disabled:opacity-50"
+                  className="flex items-center justify-center w-7 h-7 text-white hover:bg-blue-700 transition-colors disabled:opacity-50"
                   aria-label="Increase quantity"
                 >
                   <Plus className="h-3 w-3" />
@@ -154,7 +163,7 @@ export default function CartPage() {
       {/* Coupon section */}
       <div className="mx-4 mt-3 bg-white rounded-2xl p-4 shadow-card">
         <div className="flex items-center gap-2 mb-3">
-          <Tag className="h-4 w-4 text-[#1A56DB]" />
+          <Tag className={`h-4 w-4 ${colors.text}`} />
           <span className="text-sm font-semibold text-gray-900">Apply Coupon</span>
         </div>
         <div className="flex gap-2">
