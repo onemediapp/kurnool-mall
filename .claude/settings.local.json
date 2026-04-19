@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(node_modules/.bin/next --version)",
+      "Bash(npx tsc:*)",
+      "Bash(npx next:*)",
+      "Bash(cp -r \"src/app/\\(vendor\\)\" \"src/app/vendor\")",
+      "Bash(cp -r \"src/app/\\(admin\\)\" \"src/app/admin\")",
+      "Bash(rm -rf \"src/app/\\(vendor\\)\" \"src/app/\\(admin\\)\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm run:*)",
+      "Bash(mv vendor:*)",
+      "Bash(mv admin:*)",
+      "Bash(tasklist //FI \"IMAGENAME eq node.exe\")",
+      "Bash(powershell -Command \"Move-Item -Path 'vendor' -Destination '\\(vendor\\)' -ErrorAction Continue; Move-Item -Path 'admin' -Destination '\\(admin\\)' -ErrorAction Continue\")",
+      "Bash(mkdir vendor:*)",
+      "Bash(mv dashboard:*)",
+      "Bash(powershell -Command \"Move-Item -Path 'orders' -Destination 'vendor/orders' -ErrorAction Stop\")",
+      "Bash(mkdir admin:*)",
+      "Bash(powershell -Command \"Move-Item -Path 'layout.tsx','orders','vendors' -Destination 'admin/' -ErrorAction Stop\")",
+      "Bash(curl -s -X POST https://osaujbgxuabmsregasul.supabase.co/auth/v1/admin/users/b4732d66-32aa-45fa-85f5-8c003da96f00/session -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Content-Type: application/json' -d '{}')",
+      "Bash(curl -s -X POST https://osaujbgxuabmsregasul.supabase.co/auth/v1/admin/users/b4732d66-32aa-45fa-85f5-8c003da96f00/token -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Content-Type: application/json' -d '{}')",
+      "Bash(curl -s -X POST https://osaujbgxuabmsregasul.supabase.co/auth/v1/admin/generate_link -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Content-Type: application/json' -d '{\"type\":\"magiclink\",\"email\":\"admin@kurnoolmall.com\",\"options\":{\"redirect_to\":\"http://localhost:3000/admin/dashboard\"}}')",
+      "Bash(curl -s -X PUT https://osaujbgxuabmsregasul.supabase.co/auth/v1/admin/users/b4732d66-32aa-45fa-85f5-8c003da96f00 -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Content-Type: application/json' -d '{\"phone\":\"+919000000001\",\"phone_confirm\":true}')",
+      "Bash(node -e ':*)",
+      "Bash(node -e \"const pkg = require\\('@supabase/supabase-js/package.json'\\); console.log\\(pkg.version\\);\")",
+      "Bash(curl -s -X PUT https://osaujbgxuabmsregasul.supabase.co/auth/v1/admin/users/b4732d66-32aa-45fa-85f5-8c003da96f00 -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Content-Type: application/json' -d '{\"email\":\"admin@kurnoolmall.local\",\"email_confirm\":true}')",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('ok' if 'id' in d else d\\)\")",
+      "Bash(curl -s -X POST https://osaujbgxuabmsregasul.supabase.co/auth/v1/admin/generate_link -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Content-Type: application/json' -d '{\"type\":\"magiclink\",\"email\":\"admin@kurnoolmall.local\",\"options\":{\"redirect_to\":\"http://localhost:3000/admin/dashboard\"}}')",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('action_link','ERROR:'+str\\(d\\)\\)\\)\")",
+      "Bash(curl -s -X POST https://osaujbgxuabmsregasul.supabase.co/auth/v1/admin/generate_link -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zYXVqYmd4dWFibXNyZWdhc3VsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY4MDI4NywiZXhwIjoyMDkxMjU2Mjg3fQ.9Vg5TGZk5iK7SeFCEFJP5k1CmzoQiwoHomgFTatiKaY' -H 'Content-Type: application/json' -d '{\"type\":\"magiclink\",\"email\":\"admin@kurnoolmall.local\",\"options\":{\"redirect_to\":\"http://localhost:3000/\"}}')",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('action_link',''\\)\\)\")"
+    ]
+  }
+}
