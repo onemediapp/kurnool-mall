@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase/client';
 import { CheckCircle, XCircle, Edit2, Trash2, Search, Star } from 'lucide-react';
 
 interface ServiceProvider {
@@ -22,7 +22,7 @@ interface Category {
 }
 
 export default function ServiceProvidersAdmin() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const [providers, setProviders] = useState<ServiceProvider[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);

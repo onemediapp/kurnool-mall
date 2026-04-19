@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase/client';
 import { Plus, Edit2, Trash2, ChevronDown, ChevronUp, Search, Filter } from 'lucide-react';
 
 interface Section {
@@ -35,7 +35,7 @@ interface Subcategory {
 }
 
 export default function CategoryManager() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const [sections, setSections] = useState<Section[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);

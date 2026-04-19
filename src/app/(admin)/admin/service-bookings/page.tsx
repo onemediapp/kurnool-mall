@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase/client';
 import { Eye, Trash2, Search, Filter, Calendar } from 'lucide-react';
 
 interface ServiceBooking {
@@ -24,7 +24,7 @@ interface ServiceProvider {
 }
 
 export default function ServiceBookingsAdmin() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const [bookings, setBookings] = useState<ServiceBooking[]>([]);
   const [providers, setProviders] = useState<Record<string, string>>({});
@@ -296,24 +296,22 @@ export default function ServiceBookingsAdmin() {
                       Confirm
                     </button>
                   )}
-                  {selectedBooking.status !== 'cancelled' && (
-                    <>
-                      {selectedBooking.status === 'confirmed' && (
-                        <button
-                          onClick={() => updateStatus(selectedBooking.id, 'completed')}
-                          className="flex-1 bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 text-sm"
-                        >
-                          Complete
-                        </button>
-                      )}
+                  <>
+                    {selectedBooking.status === 'confirmed' && (
                       <button
-                        onClick={() => updateStatus(selectedBooking.id, 'cancelled')}
-                        className="flex-1 bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 text-sm"
+                        onClick={() => updateStatus(selectedBooking.id, 'completed')}
+                        className="flex-1 bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 text-sm"
                       >
-                        Cancel
+                        Complete
                       </button>
-                    </>
-                  )}
+                    )}
+                    <button
+                      onClick={() => updateStatus(selectedBooking.id, 'cancelled')}
+                      className="flex-1 bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 text-sm"
+                    >
+                      Cancel
+                    </button>
+                  </>
                 </div>
               </div>
             )}

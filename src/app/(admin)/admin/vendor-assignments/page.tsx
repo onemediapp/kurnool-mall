@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase/client';
 import { Plus, Trash2, Search } from 'lucide-react';
 
 interface Vendor {
@@ -25,7 +25,7 @@ interface Assignment {
 }
 
 export default function VendorAssignments() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const [vendors, setVendors] = useState<Vendor[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
