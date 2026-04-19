@@ -74,16 +74,16 @@ export default function ServicesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24 flex flex-col">
+    <div className="min-h-screen bg-orange-50 pb-24 flex flex-col">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-white border-b border-gray-100">
+      <div className="sticky top-0 z-30 bg-white border-b-2 border-orange-200">
         <div className="flex items-center gap-3 px-4 py-3">
           <Link href="/" className="flex-shrink-0 -m-2 p-2">
             <ArrowLeft className="h-6 w-6 text-gray-700" />
           </Link>
           <div className="flex-1">
-            <h1 className="text-lg font-bold text-gray-900">All Services</h1>
-            <p className="text-xs text-gray-500">{loading ? '...' : `${filteredProviders.length} providers`}</p>
+            <h1 className="text-lg font-bold text-orange-900">All Services</h1>
+            <p className="text-xs text-orange-600">{loading ? '...' : `${filteredProviders.length} providers available`}</p>
           </div>
         </div>
       </div>
@@ -115,8 +115,8 @@ export default function ServicesPage() {
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
-              <div className="h-8 w-8 rounded-full border-2 border-[#7C3AED] border-t-transparent animate-spin mx-auto mb-3" />
-              <p className="text-sm text-gray-600">Loading services...</p>
+              <div className="h-8 w-8 rounded-full border-2 border-orange-600 border-t-transparent animate-spin mx-auto mb-3" />
+              <p className="text-sm text-orange-700">Loading services...</p>
             </div>
           </div>
         ) : filteredProviders.length > 0 ? (
@@ -126,18 +126,18 @@ export default function ServicesPage() {
                 <Link
                   key={provider.id}
                   href={`/services/provider/${provider.id}`}
-                  className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow border border-gray-100"
+                  className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow border-2 border-orange-100 hover:border-orange-300"
                 >
                   <div className="flex gap-4 p-4">
-                    <div className="h-16 w-16 rounded-lg bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center text-3xl flex-shrink-0">
+                    <div className="h-16 w-16 rounded-lg bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center text-3xl flex-shrink-0">
                       {provider.icon}
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-1">{provider.name}</h3>
-                      <p className="text-xs text-gray-500 mb-2">{provider.category}</p>
+                      <h3 className="font-semibold text-orange-900 mb-1">{provider.name}</h3>
+                      <p className="text-xs text-orange-600 mb-2">{provider.category}</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold">⭐ {provider.rating}</span>
-                        <span className="text-xs text-green-600">✓ Available {provider.available}</span>
+                        <span className="text-sm font-bold text-orange-700">⭐ {provider.rating}</span>
+                        <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Available {provider.available}</span>
                       </div>
                     </div>
                   </div>
@@ -150,20 +150,20 @@ export default function ServicesPage() {
                 <Link
                   key={provider.id}
                   href={`/services/provider/${provider.id}`}
-                  className="flex gap-4 bg-white rounded-lg p-4 border border-gray-100 hover:shadow-md transition-shadow"
+                  className="flex gap-4 bg-white rounded-lg p-4 border-2 border-orange-100 hover:border-orange-300 hover:shadow-md transition-shadow"
                 >
-                  <div className="h-20 w-20 rounded-lg bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center text-3xl flex-shrink-0">
+                  <div className="h-20 w-20 rounded-lg bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center text-3xl flex-shrink-0">
                     {provider.icon}
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900">{provider.name}</h3>
-                    <p className="text-sm text-gray-600 mt-0.5">{provider.category}</p>
+                    <h3 className="font-semibold text-orange-900">{provider.name}</h3>
+                    <p className="text-sm text-orange-700 mt-0.5">{provider.category}</p>
                     <div className="flex items-center justify-between mt-2">
                       <div className="flex items-center gap-3">
-                        <span className="text-sm font-bold">⭐ {provider.rating}</span>
-                        <span className="text-xs text-gray-500">({provider.reviews} reviews)</span>
+                        <span className="text-sm font-bold text-orange-700">⭐ {provider.rating}</span>
+                        <span className="text-xs text-orange-600">({provider.reviews} reviews)</span>
                       </div>
-                      <span className="text-xs text-green-600">✓ Available {provider.available}</span>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Available {provider.available}</span>
                     </div>
                   </div>
                 </Link>
