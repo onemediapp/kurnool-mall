@@ -64,13 +64,13 @@ export function ContextAwareBottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/90 backdrop-blur-md border-t border-gray-100 z-40"
+      className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md glass-strong border-t border-gray-100/80 z-40"
       style={{
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
-        boxShadow: '0 -1px 0 rgba(0,0,0,0.06), 0 -4px 12px rgba(0,0,0,0.04)',
+        boxShadow: '0 -1px 0 rgba(16,24,40,0.04), 0 -8px 24px rgba(16,24,40,0.06)',
       }}
     >
-      <div className="flex items-center justify-around h-16">
+      <div className="relative flex items-center justify-around h-16 px-1">
         {navItems.map(({ href, label, icon: Icon, exact }) => {
           const active = isActive(href, exact)
           const isCart = href === '/cart'
@@ -80,33 +80,46 @@ export function ContextAwareBottomNav() {
               key={href}
               href={href}
               className={cn(
-                'flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors relative',
-                active ? 'text-[#1A56DB]' : 'text-gray-500 hover:text-gray-700'
+                'group flex flex-col items-center justify-center flex-1 h-full gap-1 relative touch-target',
+                active ? 'text-brand-600' : 'text-gray-500',
               )}
               aria-label={label}
             >
+              {/* ── Floating active indicator (glides between items) ── */}
+              {active && (
+                <motion.div
+                  layoutId="nav-active-bg"
+                  className="absolute top-1.5 h-8 w-14 rounded-2xl bg-brand-50"
+                  transition={{ type: 'spring', stiffness: 500, damping: 34, mass: 0.6 }}
+                />
+              )}
+
               <motion.div
-                className="relative"
-                animate={active ? { scale: 1.1 } : { scale: 1 }}
-                transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                className="relative z-10"
+                whileTap={{ scale: 0.86 }}
+                animate={active ? { y: -1 } : { y: 0 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 28 }}
               >
                 <motion.div
-                  animate={isCart && cartBounce ? { y: [0, -4, 0] } : { y: 0 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  animate={isCart && cartBounce ? { y: [0, -5, 0], rotate: [0, -8, 8, 0] } : { y: 0, rotate: 0 }}
+                  transition={{ duration: 0.45, ease: [0.34, 1.56, 0.64, 1] }}
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon
+                    className={cn('h-[22px] w-[22px] transition-colors', active && 'drop-shadow-[0_2px_4px_rgba(79,70,229,0.25)]')}
+                    strokeWidth={active ? 2.5 : 2}
+                  />
                 </motion.div>
 
-                {/* Cart badge */}
+                {/* Cart badge with pop animation */}
                 {isCart && mounted && totalItems > 0 && (
-                  <AnimatePresence>
+                  <AnimatePresence mode="wait">
                     <motion.span
                       key={totalItems}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
+                      initial={{ scale: 0, y: -4 }}
+                      animate={{ scale: 1, y: 0 }}
                       exit={{ scale: 0 }}
-                      transition={{ type: 'spring', stiffness: 600, damping: 20 }}
-                      className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center leading-none"
+                      transition={{ type: 'spring', stiffness: 600, damping: 18 }}
+                      className="absolute -top-2 -right-2.5 bg-rose-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center leading-none ring-2 ring-white shadow-[0_2px_6px_rgba(244,63,94,0.4)]"
                     >
                       {totalItems > 9 ? '9+' : totalItems}
                     </motion.span>
@@ -116,20 +129,12 @@ export function ContextAwareBottomNav() {
 
               <span
                 className={cn(
-                  'text-[10px] font-medium transition-colors',
-                  active ? 'text-[#1A56DB]' : ''
+                  'text-[10px] font-semibold transition-colors z-10 relative leading-none',
+                  active ? 'text-brand-600' : 'text-gray-500',
                 )}
               >
                 {label}
               </span>
-
-              {/* Active indicator dot */}
-              {active && (
-                <motion.div
-                  layoutId="nav-indicator"
-                  className="absolute bottom-0 h-0.5 w-8 bg-[#1A56DB] rounded-full"
-                />
-              )}
             </Link>
           )
         })}
