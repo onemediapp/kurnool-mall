@@ -42,25 +42,29 @@ export function Button({
   ...rest
 }: ButtonProps) {
   const base =
-    'inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none'
+    'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.97]'
 
   const variants = {
-    primary: 'bg-[#1A56DB] text-white hover:bg-[#1746C0] focus-visible:ring-[#1A56DB]',
-    outline: 'border border-[#1A56DB] text-[#1A56DB] hover:bg-blue-50',
-    ghost: 'text-gray-700 hover:bg-gray-100',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-600',
-    success: 'bg-green-600 text-white hover:bg-green-700 focus-visible:ring-green-600',
+    primary:
+      'bg-brand-500 text-white hover:bg-brand-600 focus-visible:ring-brand-500 shadow-[0_4px_12px_rgba(79,70,229,0.25)] hover:shadow-[0_6px_16px_rgba(79,70,229,0.35)]',
+    outline: 'border-2 border-brand-500 text-brand-600 hover:bg-brand-50 focus-visible:ring-brand-500',
+    ghost: 'text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-300',
+    danger:
+      'bg-rose-500 text-white hover:bg-rose-600 focus-visible:ring-rose-500 shadow-[0_4px_12px_rgba(244,63,94,0.25)]',
+    success:
+      'bg-emerald-500 text-white hover:bg-emerald-600 focus-visible:ring-emerald-500 shadow-[0_4px_12px_rgba(16,185,129,0.25)]',
   }
 
   const sizes = {
-    sm: 'px-3 py-1.5 text-sm h-8',
-    md: 'px-4 py-2 text-sm h-10',
-    lg: 'px-6 py-3 text-base h-12',
+    sm: 'px-3 py-1.5 text-sm h-9',
+    md: 'px-4 py-2 text-sm h-11',
+    lg: 'px-6 py-3 text-base h-13',
   }
 
   return (
     <motion.button
-      whileTap={{ scale: disabled || loading ? 1 : 0.97 }}
+      whileTap={{ scale: disabled || loading ? 1 : 0.96 }}
+      transition={{ type: 'spring', stiffness: 500, damping: 28 }}
       className={cn(base, variants[variant], sizes[size], fullWidth && 'w-full', className)}
       disabled={disabled || loading}
       onClick={onClick}
@@ -94,7 +98,7 @@ export function IconButton({
 }: IconButtonProps) {
   const sizes = { sm: 'h-8 w-8', md: 'h-10 w-10', lg: 'h-12 w-12' }
   const variants = {
-    primary: 'bg-[#1A56DB] text-white hover:bg-[#1746C0]',
+    primary: 'bg-brand-500 text-white hover:bg-brand-600 shadow-[0_4px_12px_rgba(79,70,229,0.25)]',
     ghost: 'text-gray-600 hover:bg-gray-100',
     outline: 'border border-gray-200 text-gray-600 hover:bg-gray-50',
   }
@@ -129,17 +133,17 @@ interface BadgeProps {
 
 export function Badge({ children, variant = 'gray', size = 'md', className }: BadgeProps) {
   const variants = {
-    blue: 'bg-blue-100 text-blue-800',
-    green: 'bg-green-100 text-green-800',
-    yellow: 'bg-yellow-100 text-yellow-800',
-    red: 'bg-red-100 text-red-800',
-    gray: 'bg-gray-100 text-gray-700',
-    purple: 'bg-purple-100 text-purple-800',
-    orange: 'bg-orange-100 text-orange-800',
+    blue: 'bg-brand-50 text-brand-700 border border-brand-100',
+    green: 'bg-emerald-50 text-emerald-700 border border-emerald-100',
+    yellow: 'bg-amber-50 text-amber-700 border border-amber-100',
+    red: 'bg-rose-50 text-rose-700 border border-rose-100',
+    gray: 'bg-gray-100 text-gray-700 border border-gray-200',
+    purple: 'bg-purple-50 text-purple-700 border border-purple-100',
+    orange: 'bg-orange-50 text-orange-700 border border-orange-100',
   }
   const sizes = {
-    sm: 'px-1.5 py-0.5 text-xs',
-    md: 'px-2.5 py-0.5 text-xs font-medium',
+    sm: 'px-1.5 py-0.5 text-[10px] font-semibold',
+    md: 'px-2.5 py-0.5 text-xs font-semibold',
   }
   return (
     <span className={cn('inline-flex items-center rounded-full', variants[variant], sizes[size], className)}>
@@ -179,9 +183,33 @@ export function OrderStatusBadge({ status }: { status: OrderStatus }) {
 // ─────────────────────────────────────────────────────────────
 export function Spinner({ size = 'md', centered = true }: { size?: 'sm' | 'md' | 'lg'; centered?: boolean }) {
   const sizes = { sm: 'h-4 w-4', md: 'h-8 w-8', lg: 'h-12 w-12' }
-  const el = <Loader2 className={cn('animate-spin text-[#1A56DB]', sizes[size])} />
+  const el = <Loader2 className={cn('animate-spin text-brand-500', sizes[size])} strokeWidth={2.5} />
   if (centered) return <div className="flex items-center justify-center p-8">{el}</div>
   return el
+}
+
+// ─────────────────────────────────────────────────────────────
+// Product-specific Skeleton (prevents layout shift on ProductCard)
+// ─────────────────────────────────────────────────────────────
+export function SkeletonProductCard() {
+  return (
+    <div className="rounded-2xl overflow-hidden bg-white shadow-soft border border-gray-100">
+      <div className="skeleton aspect-square w-full rounded-none" />
+      <div className="p-3 space-y-2">
+        <div className="skeleton h-3 w-1/3 rounded" />
+        <div className="skeleton h-4 w-5/6 rounded" />
+        <div className="skeleton h-4 w-2/3 rounded" />
+        <div className="flex items-end justify-between mt-2">
+          <div className="skeleton h-5 w-16 rounded" />
+          <div className="skeleton h-9 w-14 rounded-xl" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function SkeletonBanner() {
+  return <div className="skeleton h-48 rounded-3xl mx-4 mt-4" />
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -278,10 +306,13 @@ export function PageHeader({ title, onBack, right, className }: PageHeaderProps)
 export function SectionHeader({ title, href }: { title: string; href?: string }) {
   return (
     <div className="flex items-center justify-between mb-3 px-4">
-      <h2 className="text-base font-semibold text-gray-900">{title}</h2>
+      <h2 className="text-[17px] font-extrabold text-gray-900 tracking-tight">{title}</h2>
       {href && (
-        <Link href={href} className="text-sm text-[#1A56DB] font-medium flex items-center gap-0.5">
-          See all <ArrowRight className="h-3.5 w-3.5" />
+        <Link
+          href={href}
+          className="text-xs text-brand-600 font-bold flex items-center gap-0.5 bg-brand-50 px-2.5 py-1 rounded-full hover:bg-brand-100 active:scale-95 transition-all"
+        >
+          See all <ArrowRight className="h-3 w-3" strokeWidth={2.5} />
         </Link>
       )}
     </div>
@@ -439,23 +470,43 @@ export function FloatingCartPill() {
     <AnimatePresence>
       {count > 0 && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 28 }}
-          className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50"
+          initial={{ opacity: 0, y: 32, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 32, scale: 0.9 }}
+          transition={{ type: 'spring', stiffness: 420, damping: 30, mass: 0.7 }}
+          className="fixed bottom-[88px] left-1/2 -translate-x-1/2 z-50 px-4 w-full max-w-md"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
         >
           <Link href="/cart">
-            <div className="flex items-center gap-3 bg-[#1A56DB] text-white px-5 py-3 rounded-full shadow-floating">
-              <div className="flex items-center gap-1.5">
-                <ShoppingCart className="h-4 w-4" />
-                <span className="text-xs font-semibold bg-white/20 rounded-full px-1.5 py-0.5">
-                  {count} item{count > 1 ? 's' : ''}
-                </span>
+            <motion.div
+              whileTap={{ scale: 0.97 }}
+              className="flex items-center justify-between gap-3 bg-gradient-brand text-white px-5 py-3.5 rounded-2xl shadow-floating active:shadow-[0_6px_18px_rgba(79,70,229,0.35)]"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="relative">
+                  <ShoppingCart className="h-5 w-5" strokeWidth={2.5} />
+                  <motion.span
+                    key={count}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 600, damping: 18 }}
+                    className="absolute -top-1.5 -right-2 bg-amber-400 text-gray-900 text-[10px] font-extrabold rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center leading-none ring-2 ring-brand-500"
+                  >
+                    {count}
+                  </motion.span>
+                </div>
+                <div className="leading-tight">
+                  <p className="text-[11px] font-semibold opacity-90">
+                    {count} item{count > 1 ? 's' : ''} in cart
+                  </p>
+                  <p className="text-sm font-extrabold">₹{total.toLocaleString('en-IN')}</p>
+                </div>
               </div>
-              <span className="text-sm font-bold">₹{total.toLocaleString('en-IN')}</span>
-              <ArrowRight className="h-4 w-4" />
-            </div>
+              <div className="flex items-center gap-1 text-sm font-bold">
+                View Cart
+                <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
+              </div>
+            </motion.div>
           </Link>
         </motion.div>
       )}
@@ -475,7 +526,7 @@ interface KPICardProps {
   iconBg?: string
 }
 
-export function KPICard({ icon, label, value, trend, className, iconBg = 'bg-blue-50 text-[#1A56DB]' }: KPICardProps) {
+export function KPICard({ icon, label, value, trend, className, iconBg = 'bg-brand-50 text-brand-600' }: KPICardProps) {
   return (
     <div className={cn('bg-white rounded-2xl p-4 shadow-card', className)}>
       <div className="flex items-start justify-between mb-3">
@@ -515,10 +566,10 @@ export function AlertBanner({ type = 'info', title, message, dismissible, onDism
   const [visible, setVisible] = useState(true)
 
   const styles = {
-    info: { bg: 'bg-blue-50 border-blue-200', text: 'text-blue-800', Icon: Info },
-    warning: { bg: 'bg-amber-50 border-amber-200', text: 'text-amber-800', Icon: AlertTriangle },
-    error: { bg: 'bg-red-50 border-red-200', text: 'text-red-800', Icon: AlertTriangle },
-    success: { bg: 'bg-green-50 border-green-200', text: 'text-green-800', Icon: CheckCircle2 },
+    info: { bg: 'bg-brand-50 border-brand-100', text: 'text-brand-800', Icon: Info },
+    warning: { bg: 'bg-amber-50 border-amber-100', text: 'text-amber-800', Icon: AlertTriangle },
+    error: { bg: 'bg-rose-50 border-rose-100', text: 'text-rose-700', Icon: AlertTriangle },
+    success: { bg: 'bg-emerald-50 border-emerald-100', text: 'text-emerald-700', Icon: CheckCircle2 },
   }[type]
 
   const handle = () => {
@@ -673,8 +724,8 @@ export function Tabs({ items, value, onValueChange, className }: TabsProps) {
             key={item.value}
             value={item.value}
             className={cn(
-              'flex-shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-all whitespace-nowrap',
-              'data-[state=active]:bg-white data-[state=active]:text-[#1A56DB] data-[state=active]:shadow-sm',
+              'flex-shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg transition-all whitespace-nowrap active:scale-[0.97]',
+              'data-[state=active]:bg-white data-[state=active]:text-brand-600 data-[state=active]:shadow-[0_2px_8px_rgba(16,24,40,0.08)]',
               'data-[state=inactive]:text-gray-600',
             )}
           >
@@ -720,7 +771,7 @@ export function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full pl-9 pr-9 py-2.5 bg-gray-100 rounded-xl text-sm outline-none focus:bg-white focus:ring-2 focus:ring-[#1A56DB]/20 transition-all placeholder:text-gray-400"
+        className="w-full pl-9 pr-9 py-2.5 bg-gray-100 rounded-xl text-sm outline-none focus:bg-white focus:ring-2 focus:ring-brand-500/25 focus:border-brand-300 transition-all placeholder:text-gray-400 border border-transparent"
         aria-label={placeholder}
       />
       <AnimatePresence>
@@ -752,7 +803,7 @@ interface ProgressBarProps {
   className?: string
 }
 
-export function ProgressBar({ value, color = 'bg-[#1A56DB]', label, showLabel = false, className }: ProgressBarProps) {
+export function ProgressBar({ value, color = 'bg-brand-500', label, showLabel = false, className }: ProgressBarProps) {
   return (
     <div className={className}>
       {(label || showLabel) && (
@@ -777,7 +828,7 @@ export function ProgressBar({ value, color = 'bg-[#1A56DB]', label, showLabel = 
 export function DeliveryTimeBadge({ type }: { type: 'express' | 'same-day' | 'scheduled' }) {
   const config = {
     express: { label: '⚡ Express 2hr', className: 'bg-amber-50 text-amber-700 border-amber-100' },
-    'same-day': { label: '📅 Same Day', className: 'bg-blue-50 text-blue-700 border-blue-100' },
+    'same-day': { label: '📅 Same Day', className: 'bg-brand-50 text-brand-700 border-brand-100' },
     scheduled: { label: '🗓️ Scheduled', className: 'bg-gray-50 text-gray-600 border-gray-100' },
   }[type]
 
@@ -805,32 +856,37 @@ export function VendorCard({ id, shopName, categoryName, rating, isActive, logoU
   return (
     <Link href={`/vendors/${id}`} className={cn('block', className)}>
       <motion.div
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className="bg-white rounded-2xl shadow-card p-4 w-44 flex-shrink-0"
+        whileTap={{ scale: 0.97 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+        className="bg-white rounded-2xl shadow-soft hover:shadow-card-hover p-4 w-44 flex-shrink-0 border border-gray-100 transition-shadow"
       >
-        <div className="h-16 w-16 rounded-2xl bg-[#DBEAFE] flex items-center justify-center mb-3 mx-auto overflow-hidden">
+        <div className="h-16 w-16 rounded-2xl bg-gradient-brand-soft flex items-center justify-center mb-3 mx-auto overflow-hidden ring-1 ring-brand-100">
           {logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={logoUrl} alt={shopName} className="h-full w-full object-cover" />
           ) : (
-            <span className="text-2xl font-bold text-[#1A56DB]">
+            <span className="text-2xl font-extrabold text-gradient-brand">
               {shopName.charAt(0).toUpperCase()}
             </span>
           )}
         </div>
-        <p className="text-sm font-semibold text-gray-900 text-center truncate">{shopName}</p>
+        <p className="text-sm font-bold text-gray-900 text-center truncate">{shopName}</p>
         {categoryName && (
-          <p className="text-xs text-gray-500 text-center truncate mt-0.5">{categoryName}</p>
+          <p className="text-[11px] text-gray-500 text-center truncate mt-0.5 font-medium">{categoryName}</p>
         )}
         <div className="flex items-center justify-center gap-1 mt-2">
-          <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-          <span className="text-xs font-medium text-gray-700">{rating.toFixed(1)}</span>
+          <div className="flex items-center gap-0.5 bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded">
+            <Star className="h-3 w-3 fill-emerald-600 text-emerald-600" />
+            <span className="text-[11px] font-bold">{rating.toFixed(1)}</span>
+          </div>
         </div>
         {isActive && (
           <div className="flex items-center justify-center gap-1 mt-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-            <span className="text-xs text-green-600 font-medium">Open</span>
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+            </span>
+            <span className="text-[11px] text-emerald-600 font-semibold">Open</span>
           </div>
         )}
       </motion.div>
@@ -874,7 +930,7 @@ export function NotificationBell({ className }: { className?: string }) {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
-            className="absolute top-0.5 right-0.5 h-4 w-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center"
+            className="absolute top-0.5 right-0.5 h-4 w-4 bg-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-white"
           >
             {unread > 9 ? '9+' : unread}
           </motion.span>
