@@ -2,7 +2,7 @@
 
 import { useUIMode } from '@/lib/hooks/use-ui-mode'
 import { motion } from 'framer-motion'
-import { Search, MapPin } from 'lucide-react'
+import { Search, MapPin, Mic } from 'lucide-react'
 import Link from 'next/link'
 import { NotificationBell } from '@/components/shared'
 import { cn } from '@/lib/utils'
@@ -83,8 +83,8 @@ export function ModeToggleHeader() {
         >
           <Search className="h-4 w-4 text-gray-400 flex-shrink-0" />
           <span className="text-sm text-gray-400 flex-1">{searchPlaceholder}</span>
-          <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center text-gray-400">
-            📋
+          <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center text-gray-400" aria-label="Voice search">
+            <Mic className="h-3.5 w-3.5" />
           </div>
         </Link>
       </div>

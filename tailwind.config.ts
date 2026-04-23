@@ -103,7 +103,7 @@ const config: Config = {
         pill: '9999px',
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Noto Sans Telugu', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'Noto Sans Telugu', 'system-ui', 'sans-serif'],
         telugu: ['Noto Sans Telugu', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },

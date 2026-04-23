@@ -21,11 +21,13 @@ import { useCartStore } from '@/lib/hooks/use-cart'
 // Button
 // ─────────────────────────────────────────────────────────────
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'outline' | 'ghost' | 'danger' | 'success'
+  variant?: 'primary' | 'primary-shop' | 'primary-service' | 'outline' | 'ghost' | 'danger' | 'success'
   size?: 'sm' | 'md' | 'lg'
   loading?: boolean
   fullWidth?: boolean
   icon?: React.ReactNode
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
 }
 
 export function Button({
@@ -34,6 +36,8 @@ export function Button({
   loading = false,
   fullWidth = false,
   icon,
+  leftIcon,
+  rightIcon,
   children,
   className,
   disabled,
@@ -45,8 +49,10 @@ export function Button({
     'inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none'
 
   const variants = {
-    primary: 'bg-[#1A56DB] text-white hover:bg-[#1746C0] focus-visible:ring-[#1A56DB]',
-    outline: 'border border-[#1A56DB] text-[#1A56DB] hover:bg-blue-50',
+    primary: 'bg-shop text-white hover:brightness-95 focus-visible:ring-shop',
+    'primary-shop': 'bg-shop text-white hover:brightness-95 focus-visible:ring-shop',
+    'primary-service': 'bg-service text-white hover:brightness-95 focus-visible:ring-service',
+    outline: 'border border-gray-300 text-gray-900 hover:bg-gray-50',
     ghost: 'text-gray-700 hover:bg-gray-100',
     danger: 'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-600',
     success: 'bg-green-600 text-white hover:bg-green-700 focus-visible:ring-green-600',
@@ -58,6 +64,8 @@ export function Button({
     lg: 'px-6 py-3 text-base h-12',
   }
 
+  const leading = loading ? <Loader2 className="h-4 w-4 animate-spin" /> : (leftIcon ?? icon)
+
   return (
     <motion.button
       whileTap={{ scale: disabled || loading ? 1 : 0.97 }}
@@ -66,8 +74,9 @@ export function Button({
       onClick={onClick}
       type={type ?? 'button'}
     >
-      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : icon}
+      {leading}
       {children}
+      {rightIcon && !loading && rightIcon}
     </motion.button>
   )
 }
@@ -251,12 +260,15 @@ interface PageHeaderProps {
   onBack?: () => void
   right?: React.ReactNode
   className?: string
+  theme?: 'shop' | 'service'
 }
 
-export function PageHeader({ title, onBack, right, className }: PageHeaderProps) {
+export function PageHeader({ title, onBack, right, className, theme }: PageHeaderProps) {
+  const accentBg =
+    theme === 'shop' ? 'bg-shop' : theme === 'service' ? 'bg-service' : undefined
   return (
     <div className={cn(
-      'sticky top-0 z-40 flex items-center h-14 px-4 gap-3 bg-white border-b border-gray-50',
+      'sticky top-0 z-40 flex items-center h-14 px-4 gap-3 bg-white border-b border-gray-50 relative',
       className,
     )}>
       {onBack && (
@@ -268,6 +280,7 @@ export function PageHeader({ title, onBack, right, className }: PageHeaderProps)
       )}
       <h1 className="flex-1 text-base font-semibold text-gray-900 truncate">{title}</h1>
       {right}
+      {accentBg && <span className={cn('absolute bottom-0 left-0 h-0.5 w-full', accentBg)} />}
     </div>
   )
 }

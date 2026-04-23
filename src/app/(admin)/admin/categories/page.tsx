@@ -1,48 +1,93 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Plus, X, Layers, ChevronUp, ChevronDown } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import { Plus, X, ChevronDown, ChevronRight, GripVertical } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { Spinner } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
 import { CATEGORY_EMOJIS } from '@/lib/utils'
 import type { Category } from '@/lib/types'
 
+type CatNode = Category & { children: Category[]; productCount: number }
+
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([])
+  const [productCounts, setProductCounts] = useState<Record<string, number>>({})
   const [loading, setLoading] = useState(true)
+  const [expanded, setExpanded] = useState<Set<string>>(new Set())
+  const [dragId, setDragId] = useState<string | null>(null)
+
   const [showModal, setShowModal] = useState(false)
   const [editing, setEditing] = useState<Category | null>(null)
+  const [parentForNew, setParentForNew] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
 
   const [nameEn, setNameEn] = useState('')
   const [nameTe, setNameTe] = useState('')
   const [slug, setSlug] = useState('')
+  const [icon, setIcon] = useState('')
 
   useEffect(() => {
-    loadCategories()
+    loadData()
   }, [])
 
-  async function loadCategories() {
+  async function loadData() {
     const supabase = createClient()
-    const { data } = await supabase.from('categories').select('*').order('sort_order')
-    setCategories((data ?? []) as Category[])
+    const [catsRes, prodRes] = await Promise.all([
+      supabase.from('categories').select('*').order('sort_order'),
+      supabase.from('products').select('category_id').eq('is_deleted', false),
+    ])
+    setCategories((catsRes.data ?? []) as Category[])
+    const counts: Record<string, number> = {}
+    for (const row of (prodRes.data ?? []) as Array<{ category_id: string }>) {
+      counts[row.category_id] = (counts[row.category_id] ?? 0) + 1
+    }
+    setProductCounts(counts)
     setLoading(false)
   }
 
-  function openAdd() {
+  const tree = useMemo<CatNode[]>(() => {
+    const byParent = new Map<string | null, Category[]>()
+    categories.forEach((c) => {
+      const key = c.parent_id
+      const arr = byParent.get(key) ?? []
+      arr.push(c)
+      byParent.set(key, arr)
+    })
+    const roots = byParent.get(null) ?? []
+    return roots.map((r) => ({
+      ...r,
+      children: byParent.get(r.id) ?? [],
+      productCount: productCounts[r.id] ?? 0,
+    }))
+  }, [categories, productCounts])
+
+  function toggleExpand(id: string) {
+    setExpanded((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  function openAdd(parent: string | null = null) {
     setEditing(null)
+    setParentForNew(parent)
     setNameEn('')
     setNameTe('')
     setSlug('')
+    setIcon('')
     setShowModal(true)
   }
 
   function openEdit(cat: Category) {
     setEditing(cat)
+    setParentForNew(cat.parent_id)
     setNameEn(cat.name_en)
     setNameTe(cat.name_te)
     setSlug(cat.slug)
+    setIcon(cat.icon_url ?? '')
     setShowModal(true)
   }
 
@@ -50,62 +95,131 @@ export default function AdminCategoriesPage() {
     if (!nameEn.trim() || !slug.trim()) return
     setSaving(true)
     const supabase = createClient()
+    const payload = {
+      name_en: nameEn.trim(),
+      name_te: nameTe.trim(),
+      slug: slug.trim(),
+      icon_url: icon.trim() || null,
+      parent_id: parentForNew,
+    }
     if (editing) {
+      const { error } = await supabase.from('categories').update(payload).eq('id', editing.id)
+      if (error) toast.error('Failed to update category')
+      else toast.success('Category updated')
+    } else {
+      const siblings = categories.filter((c) => c.parent_id === parentForNew)
       const { error } = await supabase
         .from('categories')
-        .update({ name_en: nameEn.trim(), name_te: nameTe.trim(), slug: slug.trim() })
-        .eq('id', editing.id)
-      if (error) { toast.error('Failed to update category') }
-      else {
-        setCategories((prev) => prev.map((c) => c.id === editing.id ? { ...c, name_en: nameEn, name_te: nameTe, slug } : c))
-        toast.success('Category updated!')
-        setShowModal(false)
-      }
-    } else {
-      const { data, error } = await supabase
-        .from('categories')
-        .insert({ name_en: nameEn.trim(), name_te: nameTe.trim(), slug: slug.trim(), is_active: true, sort_order: categories.length })
-        .select()
-        .single()
-      if (error) { toast.error('Failed to create category') }
-      else {
-        setCategories((prev) => [...prev, data as Category])
-        toast.success('Category created!')
-        setShowModal(false)
-      }
+        .insert({ ...payload, is_active: true, sort_order: siblings.length })
+      if (error) toast.error('Failed to create category')
+      else toast.success('Category created')
     }
+    await loadData()
+    setShowModal(false)
     setSaving(false)
   }
 
   async function toggleActive(catId: string, current: boolean) {
     const supabase = createClient()
     await supabase.from('categories').update({ is_active: !current }).eq('id', catId)
-    setCategories((prev) => prev.map((c) => c.id === catId ? { ...c, is_active: !current } : c))
+    setCategories((prev) => prev.map((c) => (c.id === catId ? { ...c, is_active: !current } : c)))
   }
 
-  async function reorder(catId: string, direction: 'up' | 'down') {
-    const idx = categories.findIndex((c) => c.id === catId)
-    if (direction === 'up' && idx === 0) return
-    if (direction === 'down' && idx === categories.length - 1) return
-    const newCats = [...categories]
-    const swapIdx = direction === 'up' ? idx - 1 : idx + 1
-    ;[newCats[idx], newCats[swapIdx]] = [newCats[swapIdx], newCats[idx]]
-    setCategories(newCats)
-    // Update sort_order in DB
+  function onDragStart(id: string) {
+    setDragId(id)
+  }
+
+  async function onDropOn(targetId: string) {
+    if (!dragId || dragId === targetId) { setDragId(null); return }
+    const source = categories.find((c) => c.id === dragId)
+    const target = categories.find((c) => c.id === targetId)
+    if (!source || !target) { setDragId(null); return }
+    if (source.parent_id !== target.parent_id) { setDragId(null); return }
+    const siblings = categories
+      .filter((c) => c.parent_id === source.parent_id)
+      .sort((a, b) => a.sort_order - b.sort_order)
+    const srcIdx = siblings.findIndex((c) => c.id === source.id)
+    const tgtIdx = siblings.findIndex((c) => c.id === target.id)
+    const reordered = [...siblings]
+    reordered.splice(srcIdx, 1)
+    reordered.splice(tgtIdx, 0, source)
     const supabase = createClient()
-    await Promise.all([
-      supabase.from('categories').update({ sort_order: swapIdx }).eq('id', newCats[swapIdx].id),
-      supabase.from('categories').update({ sort_order: idx }).eq('id', newCats[idx].id),
-    ])
+    await Promise.all(
+      reordered.map((c, i) =>
+        supabase.from('categories').update({ sort_order: i }).eq('id', c.id)
+      )
+    )
+    setDragId(null)
+    loadData()
+  }
+
+  function CategoryRow({
+    cat,
+    depth = 0,
+    isExpanded,
+    hasChildren,
+    onToggle,
+  }: {
+    cat: Category
+    depth?: number
+    isExpanded?: boolean
+    hasChildren?: boolean
+    onToggle?: () => void
+  }) {
+    const count = productCounts[cat.id] ?? 0
+    return (
+      <div
+        draggable
+        onDragStart={() => onDragStart(cat.id)}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={() => onDropOn(cat.id)}
+        className={`flex items-center gap-3 px-5 py-3 hover:bg-gray-50 ${dragId === cat.id ? 'opacity-50' : ''}`}
+        style={{ paddingLeft: `${20 + depth * 24}px` }}
+      >
+        <GripVertical className="h-4 w-4 text-gray-300 cursor-grab flex-shrink-0" />
+        {hasChildren ? (
+          <button onClick={onToggle} className="text-gray-400 hover:text-gray-700 flex-shrink-0">
+            {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+          </button>
+        ) : (
+          <span className="w-4" />
+        )}
+        <span className="text-xl flex-shrink-0">
+          {cat.icon_url || CATEGORY_EMOJIS[cat.slug] || '🏪'}
+        </span>
+        <div className="flex-1 min-w-0">
+          <p className="font-medium text-gray-900 truncate">{cat.name_en}</p>
+          <p className="text-xs text-gray-500 font-telugu truncate">{cat.name_te}</p>
+        </div>
+        <span className="text-xs text-gray-500 whitespace-nowrap">{count} product{count === 1 ? '' : 's'}</span>
+        <span className="text-xs font-mono text-gray-400 whitespace-nowrap">{cat.slug}</span>
+        <button
+          onClick={() => toggleActive(cat.id, cat.is_active)}
+          className={`px-2 py-0.5 rounded-full text-xs font-medium ${cat.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
+        >
+          {cat.is_active ? 'Active' : 'Inactive'}
+        </button>
+        <button
+          onClick={() => openAdd(cat.id)}
+          className="text-xs text-gray-500 hover:text-gray-900"
+          title="Add subcategory"
+        >
+          + Sub
+        </button>
+        <button onClick={() => openEdit(cat)} className="text-xs text-shop font-medium hover:underline">
+          Edit
+        </button>
+      </div>
+    )
   }
 
   return (
-    <div className="p-6 max-w-3xl">
+    <div className="p-6 max-w-4xl">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Categories</h1>
         <button
-          onClick={openAdd}
-          className="flex items-center gap-2 bg-[#1A56DB] text-white px-4 py-2 rounded-xl text-sm font-semibold"
+          onClick={() => openAdd(null)}
+          className="flex items-center gap-2 bg-shop text-white px-4 py-2 rounded-xl text-sm font-semibold"
         >
           <Plus className="h-4 w-4" /> Add Category
         </button>
@@ -115,68 +229,35 @@ export default function AdminCategoriesPage() {
         <div className="flex justify-center py-16"><Spinner /></div>
       ) : (
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 uppercase">Order</th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 uppercase">Category</th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 uppercase">Slug</th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 uppercase">Status</th>
-                <th className="px-5 py-3" />
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {categories.map((cat, idx) => (
-                <tr key={cat.id} className="hover:bg-gray-50">
-                  <td className="px-5 py-3">
-                    <div className="flex flex-col gap-0.5">
-                      <button onClick={() => reorder(cat.id, 'up')} disabled={idx === 0} className="text-gray-400 hover:text-gray-700 disabled:opacity-20">
-                        <ChevronUp className="h-4 w-4" />
-                      </button>
-                      <button onClick={() => reorder(cat.id, 'down')} disabled={idx === categories.length - 1} className="text-gray-400 hover:text-gray-700 disabled:opacity-20">
-                        <ChevronDown className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </td>
-                  <td className="px-5 py-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl">{CATEGORY_EMOJIS[cat.slug] ?? '🏪'}</span>
-                      <div>
-                        <p className="font-medium text-gray-900">{cat.name_en}</p>
-                        <p className="text-xs text-gray-500 font-telugu">{cat.name_te}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-5 py-3 font-mono text-xs text-gray-500">{cat.slug}</td>
-                  <td className="px-5 py-3">
-                    <button
-                      onClick={() => toggleActive(cat.id, cat.is_active)}
-                      className={`px-2 py-0.5 rounded-full text-xs font-medium ${cat.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
-                    >
-                      {cat.is_active ? 'Active' : 'Inactive'}
-                    </button>
-                  </td>
-                  <td className="px-5 py-3 text-right">
-                    <button onClick={() => openEdit(cat)} className="text-xs text-[#1A56DB] font-medium hover:underline">
-                      Edit
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {categories.length === 0 && (
-                <tr><td colSpan={5} className="text-center text-gray-400 py-8">No categories yet</td></tr>
-              )}
-            </tbody>
-          </table>
+          <div className="divide-y divide-gray-50">
+            {tree.length === 0 && (
+              <div className="text-center text-gray-400 py-8 text-sm">No categories yet</div>
+            )}
+            {tree.map((node) => (
+              <div key={node.id}>
+                <CategoryRow
+                  cat={node}
+                  hasChildren={node.children.length > 0}
+                  isExpanded={expanded.has(node.id)}
+                  onToggle={() => toggleExpand(node.id)}
+                />
+                {expanded.has(node.id) &&
+                  node.children.map((child) => (
+                    <CategoryRow key={child.id} cat={child} depth={1} />
+                  ))}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-2xl w-full max-w-sm p-5 shadow-2xl">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-base font-bold">{editing ? 'Edit Category' : 'Add Category'}</h3>
+              <h3 className="text-base font-bold">
+                {editing ? 'Edit Category' : parentForNew ? 'Add Subcategory' : 'Add Category'}
+              </h3>
               <button onClick={() => setShowModal(false)}><X className="h-5 w-5 text-gray-500" /></button>
             </div>
             <div className="space-y-3">
@@ -188,11 +269,22 @@ export default function AdminCategoriesPage() {
                 className="w-full bg-gray-100 rounded-xl px-3 py-2.5 text-sm font-mono outline-none"
                 placeholder="slug (e.g. electronics) *"
               />
+              <input
+                value={icon}
+                onChange={(e) => setIcon(e.target.value)}
+                className="w-full bg-gray-100 rounded-xl px-3 py-2.5 text-sm outline-none"
+                placeholder="Icon (emoji 🛒 or URL)"
+                maxLength={200}
+              />
               <p className="text-xs text-gray-400">Slug is used in URLs. Use lowercase letters and hyphens only.</p>
             </div>
             <div className="flex gap-3 mt-4">
               <button onClick={() => setShowModal(false)} className="flex-1 border border-gray-200 text-gray-600 text-sm py-2.5 rounded-xl">Cancel</button>
-              <button onClick={saveCategory} disabled={saving || !nameEn.trim() || !slug.trim()} className="flex-1 bg-[#1A56DB] text-white text-sm font-semibold py-2.5 rounded-xl disabled:opacity-50">
+              <button
+                onClick={saveCategory}
+                disabled={saving || !nameEn.trim() || !slug.trim()}
+                className="flex-1 bg-shop text-white text-sm font-semibold py-2.5 rounded-xl disabled:opacity-50"
+              >
                 {saving ? 'Saving...' : editing ? 'Update' : 'Create'}
               </button>
             </div>
