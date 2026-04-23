@@ -1,39 +1,33 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { corsHeaders, preflight, checkRateLimit } from '../_shared/cors.ts'
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-}
-
-function errorResponse(message: string, code: string, status = 400) {
+function errorResponse(req: Request, message: string, code: string, status = 400) {
   return new Response(
     JSON.stringify({ data: null, error: { message, code } }),
-    { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    { status, headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } }
   )
 }
 
-function successResponse<T>(data: T) {
+function successResponse<T>(req: Request, data: T) {
   return new Response(
     JSON.stringify({ data, error: null }),
-    { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    { status: 200, headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } }
   )
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
-  }
+  const pre = preflight(req)
+  if (pre) return pre
 
   if (req.method !== 'POST') {
-    return errorResponse('Method not allowed', 'METHOD_NOT_ALLOWED', 405)
+    return errorResponse(req, 'Method not allowed', 'METHOD_NOT_ALLOWED', 405)
   }
 
   try {
     // ─── 1. Auth check ───────────────────────────────────────
     const authHeader = req.headers.get('Authorization')
-    if (!authHeader) return errorResponse('Missing authorization', 'UNAUTHORIZED', 401)
+    if (!authHeader) return errorResponse(req, 'Missing authorization', 'UNAUTHORIZED', 401)
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const anonKey = Deno.env.get('SUPABASE_ANON_KEY')!
@@ -45,14 +39,18 @@ serve(async (req) => {
     const adminClient = createClient(supabaseUrl, serviceKey)
 
     const { data: { user }, error: authError } = await userClient.auth.getUser()
-    if (authError || !user) return errorResponse('Unauthorized', 'UNAUTHORIZED', 401)
+    if (authError || !user) return errorResponse(req, 'Unauthorized', 'UNAUTHORIZED', 401)
+
+    // ─── 1b. Rate limit: 10 order creates per user per hour ──
+    const allowed = await checkRateLimit(adminClient, user.id, 'create-order', 10)
+    if (!allowed) return errorResponse(req, 'Too many orders. Please try again later.', 'RATE_LIMITED', 429)
 
     // ─── 2. Parse body ────────────────────────────────────────
     const body = await req.json()
     const { vendor_id, items, delivery_address_id, payment_method, notes, coupon_code } = body
 
     if (!vendor_id || !items?.length || !delivery_address_id || !payment_method) {
-      return errorResponse('Missing required fields', 'VALIDATION_ERROR')
+      return errorResponse(req, 'Missing required fields', 'VALIDATION_ERROR')
     }
 
     // ─── 3. Validate address belongs to user ─────────────────
@@ -64,7 +62,7 @@ serve(async (req) => {
       .single()
 
     if (addrError || !address) {
-      return errorResponse('Invalid delivery address', 'INVALID_ADDRESS')
+      return errorResponse(req, 'Invalid delivery address', 'INVALID_ADDRESS')
     }
 
     // ─── 4. Fetch & validate products ────────────────────────
@@ -75,18 +73,19 @@ serve(async (req) => {
       .in('id', productIds)
 
     if (prodError || !products?.length) {
-      return errorResponse('Failed to fetch products', 'PRODUCTS_NOT_FOUND')
+      return errorResponse(req, 'Failed to fetch products', 'PRODUCTS_NOT_FOUND')
     }
 
     for (const item of items) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const product = products.find((p: any) => p.id === item.product_id)
-      if (!product) return errorResponse(`Product not found: ${item.product_id}`, 'PRODUCT_NOT_FOUND')
-      if (product.is_deleted) return errorResponse(`Product unavailable: ${product.name_en}`, 'PRODUCT_UNAVAILABLE')
-      if (!product.is_available) return errorResponse(`Product not available: ${product.name_en}`, 'PRODUCT_UNAVAILABLE')
-      if (product.vendor_id !== vendor_id) return errorResponse('Products must be from same vendor', 'VENDOR_MISMATCH')
+      if (!product) return errorResponse(req, `Product not found: ${item.product_id}`, 'PRODUCT_NOT_FOUND')
+      if (product.is_deleted) return errorResponse(req, `Product unavailable: ${product.name_en}`, 'PRODUCT_UNAVAILABLE')
+      if (!product.is_available) return errorResponse(req, `Product not available: ${product.name_en}`, 'PRODUCT_UNAVAILABLE')
+      if (product.vendor_id !== vendor_id) return errorResponse(req, 'Products must be from same vendor', 'VENDOR_MISMATCH')
       if (product.stock_qty < item.quantity) {
         return errorResponse(
+          req,
           `Insufficient stock for ${product.name_en}. Available: ${product.stock_qty}`,
           'INSUFFICIENT_STOCK'
         )
@@ -128,12 +127,12 @@ serve(async (req) => {
         .single()
 
       if (couponError || !couponResult) {
-        return errorResponse('Invalid coupon', 'INVALID_COUPON')
+        return errorResponse(req, 'Invalid coupon', 'INVALID_COUPON')
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const cv = couponResult as any
       if (!cv.valid) {
-        return errorResponse(cv.message || 'Coupon is not valid', 'INVALID_COUPON')
+        return errorResponse(req, cv.message || 'Coupon is not valid', 'INVALID_COUPON')
       }
       discount = cv.discount_amount ?? 0
       couponId = cv.coupon_id ?? null
@@ -164,7 +163,7 @@ serve(async (req) => {
       .single()
 
     if (orderError || !order) {
-      return errorResponse('Failed to create order: ' + orderError?.message, 'ORDER_CREATE_FAILED', 500)
+      return errorResponse(req, 'Failed to create order: ' + orderError?.message, 'ORDER_CREATE_FAILED', 500)
     }
 
     // ─── 8. INSERT order items ────────────────────────────────
@@ -174,7 +173,7 @@ serve(async (req) => {
 
     if (itemsError) {
       await adminClient.from('orders').delete().eq('id', order.id)
-      return errorResponse('Failed to create order items', 'ORDER_ITEMS_FAILED', 500)
+      return errorResponse(req, 'Failed to create order items', 'ORDER_ITEMS_FAILED', 500)
     }
 
     // ─── 9. Decrement stock ───────────────────────────────────
@@ -277,7 +276,7 @@ serve(async (req) => {
       .eq('id', order.id)
       .single()
 
-    return successResponse({
+    return successResponse(req, {
       order: fullOrder,
       razorpay_order_id,
       razorpay_key_id,
@@ -285,6 +284,7 @@ serve(async (req) => {
 
   } catch (err) {
     return errorResponse(
+      req,
       'Internal server error: ' + (err instanceof Error ? err.message : 'Unknown'),
       'INTERNAL_ERROR',
       500

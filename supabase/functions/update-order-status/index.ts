@@ -1,23 +1,18 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { corsHeaders, preflight } from '../_shared/cors.ts'
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-}
-
-function errorResponse(message: string, code: string, status = 400) {
+function errorResponse(req: Request, message: string, code: string, status = 400) {
   return new Response(
     JSON.stringify({ data: null, error: { message, code } }),
-    { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    { status, headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } }
   )
 }
 
-function successResponse<T>(data: T) {
+function successResponse<T>(req: Request, data: T) {
   return new Response(
     JSON.stringify({ data, error: null }),
-    { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    { status: 200, headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } }
   )
 }
 
@@ -34,18 +29,17 @@ const TRANSITIONS: Record<string, string[]> = {
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
-  }
+  const pre = preflight(req)
+  if (pre) return pre
 
   if (req.method !== 'POST') {
-    return errorResponse('Method not allowed', 'METHOD_NOT_ALLOWED', 405)
+    return errorResponse(req, 'Method not allowed', 'METHOD_NOT_ALLOWED', 405)
   }
 
   try {
     // ─── 1. Auth check ───────────────────────────────────────
     const authHeader = req.headers.get('Authorization')
-    if (!authHeader) return errorResponse('Missing authorization', 'UNAUTHORIZED', 401)
+    if (!authHeader) return errorResponse(req, 'Missing authorization', 'UNAUTHORIZED', 401)
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const anonKey = Deno.env.get('SUPABASE_ANON_KEY')!
@@ -57,14 +51,14 @@ serve(async (req) => {
     const adminClient = createClient(supabaseUrl, serviceKey)
 
     const { data: { user }, error: authError } = await userClient.auth.getUser()
-    if (authError || !user) return errorResponse('Unauthorized', 'UNAUTHORIZED', 401)
+    if (authError || !user) return errorResponse(req, 'Unauthorized', 'UNAUTHORIZED', 401)
 
     // ─── 2. Parse body ────────────────────────────────────────
     const body = await req.json()
     const { order_id, status, rejection_reason, rider_name, rider_phone } = body
 
     if (!order_id || !status) {
-      return errorResponse('Missing order_id or status', 'VALIDATION_ERROR')
+      return errorResponse(req, 'Missing order_id or status', 'VALIDATION_ERROR')
     }
 
     // ─── 3. Fetch current order ───────────────────────────────
@@ -75,7 +69,7 @@ serve(async (req) => {
       .single()
 
     if (orderError || !order) {
-      return errorResponse('Order not found', 'ORDER_NOT_FOUND', 404)
+      return errorResponse(req, 'Order not found', 'ORDER_NOT_FOUND', 404)
     }
 
     // ─── 4. Role-based validation ─────────────────────────────
@@ -92,11 +86,11 @@ serve(async (req) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const vendorUserId = (order.vendor as any)?.user_id
       if (vendorUserId !== user.id) {
-        return errorResponse('Not authorized to update this order', 'FORBIDDEN', 403)
+        return errorResponse(req, 'Not authorized to update this order', 'FORBIDDEN', 403)
       }
       // Vendors cannot assign riders or mark delivered
       if (['out_for_delivery', 'delivered'].includes(status)) {
-        return errorResponse('Vendors cannot perform this action', 'FORBIDDEN', 403)
+        return errorResponse(req, 'Vendors cannot perform this action', 'FORBIDDEN', 403)
       }
     }
 
@@ -106,6 +100,7 @@ serve(async (req) => {
 
     if (!allowedNext.includes(status)) {
       return errorResponse(
+        req,
         `Cannot transition from '${currentStatus}' to '${status}'`,
         'INVALID_TRANSITION'
       )
@@ -115,6 +110,7 @@ serve(async (req) => {
     if (status === 'out_for_delivery') {
       if (!rider_name || !rider_phone) {
         return errorResponse(
+          req,
           'Rider name and phone are required for out_for_delivery',
           'RIDER_REQUIRED'
         )
@@ -142,13 +138,14 @@ serve(async (req) => {
       .single()
 
     if (updateError || !updatedOrder) {
-      return errorResponse('Failed to update order', 'UPDATE_FAILED', 500)
+      return errorResponse(req, 'Failed to update order', 'UPDATE_FAILED', 500)
     }
 
-    return successResponse(updatedOrder)
+    return successResponse(req, updatedOrder)
 
   } catch (err) {
     return errorResponse(
+      req,
       'Internal server error: ' + (err instanceof Error ? err.message : 'Unknown'),
       'INTERNAL_ERROR',
       500

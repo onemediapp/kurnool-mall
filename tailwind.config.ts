@@ -10,6 +10,28 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // V5 Customer brand — Shopping (Swiggy orange) + Services (purple)
+        shop: {
+          DEFAULT: '#FC8019',
+          dark: '#E8720C',
+          light: '#FEF3E8',
+          muted: '#FDE8CC',
+          text: '#1C1C1C',
+          subtext: '#525252',
+          border: '#E5E7EB',
+          bg: '#FFFFFF',
+        },
+        service: {
+          DEFAULT: '#7C3AED',
+          dark: '#6D28D9',
+          light: '#EDE9FE',
+          muted: '#DDD6FE',
+          text: '#1C1C1C',
+          subtext: '#525252',
+          border: '#E5E7EB',
+          bg: '#FFFFFF',
+        },
+        info: '#3D7AB5',
         // Legacy brand tokens (keep for backward compat)
         brand: '#1A56DB',
         'brand-dark': '#1E3A5F',
@@ -78,6 +100,7 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
         '2xl': '1rem',
         '3xl': '1.5rem',
+        pill: '9999px',
       },
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'Noto Sans Telugu', 'system-ui', 'sans-serif'],
@@ -97,6 +120,7 @@ const config: Config = {
         'pulse-soft': 'pulseSoft 2s ease-in-out infinite',
         'bounce-soft': 'bounceSoft 0.6s ease-out',
         'badge-pop': 'badgePop 0.2s ease-out',
+        'pulse-badge': 'pulseBadge 1.6s ease-in-out infinite',
       },
       keyframes: {
         // Existing
@@ -142,6 +166,10 @@ const config: Config = {
           '60%': { transform: 'scale(1.2)' },
           '100%': { transform: 'scale(1)' },
         },
+        pulseBadge: {
+          '0%, 100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(252,128,25,0.5)' },
+          '50%': { transform: 'scale(1.05)', boxShadow: '0 0 0 6px rgba(252,128,25,0)' },
+        },
       },
       boxShadow: {
         card: '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
@@ -149,6 +177,10 @@ const config: Config = {
         'bottom-nav': '0 -1px 0 rgba(0,0,0,0.06), 0 -4px 12px rgba(0,0,0,0.04)',
         floating: '0 8px 24px rgba(26,86,219,0.25)',
         modal: '0 20px 60px rgba(0,0,0,0.15)',
+        'card-sm': '0 1px 2px rgba(0,0,0,0.04)',
+        'card-lg': '0 6px 16px rgba(0,0,0,0.08)',
+        'card-xl': '0 12px 32px rgba(0,0,0,0.12)',
+        float: '0 16px 40px rgba(252,128,25,0.22)',
       },
     },
   },

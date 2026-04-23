@@ -31,8 +31,31 @@ export async function POST(request: NextRequest) {
   const event = payload.event as string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const entity = (payload as any)?.payload?.payment?.entity
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const idempotencyKey = ((payload as any)?.id as string) ?? entity?.id ?? signature
 
   const supabase = createAdminClient()
+
+  // Idempotency: insert webhook log; UNIQUE constraint on idempotency_key
+  // makes a duplicate event a no-op.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error: insertError } = await (supabase.from('webhook_logs') as any)
+    .insert({
+      source: 'razorpay',
+      event_type: event,
+      payload,
+      processed: false,
+      idempotency_key: idempotencyKey,
+    })
+
+  if (insertError) {
+    // Postgres unique violation = already processed; treat as success.
+    if ((insertError as { code?: string }).code === '23505') {
+      return NextResponse.json({ received: true, duplicate: true })
+    }
+    // Other DB error — log silently, return 200 to avoid Razorpay retry storm.
+    console.error('[razorpay webhook] log insert failed', insertError)
+  }
 
   try {
     if (event === 'payment.captured') {
@@ -68,10 +91,14 @@ export async function POST(request: NextRequest) {
           .eq('razorpay_payment_id', paymentId)
       }
     }
-  } catch {
-    // Log but return 200 to prevent Razorpay retries for internal errors
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase.from('webhook_logs') as any)
+      .update({ processed: true })
+      .eq('idempotency_key', idempotencyKey)
+  } catch (err) {
+    console.error('[razorpay webhook] processing error', err)
   }
 
-  // Always return 200 for valid webhook calls
   return NextResponse.json({ received: true })
 }

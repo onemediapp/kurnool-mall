@@ -159,42 +159,38 @@ export function ProductCard({ product, language = 'en', onVendorConflict, showVe
             )}
           </div>
 
-          {/* Add / Stepper */}
+          {/* Add / Stepper (Zepto-style) */}
           {product.is_available && (
             <div onClick={(e) => e.preventDefault()}>
               {qty === 0 ? (
                 <motion.button
-                  whileTap={{ scale: 0.9 }}
+                  whileTap={{ scale: 0.92 }}
                   onClick={handleAdd}
-                  className="flex items-center justify-center w-8 h-8 bg-[#1A56DB] text-white rounded-lg hover:bg-[#1746C0] transition-colors"
+                  className="btn-add"
                   aria-label="Add to cart"
                 >
-                  <Plus className="h-4 w-4" />
+                  ADD
                 </motion.button>
               ) : (
-                <div className="flex items-center gap-1 bg-[#1A56DB] rounded-lg overflow-hidden">
-                  <button
-                    onClick={handleDecrement}
-                    className="flex items-center justify-center w-7 h-7 text-white hover:bg-[#1746C0] transition-colors"
-                    aria-label="Decrease quantity"
-                  >
-                    <Minus className="h-3 w-3" />
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                  className="btn-stepper"
+                >
+                  <button onClick={handleDecrement} aria-label="Decrease quantity">
+                    <Minus className="h-3.5 w-3.5" />
                   </button>
-                  <span className="text-white text-xs font-bold min-w-[16px] text-center">
-                    {qty}
-                  </span>
+                  <span>{qty}</span>
                   <button
                     onClick={handleIncrement}
-                    className={cn(
-                      'flex items-center justify-center w-7 h-7 text-white hover:bg-[#1746C0] transition-colors',
-                      qty >= product.stock_qty && 'opacity-50 pointer-events-none',
-                    )}
+                    className={cn(qty >= product.stock_qty && 'opacity-50 pointer-events-none')}
                     aria-label="Increase quantity"
                     disabled={qty >= product.stock_qty}
                   >
-                    <Plus className="h-3 w-3" />
+                    <Plus className="h-3.5 w-3.5" />
                   </button>
-                </div>
+                </motion.div>
               )}
             </div>
           )}

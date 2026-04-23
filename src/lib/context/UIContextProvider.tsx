@@ -3,6 +3,7 @@
 import { createContext, useState, useEffect, ReactNode } from 'react'
 
 export type UIMode = 'shopping' | 'services'
+export type Language = 'en' | 'te'
 
 export interface UIPreferences {
   lastMode: UIMode
@@ -16,6 +17,9 @@ export interface UIModeContextType {
   preferences: UIPreferences
   setPreferences: (prefs: UIPreferences) => void
   isLoading: boolean
+  language: Language
+  setLanguage: (lang: Language) => void
+  t: (en: string, te: string) => string
 }
 
 export const UIContext = createContext<UIModeContextType | null>(null)
@@ -30,6 +34,7 @@ export function UIContextProvider({
   defaultMode = 'shopping',
 }: UIContextProviderProps) {
   const [mode, setModeState] = useState<UIMode>(defaultMode)
+  const [language, setLanguageState] = useState<Language>('en')
   const [preferences, setPreferencesState] = useState<UIPreferences>({
     lastMode: defaultMode,
     defaultMode,
@@ -42,6 +47,7 @@ export function UIContextProvider({
     try {
       const stored = localStorage.getItem('uiPreferences')
       const storedMode = localStorage.getItem('uiMode')
+      const storedLanguage = localStorage.getItem('uiLanguage')
 
       if (stored && preferences.rememberMode) {
         const prefs = JSON.parse(stored) as UIPreferences
@@ -50,6 +56,10 @@ export function UIContextProvider({
         if (storedMode) {
           setModeState(storedMode as UIMode)
         }
+      }
+
+      if (storedLanguage === 'en' || storedLanguage === 'te') {
+        setLanguageState(storedLanguage)
       }
     } catch (error) {
       console.warn('Failed to load UI preferences:', error)
@@ -73,6 +83,17 @@ export function UIContextProvider({
     }
   }
 
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang)
+    try {
+      localStorage.setItem('uiLanguage', lang)
+    } catch (error) {
+      console.warn('Failed to save language:', error)
+    }
+  }
+
+  const t = (en: string, te: string): string => (language === 'te' ? te : en)
+
   const handleSetPreferences = (newPrefs: UIPreferences) => {
     setPreferencesState(newPrefs)
     try {
@@ -90,6 +111,9 @@ export function UIContextProvider({
         preferences,
         setPreferences: handleSetPreferences,
         isLoading,
+        language,
+        setLanguage,
+        t,
       }}
     >
       {children}

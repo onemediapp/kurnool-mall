@@ -1,40 +1,34 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { createHmac } from 'https://deno.land/std@0.168.0/node/crypto.ts'
+import { corsHeaders, preflight } from '../_shared/cors.ts'
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-}
-
-function errorResponse(message: string, code: string, status = 400) {
+function errorResponse(req: Request, message: string, code: string, status = 400) {
   return new Response(
     JSON.stringify({ data: null, error: { message, code } }),
-    { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    { status, headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } }
   )
 }
 
-function successResponse<T>(data: T) {
+function successResponse<T>(req: Request, data: T) {
   return new Response(
     JSON.stringify({ data, error: null }),
-    { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    { status: 200, headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } }
   )
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
-  }
+  const pre = preflight(req)
+  if (pre) return pre
 
   if (req.method !== 'POST') {
-    return errorResponse('Method not allowed', 'METHOD_NOT_ALLOWED', 405)
+    return errorResponse(req, 'Method not allowed', 'METHOD_NOT_ALLOWED', 405)
   }
 
   try {
     // ─── 1. Auth check ───────────────────────────────────────
     const authHeader = req.headers.get('Authorization')
-    if (!authHeader) return errorResponse('Missing authorization', 'UNAUTHORIZED', 401)
+    if (!authHeader) return errorResponse(req, 'Missing authorization', 'UNAUTHORIZED', 401)
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const anonKey = Deno.env.get('SUPABASE_ANON_KEY')!
@@ -47,14 +41,14 @@ serve(async (req) => {
     const adminClient = createClient(supabaseUrl, serviceKey)
 
     const { data: { user }, error: authError } = await userClient.auth.getUser()
-    if (authError || !user) return errorResponse('Unauthorized', 'UNAUTHORIZED', 401)
+    if (authError || !user) return errorResponse(req, 'Unauthorized', 'UNAUTHORIZED', 401)
 
     // ─── 2. Parse body ────────────────────────────────────────
     const body = await req.json()
     const { order_id, razorpay_order_id, razorpay_payment_id, razorpay_signature } = body
 
     if (!order_id || !razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-      return errorResponse('Missing required payment fields', 'VALIDATION_ERROR')
+      return errorResponse(req, 'Missing required payment fields', 'VALIDATION_ERROR')
     }
 
     // ─── 3. Verify order belongs to user ─────────────────────
@@ -65,16 +59,16 @@ serve(async (req) => {
       .single()
 
     if (orderError || !order) {
-      return errorResponse('Order not found', 'ORDER_NOT_FOUND', 404)
+      return errorResponse(req, 'Order not found', 'ORDER_NOT_FOUND', 404)
     }
 
     if (order.customer_id !== user.id) {
-      return errorResponse('Not authorized', 'FORBIDDEN', 403)
+      return errorResponse(req, 'Not authorized', 'FORBIDDEN', 403)
     }
 
     // ─── 4. Check idempotency ─────────────────────────────────
     if (order.payment_status === 'paid') {
-      return successResponse({ already_paid: true, message: 'Payment already verified' })
+      return successResponse(req, { already_paid: true, message: 'Payment already verified' })
     }
 
     // ─── 5. Verify Razorpay signature (HMAC-SHA256) ───────────
@@ -90,7 +84,7 @@ serve(async (req) => {
         .update({ payment_status: 'failed' })
         .eq('id', order_id)
 
-      return errorResponse('Invalid payment signature', 'SIGNATURE_MISMATCH', 400)
+      return errorResponse(req, 'Invalid payment signature', 'SIGNATURE_MISMATCH', 400)
     }
 
     // ─── 6. Mark payment as paid ──────────────────────────────
@@ -105,13 +99,14 @@ serve(async (req) => {
       .single()
 
     if (updateError) {
-      return errorResponse('Failed to update payment status', 'UPDATE_FAILED', 500)
+      return errorResponse(req, 'Failed to update payment status', 'UPDATE_FAILED', 500)
     }
 
-    return successResponse({ order: updatedOrder, verified: true })
+    return successResponse(req, { order: updatedOrder, verified: true })
 
   } catch (err) {
     return errorResponse(
+      req,
       'Internal server error: ' + (err instanceof Error ? err.message : 'Unknown'),
       'INTERNAL_ERROR',
       500

@@ -7,6 +7,7 @@ import { Home, Search, ShoppingCart, Wrench, ClipboardList, User } from 'lucide-
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useCartStore } from '@/lib/hooks/use-cart'
+import { useUIMode } from '@/lib/hooks/use-ui-mode'
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home, exact: true },
@@ -18,6 +19,9 @@ const navItems = [
 
 export function BottomNav() {
   const pathname = usePathname()
+  const { mode } = useUIMode()
+  const accentClass = mode === 'shopping' ? 'text-shop' : 'text-service'
+  const accentBg = mode === 'shopping' ? 'bg-shop' : 'bg-service'
   const totalItems = useCartStore((s) => s.totalItems())
   const [mounted, setMounted] = useState(false)
   const [prevCount, setPrevCount] = useState(0)
@@ -58,7 +62,7 @@ export function BottomNav() {
               href={href}
               className={cn(
                 'flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors relative',
-                active ? 'text-[#1A56DB]' : 'text-gray-500 hover:text-gray-700',
+                active ? accentClass : 'text-gray-500 hover:text-gray-700',
               )}
               aria-label={label}
             >
@@ -93,7 +97,7 @@ export function BottomNav() {
                 )}
               </motion.div>
 
-              <span className={cn('text-[10px] font-medium transition-colors', active ? 'text-[#1A56DB]' : '')}>
+              <span className={cn('text-[10px] font-medium transition-colors', active ? accentClass : '')}>
                 {label}
               </span>
 
@@ -101,7 +105,7 @@ export function BottomNav() {
               {active && (
                 <motion.div
                   layoutId="nav-indicator"
-                  className="absolute bottom-0 h-0.5 w-8 bg-[#1A56DB] rounded-full"
+                  className={cn('absolute bottom-0 h-0.5 w-8 rounded-full', accentBg)}
                 />
               )}
             </Link>

@@ -51,6 +51,10 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/products/') ||
     pathname.startsWith('/auth/')
 
+  if (user) {
+    response.headers.set('x-user-id', user.id)
+  }
+
   if (isPublicRoute) {
     return response
   }
@@ -81,6 +85,10 @@ export async function middleware(request: NextRequest) {
     .single()
 
   const role = profile?.role as string | undefined
+
+  if (role) {
+    response.headers.set('x-user-role', role)
+  }
 
   // Customer-level protected routes
   const isAccount = pathname.startsWith('/account')

@@ -26,7 +26,14 @@ export function ModeToggleHeader() {
       <div className="px-4 py-3">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h1 className="text-lg font-extrabold text-[#1A56DB]">Kurnool Mall</h1>
+            <h1
+              className={cn(
+                'text-lg font-extrabold transition-colors',
+                mode === 'shopping' ? 'text-shop' : 'text-service'
+              )}
+            >
+              Kurnool Mall
+            </h1>
             <div className="flex items-center gap-1 mt-0.5">
               <MapPin className="h-3 w-3 text-gray-400" />
               <span className="text-xs text-gray-500">Kurnool, Andhra Pradesh</span>
@@ -46,7 +53,9 @@ export function ModeToggleHeader() {
               className={cn(
                 'flex-1 py-2 px-3 rounded-md font-medium text-sm transition-colors z-10 relative',
                 mode === tab.id
-                  ? 'text-[#1A56DB]'
+                  ? tab.id === 'shopping'
+                    ? 'text-shop'
+                    : 'text-service'
                   : 'text-gray-600 hover:text-gray-900'
               )}
             >

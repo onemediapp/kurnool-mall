@@ -159,3 +159,51 @@ html {
 
 /* ── Recharts tooltip z-index ── */
 .recharts-tooltip-wrapper { z-index: 50 !important; }
+
+/* ── V5 Zepto-style add/stepper buttons ── */
+@layer components {
+  .btn-add {
+    @apply inline-flex items-center justify-center gap-1
+           rounded-lg border border-success
+           bg-success-light text-success
+           px-3 py-1.5 text-sm font-semibold
+           transition-all duration-200
+           hover:bg-success hover:text-white
+           active:scale-95
+           min-w-[64px];
+  }
+
+  .btn-stepper {
+    @apply inline-flex items-center justify-between
+           rounded-lg bg-success text-white
+           overflow-hidden
+           transition-all duration-200
+           min-w-[88px];
+  }
+
+  .btn-stepper > button {
+    @apply px-2.5 py-1.5 text-base font-bold
+           hover:bg-success-dark
+           active:scale-90
+           transition-transform;
+  }
+
+  .btn-stepper > span {
+    @apply px-1 text-sm font-semibold tabular-nums;
+  }
+
+  /* Hero gradient (Shopping mode) */
+  .hero-gradient {
+    background: linear-gradient(135deg, #FC8019 0%, #E8720C 100%);
+  }
+
+  /* Service hero gradient (Services mode) */
+  .service-gradient {
+    background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+  }
+
+  /* App shell — fixed mobile width container */
+  .app-shell {
+    @apply max-w-md mx-auto bg-white min-h-screen relative;
+  }
+}

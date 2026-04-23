@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { OrderStatusBadge, Spinner, EmptyState } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
 import { formatDate, formatPrice } from '@/lib/utils'
+import { playOrderAlert } from '@/lib/utils/audio'
 import type { Order, Vendor, OrderStatus } from '@/lib/types'
 
 const STATUS_TABS: { label: string; statuses: OrderStatus[] | null }[] = [
@@ -89,17 +90,6 @@ export default function VendorOrdersPage() {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [rejectingOrderId, setRejectingOrderId] = useState<string | null>(null)
-
-  function playOrderAlert() {
-    const ctx = new AudioContext()
-    const osc = ctx.createOscillator()
-    const gain = ctx.createGain()
-    osc.connect(gain); gain.connect(ctx.destination)
-    osc.frequency.setValueAtTime(880, ctx.currentTime)
-    gain.gain.setValueAtTime(0.3, ctx.currentTime)
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5)
-    osc.start(); osc.stop(ctx.currentTime + 0.5)
-  }
 
   const loadOrders = useCallback(async (vendorId: string) => {
     const supabase = createClient()

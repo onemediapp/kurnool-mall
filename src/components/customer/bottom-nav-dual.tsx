@@ -61,6 +61,8 @@ export function ContextAwareBottomNav() {
   }
 
   const navItems = mode === 'shopping' ? shoppingNavItems : servicesNavItems
+  const accentClass = mode === 'shopping' ? 'text-shop' : 'text-service'
+  const accentBg = mode === 'shopping' ? 'bg-shop' : 'bg-service'
 
   return (
     <nav
@@ -81,7 +83,7 @@ export function ContextAwareBottomNav() {
               href={href}
               className={cn(
                 'flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors relative',
-                active ? 'text-[#1A56DB]' : 'text-gray-500 hover:text-gray-700'
+                active ? accentClass : 'text-gray-500 hover:text-gray-700'
               )}
               aria-label={label}
             >
@@ -117,7 +119,7 @@ export function ContextAwareBottomNav() {
               <span
                 className={cn(
                   'text-[10px] font-medium transition-colors',
-                  active ? 'text-[#1A56DB]' : ''
+                  active ? accentClass : ''
                 )}
               >
                 {label}
@@ -127,7 +129,7 @@ export function ContextAwareBottomNav() {
               {active && (
                 <motion.div
                   layoutId="nav-indicator"
-                  className="absolute bottom-0 h-0.5 w-8 bg-[#1A56DB] rounded-full"
+                  className={cn('absolute bottom-0 h-0.5 w-8 rounded-full', accentBg)}
                 />
               )}
             </Link>
