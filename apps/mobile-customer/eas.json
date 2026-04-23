@@ -1,0 +1,53 @@
+{
+  "cli": {
+    "version": ">= 7.0.0",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://your-project.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "REPLACE_WITH_ANON_KEY",
+        "EXPO_PUBLIC_RAZORPAY_KEY_ID": "rzp_test_xxxxxxxxxxxx",
+        "EXPO_PUBLIC_API_URL": "https://your-project.supabase.co/functions/v1"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://your-project.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "REPLACE_WITH_ANON_KEY",
+        "EXPO_PUBLIC_RAZORPAY_KEY_ID": "rzp_test_xxxxxxxxxxxx",
+        "EXPO_PUBLIC_API_URL": "https://your-project.supabase.co/functions/v1"
+      }
+    },
+    "production": {
+      "autoIncrement": "versionCode",
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://your-project.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "REPLACE_WITH_ANON_KEY",
+        "EXPO_PUBLIC_RAZORPAY_KEY_ID": "rzp_live_xxxxxxxxxxxx",
+        "EXPO_PUBLIC_API_URL": "https://your-project.supabase.co/functions/v1"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "./google-service-account.json",
+        "track": "internal"
+      }
+    }
+  }
+}

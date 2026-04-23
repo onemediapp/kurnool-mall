@@ -1,0 +1,27 @@
+# Expo
+.expo/
+.expo-shared/
+dist/
+web-build/
+
+# Native
+*.apk
+*.aab
+*.ipa
+
+# EAS
+google-service-account.json
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Metro
+.metro-health-check*
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
