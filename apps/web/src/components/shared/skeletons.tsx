@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 
 function Block({ className }: { className?: string }) {
   return <div className={cn('skeleton rounded-md', className)} />

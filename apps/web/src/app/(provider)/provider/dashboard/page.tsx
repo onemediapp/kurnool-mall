@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Briefcase, Star, Wallet, Clock, ArrowRight } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, KPICard, BookingStatusBadge, EmptyState } from '@/components/shared'
-import { formatDate, formatPrice } from '@/lib/utils'
-import type { ServiceBooking, Provider } from '@/lib/types'
+import { formatDate, formatPrice } from '@kurnool-mall/shared-utils'
+import type { ServiceBooking, Provider } from '@kurnool-mall/shared-types'
 
 export default function ProviderDashboardPage() {
   const router = useRouter()

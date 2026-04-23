@@ -1,7 +1,7 @@
 'use client'
 
 import { Grid3x3, List, Filter, ChevronDown } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 
 type ViewMode = 'grid' | 'list'
 type SortOption = 'relevance' | 'price_asc' | 'price_desc' | 'newest' | 'rating'

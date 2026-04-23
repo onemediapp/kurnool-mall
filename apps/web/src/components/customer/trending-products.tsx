@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Flame } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { ProductCard } from './product-card'
-import type { Product } from '@/lib/types'
+import type { Product } from '@kurnool-mall/shared-types'
 
 export function TrendingProducts() {
   const [products, setProducts] = useState<Product[]>([])

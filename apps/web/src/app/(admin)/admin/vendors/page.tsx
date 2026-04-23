@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Star, Store, X, ChevronRight } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Badge, Spinner, EmptyState, OrderStatusBadge } from '@/components/shared'
-import { formatDate, formatPrice } from '@/lib/utils'
-import type { Vendor, KycStatus } from '@/lib/types'
+import { formatDate, formatPrice } from '@kurnool-mall/shared-utils'
+import type { Vendor, KycStatus } from '@kurnool-mall/shared-types'
 
 const KYC_TABS: { label: string; value: KycStatus | 'all' }[] = [
   { label: 'All', value: 'all' },
@@ -211,7 +211,7 @@ function VendorDetailPanel({
                         <p className="text-xs text-gray-400">{formatDate(o.created_at)}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <OrderStatusBadge status={o.status as import('@/lib/types').OrderStatus} />
+                        <OrderStatusBadge status={o.status as import('@kurnool-mall/shared-types').OrderStatus} />
                         <p className="text-xs font-semibold">{formatPrice(o.grand_total)}</p>
                       </div>
                     </div>

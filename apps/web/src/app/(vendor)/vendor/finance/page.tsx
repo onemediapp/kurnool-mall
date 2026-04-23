@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Wallet, TrendingUp, Clock, CheckCircle } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, KPICard, OrderStatusBadge } from '@/components/shared'
-import { formatPrice, formatDate } from '@/lib/utils'
-import type { Order, VendorPayout } from '@/lib/types'
+import { formatPrice, formatDate } from '@kurnool-mall/shared-utils'
+import type { Order, VendorPayout } from '@kurnool-mall/shared-types'
 
 const COMMISSION_RATE = 0.08 // 8%
 

@@ -1,8 +1,8 @@
 'use client'
 
 import { Trash2, Plus } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import type { AudienceSegment, AudienceRule } from '@/lib/types'
+import { cn } from '@kurnool-mall/shared-utils'
+import type { AudienceSegment, AudienceRule } from '@kurnool-mall/shared-types'
 
 interface SegmentBuilderProps {
   value: AudienceSegment

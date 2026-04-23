@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, MapPin, Plus, Home, Briefcase, Star } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, EmptyState } from '@/components/shared'
-import type { Address } from '@/lib/types'
+import type { Address } from '@kurnool-mall/shared-types'
 
 export default function AddressesPage() {
   const router = useRouter()

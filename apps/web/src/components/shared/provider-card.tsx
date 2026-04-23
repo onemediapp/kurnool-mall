@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Star, MapPin, CheckCircle2 } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 
 interface ProviderCardProps {
   id: string

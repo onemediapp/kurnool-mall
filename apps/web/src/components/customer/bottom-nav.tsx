@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Home, Search, ShoppingCart, ClipboardList, User } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 import { useCartStore } from '@/lib/hooks/use-cart'
 import { useUIMode } from '@/lib/hooks/use-ui-mode'
 

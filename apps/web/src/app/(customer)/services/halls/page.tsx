@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@kurnool-mall/supabase-client/server'
 import { EmptyState } from '@/components/shared'
-import { formatPrice } from '@/lib/utils'
-import type { FunctionHall } from '@/lib/types'
+import { formatPrice } from '@kurnool-mall/shared-utils'
+import type { FunctionHall } from '@kurnool-mall/shared-types'
 import { ArrowLeft, Users, MapPin } from 'lucide-react'
 
 export const metadata = { title: 'Function Halls — Kurnool Mall' }

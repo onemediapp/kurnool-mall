@@ -2,11 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { Plus, X, ChevronDown, ChevronRight, GripVertical } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import { CATEGORY_EMOJIS } from '@/lib/utils'
-import type { Category } from '@/lib/types'
+import { CATEGORY_EMOJIS } from '@kurnool-mall/shared-utils'
+import type { Category } from '@kurnool-mall/shared-types'
 
 type CatNode = Category & { children: Category[]; productCount: number }
 

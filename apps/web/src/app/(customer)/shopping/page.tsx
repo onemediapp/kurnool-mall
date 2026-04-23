@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { ProductCard } from '@/components/customer/product-card'
 import { ShoppingFilters } from '@/components/customer/shopping-filters'
 import { ShoppingToolbar } from '@/components/customer/shopping-toolbar'
-import type { Product, Category } from '@/lib/types'
+import type { Product, Category } from '@kurnool-mall/shared-types'
 
 type ViewMode = 'grid' | 'list'
 type SortOption = 'relevance' | 'price_asc' | 'price_desc' | 'newest' | 'rating'

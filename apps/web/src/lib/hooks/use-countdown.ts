@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { getCountdown } from '@/lib/utils'
+import { getCountdown } from '@kurnool-mall/shared-utils'
 
 export function useCountdown(endsAt: string) {
   const [time, setTime] = useState(() => getCountdown(endsAt))

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Search, MapPin, Mic } from 'lucide-react'
 import Link from 'next/link'
 import { NotificationBell } from '@/components/shared'
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 
 export function ModeToggleHeader() {
   const { mode, setMode } = useUIMode()

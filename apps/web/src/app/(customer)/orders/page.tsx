@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ClipboardList } from 'lucide-react'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@kurnool-mall/supabase-client/server'
 import { OrderStatusBadge, EmptyState } from '@/components/shared'
-import { formatDate, formatPrice } from '@/lib/utils'
-import type { Order } from '@/lib/types'
+import { formatDate, formatPrice } from '@kurnool-mall/shared-utils'
+import type { Order } from '@kurnool-mall/shared-types'
 
 export default async function OrdersPage() {
   const supabase = createClient()

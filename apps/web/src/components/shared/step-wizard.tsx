@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 import { Button } from './index'
 
 export interface WizardStep {

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import type { Banner } from '@/lib/types'
+import type { Banner } from '@kurnool-mall/shared-types'
 
 interface HomeCarouselProps {
   banners: Banner[]

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { ServicesFilters } from '@/components/customer/services-filters'
 import { ServicesToolbar } from '@/components/customer/services-toolbar'
 

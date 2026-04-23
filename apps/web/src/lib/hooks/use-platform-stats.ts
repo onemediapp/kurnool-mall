@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import type { PlatformStats } from '@/lib/types'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
+import type { PlatformStats } from '@kurnool-mall/shared-types'
 
 const POLL_INTERVAL = 30_000 // 30 seconds
 

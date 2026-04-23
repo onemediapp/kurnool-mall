@@ -4,11 +4,11 @@ import { useEffect, useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { Download } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, KPICard, DataTable, Button, type DataTableColumn } from '@/components/shared'
 import { exportToCSV } from '@/lib/utils/export'
-import { formatPrice, formatDate, CHART_COLORS } from '@/lib/utils'
-import type { ServiceBooking } from '@/lib/types'
+import { formatPrice, formatDate, CHART_COLORS } from '@kurnool-mall/shared-utils'
+import type { ServiceBooking } from '@kurnool-mall/shared-types'
 
 interface EarningRow extends ServiceBooking {
   earned: number

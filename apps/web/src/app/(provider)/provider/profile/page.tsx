@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, Button, Badge } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import { formatDate } from '@/lib/utils'
-import type { Provider, ServiceCategory } from '@/lib/types'
+import { formatDate } from '@kurnool-mall/shared-utils'
+import type { Provider, ServiceCategory } from '@kurnool-mall/shared-types'
 
 export default function ProviderProfilePage() {
   const router = useRouter()

@@ -2,10 +2,10 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, Button } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import type { Provider, ProviderAvailability } from '@/lib/types'
+import type { Provider, ProviderAvailability } from '@kurnool-mall/shared-types'
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 

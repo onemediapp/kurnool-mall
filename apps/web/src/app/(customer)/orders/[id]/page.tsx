@@ -5,11 +5,11 @@ import { useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, CheckCircle2, Phone, MapPin, Package, Loader2, Bike } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { OrderStatusBadge, Divider } from '@/components/shared'
 import { UpsellWidget } from '@/components/shared/upsell-widget'
-import { formatDate, formatPrice, formatTime, ORDER_STATUS_LABELS } from '@/lib/utils'
-import type { Order, OrderStatus } from '@/lib/types'
+import { formatDate, formatPrice, formatTime, ORDER_STATUS_LABELS } from '@kurnool-mall/shared-utils'
+import type { Order, OrderStatus } from '@kurnool-mall/shared-types'
 
 const PROGRESS_STEPS: { status: OrderStatus; label: string; icon: string }[] = [
   { status: 'pending', label: 'Order Placed', icon: '📋' },

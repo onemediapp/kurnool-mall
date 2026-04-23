@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import {
   StepWizard, type WizardStep, Button, Spinner,
 } from '@/components/shared'
@@ -12,7 +12,7 @@ import { SegmentBuilder } from '@/components/shared/segment-builder'
 import { CampaignPreview } from '@/components/shared/campaign-preview'
 import { BilingualField } from '@/components/shared/bilingual-field'
 import { toast } from '@/components/shared/toast'
-import type { CampaignType, AudienceSegment, CampaignContent, CampaignStatus } from '@/lib/types'
+import type { CampaignType, AudienceSegment, CampaignContent, CampaignStatus } from '@kurnool-mall/shared-types'
 
 const TYPES: { value: CampaignType; label: string }[] = [
   { value: 'push', label: 'Push Notification' },

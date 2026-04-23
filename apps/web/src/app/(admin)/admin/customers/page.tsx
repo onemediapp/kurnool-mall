@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Search, X, User } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner } from '@/components/shared'
-import { formatDate, formatPrice } from '@/lib/utils'
+import { formatDate, formatPrice } from '@kurnool-mall/shared-utils'
 
 interface Customer {
   id: string

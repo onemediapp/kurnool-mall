@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { Plus, X, Megaphone, Tag, Zap, Bell } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Tabs } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import { formatPrice } from '@/lib/utils'
-import type { Banner, Coupon, FlashSale } from '@/lib/types'
+import { formatPrice } from '@kurnool-mall/shared-utils'
+import type { Banner, Coupon, FlashSale } from '@kurnool-mall/shared-types'
 
 export default function AdminMarketingPage() {
   const [tab, setTab] = useState('banners')

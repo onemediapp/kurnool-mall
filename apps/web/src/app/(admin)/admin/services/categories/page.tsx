@@ -1,14 +1,14 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import {
   Spinner, Button, Modal, DataTable, type DataTableColumn,
 } from '@/components/shared'
 import { BilingualField } from '@/components/shared/bilingual-field'
 import { toast } from '@/components/shared/toast'
-import { formatPrice } from '@/lib/utils'
-import type { ServiceCategory } from '@/lib/types'
+import { formatPrice } from '@kurnool-mall/shared-utils'
+import type { ServiceCategory } from '@kurnool-mall/shared-types'
 
 export default function AdminServiceCategoriesPage() {
   const [categories, setCategories] = useState<ServiceCategory[]>([])

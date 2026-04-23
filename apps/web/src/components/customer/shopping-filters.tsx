@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { X, ChevronDown } from 'lucide-react'
-import type { Category } from '@/lib/types'
-import { cn } from '@/lib/utils'
+import type { Category } from '@kurnool-mall/shared-types'
+import { cn } from '@kurnool-mall/shared-utils'
 
 interface ShoppingFiltersProps {
   categories: Category[]

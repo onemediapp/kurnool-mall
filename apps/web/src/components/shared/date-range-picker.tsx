@@ -5,7 +5,7 @@ import { Calendar, ChevronDown } from 'lucide-react'
 import { DayPicker, type DateRange } from 'react-day-picker'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import 'react-day-picker/style.css'
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 
 interface DateRangePickerProps {
   value: DateRange | undefined

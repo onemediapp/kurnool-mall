@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react'
 import { Download } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 
 interface ChartWrapperProps {
   title?: string

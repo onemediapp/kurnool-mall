@@ -4,11 +4,11 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Download } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, Button, DataTable, type DataTableColumn } from '@/components/shared'
 import { DateRangePicker } from '@/components/shared/date-range-picker'
 import { exportToCSV, exportToPDF } from '@/lib/utils/export'
-import { formatPrice, formatDate, CHART_COLORS, formatCompact } from '@/lib/utils'
+import { formatPrice, formatDate, CHART_COLORS, formatCompact } from '@kurnool-mall/shared-utils'
 import type { DateRange } from 'react-day-picker'
 
 const REPORT_TITLES: Record<string, string> = {

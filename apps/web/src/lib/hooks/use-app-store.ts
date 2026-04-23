@@ -1,36 +1,19 @@
 'use client'
 
-import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { createAppStore } from '@kurnool-mall/shared-hooks'
+export type { ActiveTab, Language } from '@kurnool-mall/shared-hooks'
 
-export type ActiveTab = 'shop' | 'service'
-export type Language = 'en' | 'te'
-
-interface AppState {
-  activeTab: ActiveTab
-  language: Language
-  setActiveTab: (tab: ActiveTab) => void
-  setLanguage: (lang: Language) => void
-  t: (en: string, te: string) => string
+const ssrSafeStorage: Storage = {
+  getItem: () => null,
+  setItem: () => undefined,
+  removeItem: () => undefined,
+  clear: () => undefined,
+  key: () => null,
+  length: 0,
 }
 
-const isBrowser = typeof window !== 'undefined'
-
-export const useAppStore = create<AppState>()(
-  persist(
-    (set, get) => ({
-      activeTab: 'shop',
-      language: 'en',
-      setActiveTab: (activeTab) => set({ activeTab }),
-      setLanguage: (language) => set({ language }),
-      t: (en, te) => (get().language === 'te' ? te : en),
-    }),
-    {
-      name: 'kurnool-mall-app',
-      storage: createJSONStorage(() =>
-        isBrowser ? window.sessionStorage : (undefined as unknown as Storage)
-      ),
-      partialize: (s) => ({ language: s.language, activeTab: s.activeTab }),
-    }
-  )
-)
+// Web uses sessionStorage (matches prior behavior). Mobile constructs its own
+// useAppStore with AsyncStorage.
+export const useAppStore = createAppStore({
+  storage: typeof window !== 'undefined' ? window.sessionStorage : ssrSafeStorage,
+})

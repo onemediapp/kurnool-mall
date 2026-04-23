@@ -1,13 +1,13 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import {
   Spinner, Tabs, Badge, Button, DataTable, type DataTableColumn,
 } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import { formatPrice, formatDate } from '@/lib/utils'
-import type { Provider, KycStatus, User } from '@/lib/types'
+import { formatPrice, formatDate } from '@kurnool-mall/shared-utils'
+import type { Provider, KycStatus, User } from '@kurnool-mall/shared-types'
 
 interface ProviderRow extends Provider {
   user?: Pick<User, 'id' | 'name' | 'phone'> & { email?: string }

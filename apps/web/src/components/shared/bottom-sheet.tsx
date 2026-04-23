@@ -3,7 +3,7 @@
 import { useEffect, type ReactNode } from 'react'
 import { motion, AnimatePresence, type PanInfo } from 'framer-motion'
 import { X } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 
 interface BottomSheetProps {
   open: boolean

@@ -3,12 +3,12 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { ChevronDown, ChevronUp, X, Bell } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { OrderStatusBadge, Spinner, EmptyState } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import { formatDate, formatPrice } from '@/lib/utils'
+import { formatDate, formatPrice } from '@kurnool-mall/shared-utils'
 import { playOrderAlert } from '@/lib/utils/audio'
-import type { Order, Vendor, OrderStatus } from '@/lib/types'
+import type { Order, Vendor, OrderStatus } from '@kurnool-mall/shared-types'
 
 const STATUS_TABS: { label: string; statuses: OrderStatus[] | null }[] = [
   { label: 'All', statuses: null },

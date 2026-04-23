@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from 'react'
 import { ChevronDown, ChevronUp, ChevronsUpDown } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 import { Spinner, EmptyState } from './index'
 
 export interface DataTableColumn<T> {

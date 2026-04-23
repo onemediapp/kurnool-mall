@@ -1,4 +1,4 @@
-import type { HeatmapCell, FunnelStep, CohortRow, RFMSegment } from '@/lib/types'
+import type { HeatmapCell, FunnelStep, CohortRow, RFMSegment } from '@kurnool-mall/shared-types'
 
 // ── Heatmap ───────────────────────────────────────────────────
 // Build a 7×24 grid from sparse heatmap cells. Missing cells default to 0.

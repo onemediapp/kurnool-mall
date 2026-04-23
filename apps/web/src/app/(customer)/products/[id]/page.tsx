@@ -2,13 +2,13 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Star, MapPin, Zap } from 'lucide-react'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@kurnool-mall/supabase-client/server'
 import { AddToCartSection } from './add-to-cart-section'
 import { PriceDisplay, Divider, RatingStars, StockBadge } from '@/components/shared'
 import { ProductCard } from '@/components/customer/product-card'
 import { UpsellWidget } from '@/components/shared/upsell-widget'
-import { CATEGORY_EMOJIS, formatDate } from '@/lib/utils'
-import type { Product, Review } from '@/lib/types'
+import { CATEGORY_EMOJIS, formatDate } from '@kurnool-mall/shared-utils'
+import type { Product, Review } from '@kurnool-mall/shared-types'
 
 interface Props {
   params: { id: string }

@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { X, ChevronRight } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { OrderStatusBadge, Spinner } from '@/components/shared'
-import { formatDate, formatPrice } from '@/lib/utils'
-import type { Order, OrderStatus } from '@/lib/types'
+import { formatDate, formatPrice } from '@kurnool-mall/shared-utils'
+import type { Order, OrderStatus } from '@kurnool-mall/shared-types'
 
 const STATUS_TABS: { label: string; value: OrderStatus | 'all' }[] = [
   { label: 'All', value: 'all' },

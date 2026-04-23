@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react'
 import { Download, TrendingUp, DollarSign, CheckCircle, Clock, Receipt } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, KPICard } from '@/components/shared'
-import { formatPrice, formatDate, formatCompact } from '@/lib/utils'
+import { formatPrice, formatDate, formatCompact } from '@kurnool-mall/shared-utils'
 import { exportToCSV } from '@/lib/utils/export'
-import type { Order, VendorPayout } from '@/lib/types'
+import type { Order, VendorPayout } from '@kurnool-mall/shared-types'
 
 const COMMISSION_RATE = 0.08
 const GST_RATE = 0.18

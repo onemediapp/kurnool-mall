@@ -8,8 +8,8 @@ import {
   BarChart3, Send, Sparkles, FileText, Bell, Wrench, UserCheck,
   Package as PackageIcon, Building2,
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { createClient } from '@/lib/supabase/client'
+import { cn } from '@kurnool-mall/shared-utils'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 
 const NAV_GROUPS = [
   {

@@ -1,7 +1,7 @@
 'use client'
 
-import { cn, BOOKING_STATUS_LABELS, BOOKING_STATUS_COLORS } from '@/lib/utils'
-import type { BookingStatus } from '@/lib/types'
+import { cn, BOOKING_STATUS_LABELS, BOOKING_STATUS_COLORS } from '@kurnool-mall/shared-utils'
+import type { BookingStatus } from '@kurnool-mall/shared-types'
 
 export function BookingStatusBadge({ status, className }: { status: BookingStatus; className?: string }) {
   return (

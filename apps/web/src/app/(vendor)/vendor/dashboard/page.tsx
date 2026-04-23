@@ -8,11 +8,11 @@ import {
   ToggleLeft, ToggleRight, ArrowRight, X,
 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { OrderStatusBadge, Spinner, KPICard } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import { formatDate, formatPrice, formatCompact } from '@/lib/utils'
-import type { Order, VendorStats } from '@/lib/types'
+import { formatDate, formatPrice, formatCompact } from '@kurnool-mall/shared-utils'
+import type { Order, VendorStats } from '@kurnool-mall/shared-types'
 
 interface LowStockProduct {
   id: string

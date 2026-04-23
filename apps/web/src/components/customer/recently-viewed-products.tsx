@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ProductCard } from './product-card'
 import { SectionHeader } from '@/components/shared'
-import type { Product } from '@/lib/types'
+import type { Product } from '@kurnool-mall/shared-types'
 
 const RECENT_VIEWED_KEY = 'km-recently-viewed-products'
 const MAX_RECENT = 10

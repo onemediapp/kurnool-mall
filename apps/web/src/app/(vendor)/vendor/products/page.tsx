@@ -4,11 +4,11 @@ import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import { Plus, Pencil, Package, Search, X, Upload } from 'lucide-react'
 import Papa from 'papaparse'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Button, Spinner, EmptyState, Badge } from '@/components/shared'
-import { formatPrice } from '@/lib/utils'
+import { formatPrice } from '@kurnool-mall/shared-utils'
 import { ProductFormModal } from './product-form-modal'
-import type { Product, Vendor, Category } from '@/lib/types'
+import type { Product, Vendor, Category } from '@kurnool-mall/shared-types'
 
 interface CsvRow {
   name_en: string

@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { createClient } from '@/lib/supabase/client'
-import { formatPrice, cn } from '@/lib/utils'
-import type { Product, UpsellTrigger, UpsellRule } from '@/lib/types'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
+import { formatPrice, cn } from '@kurnool-mall/shared-utils'
+import type { Product, UpsellTrigger, UpsellRule } from '@kurnool-mall/shared-types'
 
 interface UpsellWidgetProps {
   trigger: UpsellTrigger

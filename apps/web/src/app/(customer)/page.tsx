@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@kurnool-mall/supabase-client/browser';
 import { ArrowRight } from 'lucide-react';
 import { useUIMode } from '@/lib/hooks/use-ui-mode';
 import ShoppingHomeContent from './_components/shopping-home-content';

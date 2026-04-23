@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Heart } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { useWishlistStore } from '@/lib/hooks/use-wishlist'
 import { ProductCard } from '@/components/customer/product-card'
 import { Spinner, EmptyState } from '@/components/shared'
-import type { Product } from '@/lib/types'
+import type { Product } from '@kurnool-mall/shared-types'
 
 export default function WishlistPage() {
   const { productIds, sync } = useWishlistStore()

@@ -8,7 +8,7 @@ import {
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { usePlatformStats } from '@/lib/hooks/use-platform-stats'
 import { Spinner, KPICard } from '@/components/shared'
-import { formatPrice, formatCompact } from '@/lib/utils'
+import { formatPrice, formatCompact } from '@kurnool-mall/shared-utils'
 
 export default function AdminDashboardPage() {
   const { stats, isLoading, lastUpdated } = usePlatformStats()

@@ -7,8 +7,8 @@ import {
   LayoutDashboard, ClipboardList, Calendar, Wallet, User as UserIcon,
   LogOut, Wrench, ExternalLink, AlertCircle,
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { createClient } from '@/lib/supabase/client'
+import { cn } from '@kurnool-mall/shared-utils'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 
 const navItems = [
   { href: '/provider/dashboard', label: 'Dashboard', icon: LayoutDashboard },

@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Button } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import { formatPrice } from '@/lib/utils'
+import { formatPrice } from '@kurnool-mall/shared-utils'
 
 export function HallBookingForm({ hallId, pricePerDay }: { hallId: string; pricePerDay: number }) {
   const router = useRouter()

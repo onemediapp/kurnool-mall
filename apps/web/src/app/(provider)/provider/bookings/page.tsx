@@ -3,14 +3,14 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { X, Clock, MapPin } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import {
   Spinner, Tabs, BookingStatusBadge, EmptyState, Button,
 } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import { formatDate, formatPrice, BOOKING_STATUS_LABELS } from '@/lib/utils'
-import { allowedNextStatuses } from '@/lib/utils/fsm'
-import type { ServiceBooking, BookingStatus } from '@/lib/types'
+import { formatDate, formatPrice, BOOKING_STATUS_LABELS } from '@kurnool-mall/shared-utils'
+import { allowedNextStatuses } from '@kurnool-mall/shared-utils'
+import type { ServiceBooking, BookingStatus } from '@kurnool-mall/shared-types'
 
 type TabKey = 'pending' | 'active' | 'completed'
 

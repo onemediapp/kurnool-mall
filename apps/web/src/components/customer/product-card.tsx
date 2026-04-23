@@ -5,11 +5,11 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Plus, Minus, Heart } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { cn, formatPrice, discountPercent } from '@/lib/utils'
+import { cn, formatPrice, discountPercent } from '@kurnool-mall/shared-utils'
 import { useCartStore } from '@/lib/hooks/use-cart'
 import { useWishlistStore } from '@/lib/hooks/use-wishlist'
 import { StockBadge, RatingStars } from '@/components/shared'
-import type { Product } from '@/lib/types'
+import type { Product } from '@kurnool-mall/shared-types'
 
 interface ProductCardProps {
   product: Product

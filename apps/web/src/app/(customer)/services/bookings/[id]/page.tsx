@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@kurnool-mall/supabase-client/server'
 import { BookingStatusBadge, Divider } from '@/components/shared'
-import { formatDate, formatPrice, BOOKING_PROGRESS_STEPS, BOOKING_STATUS_LABELS } from '@/lib/utils'
-import type { ServiceBooking, ServiceBookingEvent, BookingStatus } from '@/lib/types'
+import { formatDate, formatPrice, BOOKING_PROGRESS_STEPS, BOOKING_STATUS_LABELS } from '@kurnool-mall/shared-utils'
+import type { ServiceBooking, ServiceBookingEvent, BookingStatus } from '@kurnool-mall/shared-types'
 import { ArrowLeft, MapPin, Phone, Star } from 'lucide-react'
 import { CancelBookingButton } from './cancel-button'
 

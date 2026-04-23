@@ -3,9 +3,9 @@
 import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Phone, ArrowRight, RefreshCw } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Button } from '@/components/shared'
-import { isValidIndianPhone, formatPhone } from '@/lib/utils'
+import { isValidIndianPhone, formatPhone } from '@kurnool-mall/shared-utils'
 
 type Step = 'phone' | 'otp'
 

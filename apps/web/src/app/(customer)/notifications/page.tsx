@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Bell, Package, Tag, Star, Gift, Megaphone } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, EmptyState } from '@/components/shared'
-import { timeAgo } from '@/lib/utils'
-import type { Notification } from '@/lib/types'
+import { timeAgo } from '@kurnool-mall/shared-utils'
+import type { Notification } from '@kurnool-mall/shared-types'
 
 const TYPE_ICONS: Record<string, { icon: React.ElementType; color: string }> = {
   order: { icon: Package, color: 'bg-blue-50 text-[#1A56DB]' },

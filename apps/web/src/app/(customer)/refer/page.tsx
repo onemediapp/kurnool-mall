@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Copy, Check, Share2, Gift } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner } from '@/components/shared'
-import type { User } from '@/lib/types'
+import type { User } from '@kurnool-mall/shared-types'
 
 const HOW_IT_WORKS = [
   { step: '1', icon: '📤', title: 'Share your code', desc: 'Send your unique referral code to friends' },

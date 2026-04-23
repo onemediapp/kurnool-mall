@@ -7,8 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useCartStore } from '@/lib/hooks/use-cart'
 import { useWishlistStore } from '@/lib/hooks/use-wishlist'
 import { Button } from '@/components/shared'
-import { formatPrice } from '@/lib/utils'
-import type { Product } from '@/lib/types'
+import { formatPrice } from '@kurnool-mall/shared-utils'
+import type { Product } from '@kurnool-mall/shared-types'
 
 interface AddToCartSectionProps {
   product: Product

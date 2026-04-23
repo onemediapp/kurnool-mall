@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
-import { formatPrice } from '@/lib/utils'
-import type { FunctionHall } from '@/lib/types'
+import { createClient } from '@kurnool-mall/supabase-client/server'
+import { formatPrice } from '@kurnool-mall/shared-utils'
+import type { FunctionHall } from '@kurnool-mall/shared-types'
 import { ArrowLeft, Users, MapPin } from 'lucide-react'
 import { HallBookingForm } from './booking-form'
 

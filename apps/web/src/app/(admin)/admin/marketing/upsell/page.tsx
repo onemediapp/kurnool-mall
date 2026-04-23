@@ -1,12 +1,12 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import {
   Spinner, Button, Modal, DataTable, Badge, type DataTableColumn,
 } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import type { UpsellRule, UpsellTrigger } from '@/lib/types'
+import type { UpsellRule, UpsellTrigger } from '@kurnool-mall/shared-types'
 
 const TRIGGERS: { value: UpsellTrigger; label: string }[] = [
   { value: 'product_view', label: 'Product view' },

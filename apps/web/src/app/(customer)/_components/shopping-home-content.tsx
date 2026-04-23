@@ -1,16 +1,16 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { ProductCard } from '@/components/customer/product-card'
 import {
   SectionHeader, CountdownTimer, VendorCard, ProgressBar,
 } from '@/components/shared'
-import type { Category, Product, Vendor, Banner, FlashSale } from '@/lib/types'
+import type { Category, Product, Vendor, Banner, FlashSale } from '@kurnool-mall/shared-types'
 import HomeCarousel from './home-carousel'
 import Link from 'next/link'
 import { Zap, Calendar } from 'lucide-react'
-import { CATEGORY_EMOJIS } from '@/lib/utils'
+import { CATEGORY_EMOJIS } from '@kurnool-mall/shared-utils'
 
 export default function ShoppingHomeContent() {
   const [banners, setBanners] = useState<Banner[]>([])

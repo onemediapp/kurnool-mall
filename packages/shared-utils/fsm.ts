@@ -1,4 +1,4 @@
-import type { BookingStatus } from '@/lib/types'
+import type { BookingStatus } from '@kurnool-mall/shared-types'
 
 // Client-side mirror of the authoritative transition_booking_status FSM.
 // Keep in sync with supabase/migrations/004_services_and_growth.sql.

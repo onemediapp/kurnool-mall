@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { Plus, X, Bike, Phone, ToggleLeft, ToggleRight } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import type { Rider } from '@/lib/types'
+import type { Rider } from '@kurnool-mall/shared-types'
 
 export default function AdminRidersPage() {
   const [riders, setRiders] = useState<Rider[]>([])

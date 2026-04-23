@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner } from '@/components/shared'
-import { formatPrice, formatCompact, CHART_COLORS } from '@/lib/utils'
+import { formatPrice, formatCompact, CHART_COLORS } from '@kurnool-mall/shared-utils'
 
 type Range = '7d' | '30d' | '3m'
 

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { ChevronDown, X } from 'lucide-react'
 import { useUIMode } from '@/lib/hooks/use-ui-mode'
-import { cn } from '@/lib/utils'
+import { cn } from '@kurnool-mall/shared-utils'
 
 interface FilterOption {
   id: string

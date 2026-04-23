@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@kurnool-mall/supabase-client/server'
 import { RatingStars, Badge, EmptyState } from '@/components/shared'
-import { formatDate } from '@/lib/utils'
-import type { Provider, ServiceReview } from '@/lib/types'
+import { formatDate } from '@kurnool-mall/shared-utils'
+import type { Provider, ServiceReview } from '@kurnool-mall/shared-types'
 import { ArrowLeft, MapPin, Briefcase, Award } from 'lucide-react'
 
 interface Props { params: { id: string } }

@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Star, MessageSquare } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner } from '@/components/shared'
-import { timeAgo } from '@/lib/utils'
-import type { Review } from '@/lib/types'
+import { timeAgo } from '@kurnool-mall/shared-utils'
+import type { Review } from '@kurnool-mall/shared-types'
 
 type StarFilter = 0 | 1 | 2 | 3 | 4 | 5
 

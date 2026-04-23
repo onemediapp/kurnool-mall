@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { User, MapPin, ClipboardList, LogOut, ChevronRight, Globe, Heart, Bell, Gift, HelpCircle, Settings } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Button, Spinner } from '@/components/shared'
-import { getLoyaltyTier, TIER_CONFIG } from '@/lib/utils'
-import type { User as UserType, LoyaltyAccount } from '@/lib/types'
+import { getLoyaltyTier, TIER_CONFIG } from '@kurnool-mall/shared-utils'
+import type { User as UserType, LoyaltyAccount } from '@kurnool-mall/shared-types'
 
 const QUICK_LINKS = [
   { icon: ClipboardList, label: 'My Orders', href: '/orders', color: 'bg-blue-50 text-[#1A56DB]' },

@@ -7,8 +7,8 @@ import { Minus, Plus, Trash2, ShoppingBag, Tag } from 'lucide-react'
 import { useCartStore } from '@/lib/hooks/use-cart'
 import { Button, EmptyState, Divider, Spinner, ConfirmDialog, ProgressBar, AlertBanner } from '@/components/shared'
 import { UpsellWidget } from '@/components/shared/upsell-widget'
-import { formatPrice, calculateDeliveryFee } from '@/lib/utils'
-import type { CouponValidation } from '@/lib/types'
+import { formatPrice, calculateDeliveryFee } from '@kurnool-mall/shared-utils'
+import type { CouponValidation } from '@kurnool-mall/shared-types'
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, clearCart, totalPrice } = useCartStore()

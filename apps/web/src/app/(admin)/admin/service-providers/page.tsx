@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@kurnool-mall/supabase-client/browser';
 import { CheckCircle, XCircle, Edit2, Trash2, Search, Star } from 'lucide-react';
 
 interface ServiceProvider {

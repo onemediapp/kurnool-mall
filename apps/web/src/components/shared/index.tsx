@@ -12,9 +12,9 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
-import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS, getCountdown } from '@/lib/utils'
-import type { OrderStatus } from '@/lib/types'
+import { cn } from '@kurnool-mall/shared-utils'
+import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS, getCountdown } from '@kurnool-mall/shared-utils'
+import type { OrderStatus } from '@kurnool-mall/shared-types'
 import { useCartStore } from '@/lib/hooks/use-cart'
 
 // ─────────────────────────────────────────────────────────────
@@ -860,7 +860,7 @@ export function NotificationBell({ className }: { className?: string }) {
 
   useEffect(() => {
     setMounted(true)
-    import('@/lib/supabase/client').then(({ createClient }) => {
+    import('@kurnool-mall/supabase-client/browser').then(({ createClient }) => {
       const supabase = createClient()
       supabase.auth.getUser().then(({ data: { user } }) => {
         if (!user) return

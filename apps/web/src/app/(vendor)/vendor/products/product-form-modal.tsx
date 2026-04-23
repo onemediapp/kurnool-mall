@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { X, Upload, Trash2 } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Button } from '@/components/shared'
-import type { Product, Category } from '@/lib/types'
+import type { Product, Category } from '@kurnool-mall/shared-types'
 
 const UNITS = ['piece', 'kg', 'gram', 'litre', 'ml', 'pack', 'dozen', 'metre', 'box', 'bag', 'bundle']
 const MAX_IMAGES = 5

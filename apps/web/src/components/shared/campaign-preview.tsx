@@ -1,7 +1,7 @@
 'use client'
 
 import { Bell, MessageCircle, Mail, Monitor, Image as ImageIcon } from 'lucide-react'
-import type { CampaignType, CampaignContent } from '@/lib/types'
+import type { CampaignType, CampaignContent } from '@kurnool-mall/shared-types'
 
 interface CampaignPreviewProps {
   type: CampaignType

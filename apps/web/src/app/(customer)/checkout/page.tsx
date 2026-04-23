@@ -4,12 +4,13 @@ import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { MapPin, Plus, Home, Briefcase, Banknote, Smartphone, CreditCard, Zap, Calendar, Clock } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
+import { createApiClient } from '@kurnool-mall/api-client'
 import { useCartStore } from '@/lib/hooks/use-cart'
 import { Button, Spinner, Divider, AlertBanner } from '@/components/shared'
-import { formatPrice, calculateDeliveryFee } from '@/lib/utils'
+import { formatPrice, calculateDeliveryFee } from '@kurnool-mall/shared-utils'
 import { toast } from '@/components/shared/toast'
-import type { Address, PaymentMethod } from '@/lib/types'
+import type { Address, PaymentMethod } from '@kurnool-mall/shared-types'
 
 declare global {
   interface Window {
@@ -107,33 +108,25 @@ function CheckoutContent() {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) { router.push('/login'); return }
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/create-order`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${session.access_token}`,
-          },
-          body: JSON.stringify({
-            vendor_id,
-            items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity })),
-            delivery_address_id: selectedAddressId,
-            payment_method: 'cod',
-            notes: '',
-            coupon_code: couponCode || undefined,
-          }),
-        },
-      )
-
-      const result = await res.json()
-      if (!res.ok || result.error) {
-        toast.error(result.error?.message ?? 'Failed to place order. Please try again.')
+      const api = createApiClient({
+        supabase,
+        apiUrl: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1`,
+      })
+      const { data, error } = await api.createOrder({
+        vendor_id,
+        items: items.map((i) => ({ product_id: i.product_id, quantity: i.quantity })),
+        delivery_address_id: selectedAddressId,
+        payment_method: 'cod',
+        notes: '',
+        coupon_code: couponCode || undefined,
+      })
+      if (error || !data) {
+        toast.error(error?.message ?? 'Failed to place order. Please try again.')
         return
       }
 
       clearCart()
-      router.push(`/orders/${result.data.order.id}?success=true`)
+      router.push(`/orders/${data.order.id}?success=true`)
     } catch {
       toast.error('Something went wrong. Please try again.')
     } finally {

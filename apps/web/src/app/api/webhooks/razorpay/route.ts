@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
-import { createAdminClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@kurnool-mall/supabase-client/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.text()

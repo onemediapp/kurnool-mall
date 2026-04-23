@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, Badge, KPICard } from '@/components/shared'
 import { CampaignPreview } from '@/components/shared/campaign-preview'
-import { formatDate, CAMPAIGN_TYPE_LABELS, CAMPAIGN_STATUS_COLORS } from '@/lib/utils'
-import type { Campaign } from '@/lib/types'
+import { formatDate, CAMPAIGN_TYPE_LABELS, CAMPAIGN_STATUS_COLORS } from '@kurnool-mall/shared-utils'
+import type { Campaign } from '@kurnool-mall/shared-types'
 
 export default function CampaignDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter()

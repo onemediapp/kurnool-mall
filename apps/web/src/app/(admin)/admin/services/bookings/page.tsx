@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { X, Download, Search } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import {
   Spinner, BookingStatusBadge, DataTable, Button,
   type DataTableColumn,
 } from '@/components/shared'
 import { exportToCSV } from '@/lib/utils/export'
-import { formatDate, formatPrice, BOOKING_STATUS_LABELS } from '@/lib/utils'
-import type { ServiceBooking, BookingStatus } from '@/lib/types'
+import { formatDate, formatPrice, BOOKING_STATUS_LABELS } from '@kurnool-mall/shared-utils'
+import type { ServiceBooking, BookingStatus } from '@kurnool-mall/shared-types'
 
 const STATUS_TABS: { label: string; value: BookingStatus | 'all' }[] = [
   { label: 'All', value: 'all' },

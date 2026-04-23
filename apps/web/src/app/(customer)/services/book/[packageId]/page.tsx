@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Clock, MapPin } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { StepWizard, Spinner, type WizardStep } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import { formatPrice, formatDate } from '@/lib/utils'
-import type { ServicePackage, Address } from '@/lib/types'
+import { formatPrice, formatDate } from '@kurnool-mall/shared-utils'
+import type { ServicePackage, Address } from '@kurnool-mall/shared-types'
 
 interface Props {
   params: { packageId: string }

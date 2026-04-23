@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import type { User, UserRole } from '@/lib/types'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
+import type { User, UserRole } from '@kurnool-mall/shared-types'
 
 interface AuthState {
   user: User | null

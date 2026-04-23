@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { formatPrice, cn } from '@/lib/utils'
+import { formatPrice, cn } from '@kurnool-mall/shared-utils'
 
 interface ServiceCategoryCardProps {
   slug: string

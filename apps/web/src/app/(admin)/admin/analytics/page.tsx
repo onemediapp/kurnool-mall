@@ -7,18 +7,18 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { Download } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Tabs, Spinner, KPICard, Button, DataTable, type DataTableColumn } from '@/components/shared'
 import { DateRangePicker } from '@/components/shared/date-range-picker'
 import { exportToPDF } from '@/lib/utils/export'
-import { formatPrice, formatCompact, CHART_COLORS, formatDate } from '@/lib/utils'
+import { formatPrice, formatCompact, CHART_COLORS, formatDate } from '@kurnool-mall/shared-utils'
 import {
   buildHeatmapGrid, DOW_LABELS, buildFunnel,
   groupRFMByLabel, RFM_LABEL_COLORS,
   cohortMatrixToRows, cohortCellTint,
 } from '@/lib/utils/analytics'
 import type { DateRange } from 'react-day-picker'
-import type { RevenueStream, RFMSegment, CohortRow, HeatmapCell } from '@/lib/types'
+import type { RevenueStream, RFMSegment, CohortRow, HeatmapCell } from '@kurnool-mall/shared-types'
 
 function defaultRange(): DateRange {
   const to = new Date()

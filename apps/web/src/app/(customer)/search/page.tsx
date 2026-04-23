@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { X } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { ProductCard } from '@/components/customer/product-card'
 import { Spinner, SearchInput } from '@/components/shared'
-import type { Product, Category } from '@/lib/types'
+import type { Product, Category } from '@kurnool-mall/shared-types'
 
 const RECENT_KEY = 'km-recent-searches'
 const MAX_RECENT = 8

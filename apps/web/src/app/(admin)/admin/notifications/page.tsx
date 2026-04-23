@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { Spinner, Tabs, EmptyState, Button, Badge } from '@/components/shared'
 import { toast } from '@/components/shared/toast'
-import { formatDate } from '@/lib/utils'
-import type { NotificationLogEntry } from '@/lib/types'
+import { formatDate } from '@kurnool-mall/shared-utils'
+import type { NotificationLogEntry } from '@kurnool-mall/shared-types'
 
 type Filter = 'all' | 'order' | 'booking' | 'promo' | 'system'
 

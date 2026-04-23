@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@kurnool-mall/supabase-client/server'
 import { EmptyState } from '@/components/shared'
-import { formatPrice, SERVICE_CATEGORY_META } from '@/lib/utils'
-import type { ServiceCategory, ServicePackage, ServiceCategorySlug } from '@/lib/types'
+import { formatPrice, SERVICE_CATEGORY_META } from '@kurnool-mall/shared-utils'
+import type { ServiceCategory, ServicePackage, ServiceCategorySlug } from '@kurnool-mall/shared-types'
 import { ArrowLeft, Clock } from 'lucide-react'
 
 interface Props {

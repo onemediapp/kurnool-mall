@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@kurnool-mall/supabase-client/server'
 import { BookingStatusBadge, EmptyState } from '@/components/shared'
-import { formatDate, formatPrice } from '@/lib/utils'
-import type { ServiceBooking } from '@/lib/types'
+import { formatDate, formatPrice } from '@kurnool-mall/shared-utils'
+import type { ServiceBooking } from '@kurnool-mall/shared-types'
 import { ArrowLeft, Calendar, ChevronRight } from 'lucide-react'
 
 export const metadata = { title: 'My Service Bookings — Kurnool Mall' }

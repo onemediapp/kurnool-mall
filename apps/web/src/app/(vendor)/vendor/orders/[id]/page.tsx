@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Phone, MapPin, Package, X } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@kurnool-mall/supabase-client/browser'
 import { OrderStatusBadge, Spinner, Divider } from '@/components/shared'
-import { formatDate, formatPrice } from '@/lib/utils'
-import type { Order } from '@/lib/types'
+import { formatDate, formatPrice } from '@kurnool-mall/shared-utils'
+import type { Order } from '@kurnool-mall/shared-types'
 
 function RejectModal({
   onConfirm,
