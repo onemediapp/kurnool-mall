@@ -6,11 +6,11 @@ export { toast } from 'sonner'
 export function Toaster() {
   return (
     <SonnerToaster
-      position="bottom-center"
-      offset={80}
+      position="top-center"
+      duration={3000}
       toastOptions={{
         style: {
-          fontFamily: "'Plus Jakarta Sans', 'Noto Sans Telugu', system-ui, sans-serif",
+          fontFamily: "'Inter', 'Noto Sans Telugu', system-ui, sans-serif",
           borderRadius: '0.75rem',
           fontSize: '14px',
         },

@@ -45,6 +45,9 @@ export default function AdminMarketingPage() {
   const [couponLimit, setCouponLimit] = useState('')
   const [couponSaving, setCouponSaving] = useState(false)
 
+  // Banner drag state
+  const [bannerDragId, setBannerDragId] = useState<string | null>(null)
+
   // Broadcast modal
   const [showBroadcastModal, setShowBroadcastModal] = useState(false)
   const [bcastTitle, setBcastTitle] = useState('')
@@ -64,6 +67,21 @@ export default function AdminMarketingPage() {
       setLoading(false)
     })
   }, [])
+
+  async function reorderBanners(targetId: string) {
+    if (!bannerDragId || bannerDragId === targetId) { setBannerDragId(null); return }
+    const source = banners.find((b) => b.id === bannerDragId)
+    const targetIdx = banners.findIndex((b) => b.id === targetId)
+    if (!source || targetIdx < 0) { setBannerDragId(null); return }
+    const next = banners.filter((b) => b.id !== bannerDragId)
+    next.splice(targetIdx, 0, source)
+    setBanners(next)
+    setBannerDragId(null)
+    const supabase = createClient()
+    await Promise.all(
+      next.map((b, i) => supabase.from('banners').update({ sort_order: i }).eq('id', b.id))
+    )
+  }
 
   async function toggleBanner(id: string, current: boolean) {
     const supabase = createClient()
@@ -230,22 +248,49 @@ export default function AdminMarketingPage() {
                   <Plus className="h-4 w-4" /> Add Banner
                 </button>
               </div>
-              <div className="space-y-3">
+              <p className="text-xs text-gray-500 mb-3">Drag cards to reorder. Preview shows how customers see each banner (16:7 rounded-2xl).</p>
+              <div className="space-y-4">
                 {banners.map((banner) => (
-                  <div key={banner.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-8 rounded-lg" style={{ background: banner.bg_color || '#1E3A5F' }} />
-                      <div>
+                  <div
+                    key={banner.id}
+                    draggable
+                    onDragStart={() => setBannerDragId(banner.id)}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={() => reorderBanners(banner.id)}
+                    className={`bg-white rounded-xl border border-gray-100 shadow-sm p-4 ${bannerDragId === banner.id ? 'opacity-40' : ''}`}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="cursor-grab text-gray-400">⋮⋮</span>
+                        <span className="text-xs font-mono text-gray-400">#{banner.sort_order + 1}</span>
                         <p className="text-sm font-semibold text-gray-900">{banner.title_en}</p>
-                        {banner.subtitle_en && <p className="text-xs text-gray-500">{banner.subtitle_en}</p>}
+                      </div>
+                      <button
+                        onClick={() => toggleBanner(banner.id, banner.is_active)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold ${banner.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
+                      >
+                        {banner.is_active ? 'Active' : 'Inactive'}
+                      </button>
+                    </div>
+                    {/* Live preview — matches customer view */}
+                    <div
+                      className="relative rounded-2xl overflow-hidden aspect-[16/7] flex flex-col justify-center p-5"
+                      style={{ background: banner.bg_color || '#1E3A5F' }}
+                    >
+                      {banner.image_url && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={banner.image_url} alt="" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+                      )}
+                      <div className="relative">
+                        <p className="text-white text-lg font-bold">{banner.title_en}</p>
+                        {banner.subtitle_en && <p className="text-white/90 text-sm mt-1">{banner.subtitle_en}</p>}
+                        {banner.cta_text_en && (
+                          <span className="inline-block mt-2 bg-white/20 backdrop-blur text-white text-xs font-semibold rounded-full px-3 py-1">
+                            {banner.cta_text_en}
+                          </span>
+                        )}
                       </div>
                     </div>
-                    <button
-                      onClick={() => toggleBanner(banner.id, banner.is_active)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold ${banner.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
-                    >
-                      {banner.is_active ? 'Active' : 'Inactive'}
-                    </button>
                   </div>
                 ))}
                 {banners.length === 0 && <p className="text-center text-gray-400 py-8">No banners yet</p>}

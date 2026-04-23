@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   Home,
-  ShoppingBag,
+  Search,
   ShoppingCart,
   Wrench,
   Calendar,
@@ -19,7 +19,7 @@ import { useUIMode } from '@/lib/hooks/use-ui-mode'
 
 const shoppingNavItems = [
   { href: '/', label: 'Home', icon: Home, exact: true },
-  { href: '/shopping', label: 'Shop', icon: ShoppingBag, exact: false },
+  { href: '/search', label: 'Search', icon: Search, exact: false },
   { href: '/cart', label: 'Cart', icon: ShoppingCart, exact: false },
   { href: '/orders', label: 'Orders', icon: ClipboardList, exact: false },
   { href: '/account', label: 'Account', icon: User, exact: false },

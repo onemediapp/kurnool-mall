@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Search, ShoppingCart, Wrench, ClipboardList, User } from 'lucide-react'
+import { Home, Search, ShoppingCart, ClipboardList, User } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useCartStore } from '@/lib/hooks/use-cart'
@@ -11,7 +11,7 @@ import { useUIMode } from '@/lib/hooks/use-ui-mode'
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home, exact: true },
-  { href: '/services', label: 'Services', icon: Wrench, exact: false },
+  { href: '/search', label: 'Search', icon: Search, exact: false },
   { href: '/cart', label: 'Cart', icon: ShoppingCart, exact: false },
   { href: '/orders', label: 'Orders', icon: ClipboardList, exact: false },
   { href: '/account', label: 'Account', icon: User, exact: false },

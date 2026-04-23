@@ -190,6 +190,8 @@ async function seed() {
     { name_en: 'Kurnool Groundnut Oil 1L', name_te: 'కర్నూలు వేరుశెనగ నూనె 1లీ', category_id: CATEGORY_IDS.grocery, price_mrp: 200, price_selling: 185, unit: 'litre', stock_qty: 50 },
     { name_en: 'Kaju Barfi 500g', name_te: 'కాజు బర్ఫీ 500గ్రా', category_id: CATEGORY_IDS.sweetsSnacks, price_mrp: 350, price_selling: 320, unit: 'pack', stock_qty: 30 },
     { name_en: 'Mixed Chakali 200g', name_te: 'మిక్స్ చకిలి 200గ్రా', category_id: CATEGORY_IDS.sweetsSnacks, price_mrp: 80, price_selling: 70, unit: 'pack', stock_qty: 50 },
+    { name_en: 'Farm Fresh Eggs (Tray 30)', name_te: 'తాజా కోడిగుడ్లు (30 ట్రే)', category_id: CATEGORY_IDS.grocery, price_mrp: 240, price_selling: 215, unit: 'pack', stock_qty: 70 },
+    { name_en: 'Chilli Powder 500g', name_te: 'కారం పొడి 500గ్రా', category_id: CATEGORY_IDS.grocery, price_mrp: 180, price_selling: 160, unit: 'pack', stock_qty: 45 },
   ]
 
   for (const product of vendor1Products) {
@@ -211,6 +213,8 @@ async function seed() {
     { name_en: 'Bread Loaf (400g)', name_te: 'బ్రెడ్ లోఫ్ (400గ్రా)', category_id: CATEGORY_IDS.sweetsSnacks, price_mrp: 50, price_selling: 45, unit: 'piece', stock_qty: 80 },
     { name_en: 'Chocolate Pastry', name_te: 'చాకలేట్ పేస్ట్రీ', category_id: CATEGORY_IDS.sweetsSnacks, price_mrp: 80, price_selling: 70, unit: 'piece', stock_qty: 30 },
     { name_en: 'Kurnool Special Halwa 500g', name_te: 'కర్నూలు స్పెషల్ హల్వా 500గ్రా', category_id: CATEGORY_IDS.sweetsSnacks, price_mrp: 180, price_selling: 160, unit: 'pack', stock_qty: 25 },
+    { name_en: 'Veg Puff (4 pcs)', name_te: 'వెజ్ పఫ్ (4 పీసెస్)', category_id: CATEGORY_IDS.sweetsSnacks, price_mrp: 80, price_selling: 72, unit: 'pack', stock_qty: 40 },
+    { name_en: 'Hot Masala Mixture 250g', name_te: 'హాట్ మసాలా మిక్చర్ 250గ్రా', category_id: CATEGORY_IDS.sweetsSnacks, price_mrp: 90, price_selling: 80, unit: 'pack', stock_qty: 55 },
   ]
 
   for (const product of vendor2Products) {
@@ -232,6 +236,8 @@ async function seed() {
     { name_en: 'CP Ball Valve 1/2"', name_te: 'సిపి బాల్ వాల్వ్ 1/2"', category_id: CATEGORY_IDS.plumbing, price_mrp: 180, price_selling: 150, unit: 'piece', stock_qty: 60 },
     { name_en: 'ACC Cement 50kg Bag', name_te: 'ఏసిసి సిమెంట్ 50కి.గ్రా బస్తా', category_id: CATEGORY_IDS.buildingMaterials, price_mrp: 390, price_selling: 360, unit: 'bag', stock_qty: 200 },
     { name_en: 'Red Bricks (per 100)', name_te: 'ఎర్ర ఇటుకలు (100కి)', category_id: CATEGORY_IDS.buildingMaterials, price_mrp: 800, price_selling: 700, unit: 'bundle', stock_qty: 50 },
+    { name_en: 'LED Bulb 9W B22 (Pack 4)', name_te: 'ఎల్ఈడీ బల్బ్ 9W B22 (4 ప్యాక్)', category_id: CATEGORY_IDS.electricals, price_mrp: 600, price_selling: 480, unit: 'pack', stock_qty: 70 },
+    { name_en: 'Teflon Tape 12mm', name_te: 'టెఫ్లాన్ టేప్ 12మి.మీ', category_id: CATEGORY_IDS.plumbing, price_mrp: 30, price_selling: 22, unit: 'piece', stock_qty: 120 },
   ]
 
   for (const product of vendor3Products) {
@@ -241,6 +247,159 @@ async function seed() {
     )
   }
   console.log(`  ✓ Added ${vendor3Products.length} products`)
+
+  // ── Vendor 4: Krishna Fashion House ───────────────────────
+  console.log('Creating vendor 4: Krishna Fashion House...')
+  const v4UserId = await createUser('+919000000005', 'vendor', 'Krishna Murthy')
+  createdUsers.push({ phone: '+919000000005', name: 'Krishna Murthy', role: 'vendor', id: v4UserId })
+
+  const { data: vendor4 } = await supabase
+    .from('vendors')
+    .upsert(
+      {
+        user_id: v4UserId,
+        shop_name: 'Krishna Fashion House',
+        description: 'Latest ethnic wear, sarees and menswear in Kurnool',
+        category_ids: [CATEGORY_IDS.fashion],
+        kyc_status: 'approved',
+        is_active: true,
+        commission_rate: 12,
+        address_line: 'Park Road, Opp. SBI, Kurnool',
+        rating: 4.30,
+        rating_count: 112,
+      },
+      { onConflict: 'user_id' }
+    )
+    .select()
+    .single()
+
+  if (!vendor4) throw new Error('Failed to create vendor 4')
+  console.log(`  ✓ Vendor 4: ${vendor4.id}`)
+
+  console.log('Adding products for Krishna Fashion House...')
+  const vendor4Products = [
+    { name_en: 'Cotton Saree (Handloom)', name_te: 'కాటన్ చీర (హ్యాండ్లూమ్)', category_id: CATEGORY_IDS.fashion, price_mrp: 1200, price_selling: 990, unit: 'piece', stock_qty: 25 },
+    { name_en: "Men's Cotton Shirt", name_te: 'పురుషుల కాటన్ షర్ట్', category_id: CATEGORY_IDS.fashion, price_mrp: 800, price_selling: 650, unit: 'piece', stock_qty: 40 },
+    { name_en: 'Kurti Set (Women)', name_te: 'కుర్తీ సెట్ (మహిళలు)', category_id: CATEGORY_IDS.fashion, price_mrp: 1500, price_selling: 1200, unit: 'piece', stock_qty: 30 },
+    { name_en: 'Silk Saree (Festive)', name_te: 'సిల్క్ చీర (పండుగ)', category_id: CATEGORY_IDS.fashion, price_mrp: 3500, price_selling: 2800, unit: 'piece', stock_qty: 15 },
+    { name_en: "Kids' T-Shirt", name_te: 'పిల్లల టీ-షర్ట్', category_id: CATEGORY_IDS.fashion, price_mrp: 400, price_selling: 320, unit: 'piece', stock_qty: 50 },
+    { name_en: 'Dhoti (White)', name_te: 'ధోతి (తెల్లని)', category_id: CATEGORY_IDS.fashion, price_mrp: 600, price_selling: 520, unit: 'piece', stock_qty: 35 },
+    { name_en: 'Jeans (Men) 32"', name_te: 'జీన్స్ (పురుషులు) 32"', category_id: CATEGORY_IDS.fashion, price_mrp: 1500, price_selling: 1150, unit: 'piece', stock_qty: 25 },
+    { name_en: 'Leggings (Pack 2)', name_te: 'లెగ్గింగ్స్ (2 ప్యాక్)', category_id: CATEGORY_IDS.fashion, price_mrp: 700, price_selling: 550, unit: 'pack', stock_qty: 45 },
+    { name_en: 'Dupatta (Embroidered)', name_te: 'దుపట్టా (ఎంబ్రాయిడరీ)', category_id: CATEGORY_IDS.fashion, price_mrp: 500, price_selling: 410, unit: 'piece', stock_qty: 40 },
+    { name_en: "Boy's Ethnic Kurta Set", name_te: 'అబ్బాయి ఎత్నిక్ కుర్తా సెట్', category_id: CATEGORY_IDS.fashion, price_mrp: 1000, price_selling: 820, unit: 'piece', stock_qty: 20 },
+  ]
+
+  for (const product of vendor4Products) {
+    await supabase.from('products').upsert(
+      { ...product, vendor_id: vendor4.id, is_available: true, description_en: null, description_te: null, images: [] },
+      { onConflict: 'id', ignoreDuplicates: false }
+    )
+  }
+  console.log(`  ✓ Added ${vendor4Products.length} products`)
+
+  // ── Vendor 5: Saraswati Stationery ────────────────────────
+  console.log('Creating vendor 5: Saraswati Stationery...')
+  const v5UserId = await createUser('+919000000006', 'vendor', 'Saraswati Devi')
+  createdUsers.push({ phone: '+919000000006', name: 'Saraswati Devi', role: 'vendor', id: v5UserId })
+
+  const { data: vendor5 } = await supabase
+    .from('vendors')
+    .upsert(
+      {
+        user_id: v5UserId,
+        shop_name: 'Saraswati Stationery',
+        description: 'School and office stationery, books, and gifting',
+        category_ids: [CATEGORY_IDS.stationery],
+        kyc_status: 'approved',
+        is_active: true,
+        commission_rate: 9,
+        address_line: 'College Road, Near Silver Jubilee, Kurnool',
+        rating: 4.40,
+        rating_count: 67,
+      },
+      { onConflict: 'user_id' }
+    )
+    .select()
+    .single()
+
+  if (!vendor5) throw new Error('Failed to create vendor 5')
+  console.log(`  ✓ Vendor 5: ${vendor5.id}`)
+
+  console.log('Adding products for Saraswati Stationery...')
+  const vendor5Products = [
+    { name_en: 'Classmate Notebook 200 pages', name_te: 'క్లాస్‌మేట్ నోట్‌బుక్ 200 పేజీలు', category_id: CATEGORY_IDS.stationery, price_mrp: 90, price_selling: 75, unit: 'piece', stock_qty: 200 },
+    { name_en: 'Reynolds Ball Pen (Pack 10)', name_te: 'రెయినాల్డ్స్ బాల్ పెన్ (10 ప్యాక్)', category_id: CATEGORY_IDS.stationery, price_mrp: 100, price_selling: 85, unit: 'pack', stock_qty: 150 },
+    { name_en: 'A4 Paper Ream 500 sheets', name_te: 'A4 పేపర్ రీమ్ 500 షీట్స్', category_id: CATEGORY_IDS.stationery, price_mrp: 340, price_selling: 295, unit: 'pack', stock_qty: 50 },
+    { name_en: "Camlin Kokuyo Geometry Box", name_te: 'కామ్లిన్ జామెట్రీ బాక్స్', category_id: CATEGORY_IDS.stationery, price_mrp: 180, price_selling: 145, unit: 'piece', stock_qty: 80 },
+    { name_en: 'Stapler (Kangaro 10)', name_te: 'స్టాప్లర్ (కాంగరూ 10)', category_id: CATEGORY_IDS.stationery, price_mrp: 120, price_selling: 95, unit: 'piece', stock_qty: 60 },
+    { name_en: 'Pencil HB (Pack 10)', name_te: 'పెన్సిల్ HB (10 ప్యాక్)', category_id: CATEGORY_IDS.stationery, price_mrp: 50, price_selling: 42, unit: 'pack', stock_qty: 180 },
+    { name_en: 'Sticky Notes (3 Pads)', name_te: 'స్టిక్కీ నోట్స్ (3 ప్యాడ్స్)', category_id: CATEGORY_IDS.stationery, price_mrp: 110, price_selling: 90, unit: 'pack', stock_qty: 90 },
+    { name_en: 'File Folder (10 Pack)', name_te: 'ఫైల్ ఫోల్డర్ (10 ప్యాక్)', category_id: CATEGORY_IDS.stationery, price_mrp: 250, price_selling: 210, unit: 'pack', stock_qty: 70 },
+    { name_en: 'Drawing Book A3', name_te: 'డ్రాయింగ్ బుక్ A3', category_id: CATEGORY_IDS.stationery, price_mrp: 140, price_selling: 115, unit: 'piece', stock_qty: 55 },
+    { name_en: 'Permanent Marker (Pack 4)', name_te: 'పర్మనెంట్ మార్కర్ (4 ప్యాక్)', category_id: CATEGORY_IDS.stationery, price_mrp: 160, price_selling: 135, unit: 'pack', stock_qty: 75 },
+  ]
+
+  for (const product of vendor5Products) {
+    await supabase.from('products').upsert(
+      { ...product, vendor_id: vendor5.id, is_available: true, description_en: null, description_te: null, images: [] },
+      { onConflict: 'id', ignoreDuplicates: false }
+    )
+  }
+  console.log(`  ✓ Added ${vendor5Products.length} products`)
+
+  // ── Banners ───────────────────────────────────────────────
+  console.log('\nSeeding banners...')
+  const BANNER_IDS = [
+    '22222222-0000-0000-0000-000000000001',
+    '22222222-0000-0000-0000-000000000002',
+    '22222222-0000-0000-0000-000000000003',
+  ]
+  await supabase.from('banners').upsert([
+    {
+      id: BANNER_IDS[0],
+      title_en: 'Free Delivery Above ₹299',
+      title_te: '₹299 పైన ఫ్రీ డెలివరీ',
+      subtitle_en: 'On all grocery orders — limited time',
+      subtitle_te: 'అన్ని కిరాణా ఆర్డర్లపై',
+      cta_text_en: 'Shop Now',
+      cta_text_te: 'ఇప్పుడే షాప్',
+      cta_url: '/categories/grocery',
+      bg_color: '#FC8019',
+      image_url: '',
+      sort_order: 0,
+      is_active: true,
+    },
+    {
+      id: BANNER_IDS[1],
+      title_en: 'New Vendor: Krishna Fashion',
+      title_te: 'కొత్త విక్రేత: కృష్ణ ఫ్యాషన్',
+      subtitle_en: 'Up to 30% off on ethnic wear',
+      subtitle_te: 'ఎథ్నిక్ వేర్‌పై 30% వరకు తగ్గింపు',
+      cta_text_en: 'Explore',
+      cta_text_te: 'చూడండి',
+      cta_url: '/categories/fashion',
+      bg_color: '#7C3AED',
+      image_url: '',
+      sort_order: 1,
+      is_active: true,
+    },
+    {
+      id: BANNER_IDS[2],
+      title_en: 'Home Services — Coming Soon',
+      title_te: 'హోమ్ సర్వీసెస్ — త్వరలో వస్తుంది',
+      subtitle_en: 'Plumbing, electrical, cleaning — book in 2 taps',
+      subtitle_te: 'ప్లంబింగ్, ఎలక్ట్రికల్, క్లీనింగ్',
+      cta_text_en: 'Notify Me',
+      cta_text_te: 'నాకు తెలియజేయండి',
+      cta_url: '/services',
+      bg_color: '#1E3A5F',
+      image_url: '',
+      sort_order: 2,
+      is_active: true,
+    },
+  ], { onConflict: 'id' })
+  console.log('  ✓ 3 banners seeded')
 
   // ── Summary table ──────────────────────────────────────────
   console.log('\n' + '═'.repeat(60))
@@ -258,6 +417,8 @@ async function seed() {
   console.log('  Vendor 1: +919000000002')
   console.log('  Vendor 2: +919000000003')
   console.log('  Vendor 3: +919000000004')
+  console.log('  Vendor 4: +919000000005')
+  console.log('  Vendor 5: +919000000006')
 }
 
 seed().catch((err) => {

@@ -2,12 +2,23 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
-import { Plus, Pencil, Package, Search, X } from 'lucide-react'
+import { Plus, Pencil, Package, Search, X, Upload } from 'lucide-react'
+import Papa from 'papaparse'
 import { createClient } from '@/lib/supabase/client'
 import { Button, Spinner, EmptyState, Badge } from '@/components/shared'
 import { formatPrice } from '@/lib/utils'
 import { ProductFormModal } from './product-form-modal'
 import type { Product, Vendor, Category } from '@/lib/types'
+
+interface CsvRow {
+  name_en: string
+  name_te?: string
+  category_slug?: string
+  price_mrp?: string
+  price_selling: string
+  stock_qty?: string
+  unit?: string
+}
 
 export default function VendorProductsPage() {
   const [vendor, setVendor] = useState<Vendor | null>(null)
@@ -20,10 +31,64 @@ export default function VendorProductsPage() {
   const [search, setSearch] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState<'all' | 'available' | 'hidden'>('all')
+  const [csvRows, setCsvRows] = useState<CsvRow[] | null>(null)
+  const [csvImporting, setCsvImporting] = useState(false)
+  const [csvError, setCsvError] = useState<string | null>(null)
 
   useEffect(() => {
     loadData()
   }, [])
+
+  function handleCsvFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setCsvError(null)
+    Papa.parse<CsvRow>(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (res) => {
+        const valid = res.data.filter((r) => r.name_en && r.price_selling)
+        if (valid.length === 0) {
+          setCsvError('No valid rows found. Required columns: name_en, price_selling.')
+          return
+        }
+        setCsvRows(valid)
+      },
+      error: (err) => setCsvError('Parse failed: ' + err.message),
+    })
+    e.target.value = ''
+  }
+
+  async function importCsvRows() {
+    if (!csvRows || !vendor) return
+    setCsvImporting(true)
+    try {
+      const slugToId = new Map(categories.map((c) => [c.slug, c.id]))
+      const fallbackCategoryId = categories[0]?.id
+      const payload = csvRows.map((r) => ({
+        vendor_id: vendor.id,
+        category_id: (r.category_slug && slugToId.get(r.category_slug)) || fallbackCategoryId,
+        name_en: r.name_en.trim(),
+        name_te: (r.name_te ?? '').trim(),
+        price_mrp: Number(r.price_mrp) || Number(r.price_selling),
+        price_selling: Number(r.price_selling),
+        stock_qty: Number(r.stock_qty) || 0,
+        unit: r.unit || 'piece',
+        is_available: true,
+        images: [],
+      }))
+      const supabase = createClient()
+      const { error } = await supabase.from('products').insert(payload)
+      if (error) {
+        setCsvError(error.message)
+        return
+      }
+      setCsvRows(null)
+      loadData()
+    } finally {
+      setCsvImporting(false)
+    }
+  }
 
   async function loadData() {
     try {
@@ -113,10 +178,60 @@ export default function VendorProductsPage() {
           <h1 className="text-2xl font-bold text-gray-900">Products</h1>
           <p className="text-sm text-gray-500 mt-0.5">{products.length} products listed</p>
         </div>
-        <Button size="md" onClick={openAdd} className="gap-2">
-          <Plus className="h-4 w-4" /> Add Product
-        </Button>
+        <div className="flex gap-2">
+          <label className="inline-flex items-center gap-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-xl px-4 h-10 cursor-pointer hover:bg-gray-50">
+            <Upload className="h-4 w-4" /> Import CSV
+            <input type="file" accept=".csv,text/csv" onChange={handleCsvFile} className="sr-only" />
+          </label>
+          <Button size="md" onClick={openAdd} className="gap-2">
+            <Plus className="h-4 w-4" /> Add Product
+          </Button>
+        </div>
       </div>
+
+      {csvError && (
+        <div className="mb-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          {csvError}
+        </div>
+      )}
+
+      {csvRows && (
+        <div className="mb-5 bg-white border border-gray-200 rounded-xl overflow-hidden">
+          <div className="px-4 py-3 border-b flex items-center justify-between">
+            <p className="text-sm font-semibold">CSV Preview — {csvRows.length} rows</p>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={() => setCsvRows(null)}>Cancel</Button>
+              <Button size="sm" loading={csvImporting} onClick={importCsvRows}>Import All</Button>
+            </div>
+          </div>
+          <div className="overflow-x-auto max-h-64">
+            <table className="min-w-full text-xs">
+              <thead className="bg-gray-50 sticky top-0">
+                <tr className="text-left text-gray-500">
+                  <th className="px-3 py-2">Name</th>
+                  <th className="px-3 py-2">Category</th>
+                  <th className="px-3 py-2">MRP</th>
+                  <th className="px-3 py-2">Sell</th>
+                  <th className="px-3 py-2">Stock</th>
+                  <th className="px-3 py-2">Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {csvRows.slice(0, 50).map((r, i) => (
+                  <tr key={i} className="border-t border-gray-100">
+                    <td className="px-3 py-1.5">{r.name_en}</td>
+                    <td className="px-3 py-1.5 text-gray-500">{r.category_slug ?? '—'}</td>
+                    <td className="px-3 py-1.5">{r.price_mrp ?? '—'}</td>
+                    <td className="px-3 py-1.5">{r.price_selling}</td>
+                    <td className="px-3 py-1.5">{r.stock_qty ?? '0'}</td>
+                    <td className="px-3 py-1.5">{r.unit ?? 'piece'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* Search + Filter bar */}
       <div className="flex flex-wrap gap-2 mb-5">

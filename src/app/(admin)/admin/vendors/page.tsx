@@ -258,6 +258,8 @@ export default function AdminVendorsPage() {
   const [activeTab, setActiveTab] = useState<KycStatus | 'all'>('all')
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [selectedVendor, setSelectedVendor] = useState<VendorWithUser | null>(null)
+  const [bulkSelected, setBulkSelected] = useState<Set<string>>(new Set())
+  const [bulkLoading, setBulkLoading] = useState(false)
 
   useEffect(() => {
     loadVendors()
@@ -338,6 +340,48 @@ export default function AdminVendorsPage() {
     }
   }
 
+  function toggleBulk(id: string) {
+    setBulkSelected((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  async function bulkApprove() {
+    const ids = Array.from(bulkSelected)
+    if (ids.length === 0) return
+    setBulkLoading(true)
+    try {
+      const supabase = createClient()
+      const targets = vendors.filter((v) => ids.includes(v.id))
+      await supabase.from('vendors').update({ kyc_status: 'approved', is_active: true }).in('id', ids)
+      const userIds = targets.map((v) => v.user_id)
+      if (userIds.length) await supabase.from('users').update({ role: 'vendor' }).in('id', userIds)
+      setVendors((prev) =>
+        prev.map((v) => (ids.includes(v.id) ? { ...v, kyc_status: 'approved' as KycStatus, is_active: true } : v))
+      )
+      setBulkSelected(new Set())
+    } finally {
+      setBulkLoading(false)
+    }
+  }
+
+  async function bulkActivate(active: boolean) {
+    const ids = Array.from(bulkSelected)
+    if (ids.length === 0) return
+    setBulkLoading(true)
+    try {
+      const supabase = createClient()
+      await supabase.from('vendors').update({ is_active: active }).in('id', ids)
+      setVendors((prev) => prev.map((v) => (ids.includes(v.id) ? { ...v, is_active: active } : v)))
+      setBulkSelected(new Set())
+    } finally {
+      setBulkLoading(false)
+    }
+  }
+
   async function saveCommission(vendorId: string, rate: number) {
     const supabase = createClient()
     await supabase.from('vendors').update({ commission_rate: rate }).eq('id', vendorId)
@@ -356,6 +400,40 @@ export default function AdminVendorsPage() {
         <h1 className="text-2xl font-bold text-gray-900">Vendors</h1>
         <p className="text-sm text-gray-500 mt-1">{vendors.length} vendors registered</p>
       </div>
+
+      {bulkSelected.size > 0 && (
+        <div className="mb-5 flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm">
+          <span className="text-sm font-medium text-gray-700">{bulkSelected.size} selected</span>
+          <div className="flex-1" />
+          <button
+            onClick={bulkApprove}
+            disabled={bulkLoading}
+            className="px-3 py-1.5 text-xs font-semibold bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50"
+          >
+            Bulk Approve
+          </button>
+          <button
+            onClick={() => bulkActivate(true)}
+            disabled={bulkLoading}
+            className="px-3 py-1.5 text-xs font-semibold bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
+          >
+            Bulk Activate
+          </button>
+          <button
+            onClick={() => bulkActivate(false)}
+            disabled={bulkLoading}
+            className="px-3 py-1.5 text-xs font-semibold border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+          >
+            Bulk Deactivate
+          </button>
+          <button
+            onClick={() => setBulkSelected(new Set())}
+            className="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-900"
+          >
+            Clear
+          </button>
+        </div>
+      )}
 
       {/* KYC filter tabs */}
       <div className="flex gap-2 mb-5">
@@ -390,6 +468,13 @@ export default function AdminVendorsPage() {
               {/* Header */}
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={bulkSelected.has(vendor.id)}
+                    onChange={() => toggleBulk(vendor.id)}
+                    className="h-4 w-4 rounded border-gray-300 text-shop focus:ring-shop cursor-pointer"
+                    aria-label={`Select ${vendor.shop_name}`}
+                  />
                   <div className="w-12 h-12 bg-brand-light rounded-xl flex items-center justify-center">
                     {vendor.logo_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
