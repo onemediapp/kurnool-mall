@@ -1,0 +1,19 @@
+{
+  "name": "@kurnool-mall/shared-utils",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "dependencies": {
+    "@kurnool-mall/shared-types": "*",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.1"
+  },
+  "scripts": {
+    "lint": "echo 'No lint configured'",
+    "clean": "rm -rf node_modules .turbo"
+  }
+}

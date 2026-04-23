@@ -21,6 +21,13 @@ const securityHeaders = [
 ]
 
 const nextConfig = {
+  transpilePackages: [
+    '@kurnool-mall/shared-types',
+    '@kurnool-mall/shared-utils',
+    '@kurnool-mall/supabase-client',
+    '@kurnool-mall/api-client',
+    '@kurnool-mall/shared-hooks',
+  ],
   images: {
     remotePatterns: [
       {
