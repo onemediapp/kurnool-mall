@@ -1,0 +1,22 @@
+{
+  "name": "@kurnool-mall/shared-hooks",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "dependencies": {
+    "@kurnool-mall/shared-types": "*",
+    "zustand": "^4.5.1"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "scripts": {
+    "lint": "echo 'No lint configured'",
+    "clean": "rm -rf node_modules .turbo"
+  }
+}

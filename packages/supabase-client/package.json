@@ -1,0 +1,26 @@
+{
+  "name": "@kurnool-mall/supabase-client",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./browser": "./browser.ts",
+    "./server": "./server.ts",
+    "./safe-query": "./safe-query.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "peerDependencies": {
+    "@supabase/ssr": "^0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@supabase/ssr": { "optional": true }
+  },
+  "scripts": {
+    "lint": "echo 'No lint configured'",
+    "clean": "rm -rf node_modules .turbo"
+  }
+}

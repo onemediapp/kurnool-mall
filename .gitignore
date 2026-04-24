@@ -40,3 +40,16 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# Turbo
+.turbo/
+
+# Expo
+.expo/
+.expo-shared/
+*.apk
+*.aab
+*.ipa
+
+# TypeScript build info
+*.tsbuildinfo

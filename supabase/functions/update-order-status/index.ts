@@ -1,6 +1,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders, preflight } from '../_shared/cors.ts'
+import { sendPush } from '../_shared/push.ts'
 
 function errorResponse(req: Request, message: string, code: string, status = 400) {
   return new Response(
@@ -139,6 +140,27 @@ serve(async (req) => {
 
     if (updateError || !updatedOrder) {
       return errorResponse(req, 'Failed to update order', 'UPDATE_FAILED', 500)
+    }
+
+    // Customer-visible statuses get a push; internal transitions stay silent.
+    const customerFacing: Record<string, { title: string; body: (n: string) => string }> = {
+      accepted: { title: 'Order accepted', body: (n) => `Order ${n} is being prepared.` },
+      rejected: { title: 'Order rejected', body: (n) => `Order ${n} was rejected.` },
+      preparing: { title: 'Order preparing', body: (n) => `Your order ${n} is being prepared.` },
+      ready: { title: 'Ready for pickup', body: (n) => `Order ${n} is ready. Rider on the way.` },
+      out_for_delivery: { title: 'Out for delivery', body: (n) => `Order ${n} is on its way!` },
+      delivered: { title: 'Delivered', body: (n) => `Order ${n} delivered. Enjoy!` },
+      cancelled: { title: 'Order cancelled', body: (n) => `Order ${n} was cancelled.` },
+    }
+    const notice = customerFacing[updatedOrder.status as string]
+    if (notice && updatedOrder.customer_id) {
+      await sendPush({
+        user_id: updatedOrder.customer_id as string,
+        title: notice.title,
+        body: notice.body(updatedOrder.order_number as string),
+        data: { type: 'order_status', order_id: updatedOrder.id },
+        app: 'customer',
+      })
     }
 
     return successResponse(req, updatedOrder)

@@ -1,0 +1,18 @@
+{
+  "name": "@kurnool-mall/api-client",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "dependencies": {
+    "@kurnool-mall/shared-types": "*",
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "scripts": {
+    "lint": "echo 'No lint configured'",
+    "clean": "rm -rf node_modules .turbo"
+  }
+}

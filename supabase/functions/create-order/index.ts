@@ -1,6 +1,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders, preflight, checkRateLimit } from '../_shared/cors.ts'
+import { sendPush } from '../_shared/push.ts'
 
 function errorResponse(req: Request, message: string, code: string, status = 400) {
   return new Response(
@@ -275,6 +276,23 @@ serve(async (req) => {
       .select('*, order_items(*)')
       .eq('id', order.id)
       .single()
+
+    // Notify the shop owner — resolve vendor.user_id so send-push can look up
+    // their device tokens. Failure is swallowed inside sendPush.
+    const { data: vendorRow } = await adminClient
+      .from('vendors')
+      .select('user_id, shop_name')
+      .eq('id', vendor_id)
+      .single()
+    if (vendorRow?.user_id) {
+      await sendPush({
+        user_id: vendorRow.user_id,
+        title: 'New order',
+        body: `Order ${order.order_number} placed`,
+        data: { type: 'new_order', order_id: order.id },
+        app: 'vendor',
+      })
+    }
 
     return successResponse(req, {
       order: fullOrder,
