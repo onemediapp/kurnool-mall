@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "Kurnool Mall Vendor",
+    "slug": "kurnool-mall-vendor",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "kurnoolmallvendor",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1A56DB"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.kurnoolmall.vendor",
+      "config": { "usesNonExemptEncryption": false },
+      "infoPlist": {
+        "NSCameraUsageDescription": "Kurnool Mall Vendor uses the camera to photograph products.",
+        "NSPhotoLibraryUsageDescription": "Kurnool Mall Vendor reads the photo library to upload product images."
+      }
+    },
+    "android": {
+      "package": "com.kurnoolmall.vendor",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1A56DB"
+      },
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-image-picker",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#1A56DB"
+        }
+      ]
+    ],
+    "experiments": { "typedRoutes": true },
+    "extra": {
+      "eas": {
+        "projectId": "TO_BE_FILLED_AFTER_EAS_INIT"
+      }
+    }
+  }
+}
