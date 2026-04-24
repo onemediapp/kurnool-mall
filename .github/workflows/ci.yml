@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  typecheck:
+    name: Typecheck + lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install workspace deps
+        run: npm ci
+      - name: Typecheck web
+        run: npx --prefix apps/web tsc --noEmit
+        working-directory: apps/web
+      - name: Typecheck customer mobile
+        run: npx --prefix apps/mobile-customer tsc --noEmit
+        working-directory: apps/mobile-customer
+      - name: Typecheck vendor mobile
+        run: npx --prefix apps/mobile-vendor tsc --noEmit
+        working-directory: apps/mobile-vendor
+      - name: Lint web
+        run: npm run lint --workspace=@kurnool-mall/web
+        continue-on-error: true
