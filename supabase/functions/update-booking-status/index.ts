@@ -1,5 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { sendPush } from '../_shared/push.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -143,6 +144,30 @@ serve(async (req) => {
             .update({ total_jobs: (p.total_jobs ?? 0) + 1 })
             .eq('id', booking.provider_id)
         }
+      })
+    }
+
+    // Customer push on meaningful status changes.
+    const bookingNotice: Record<string, { title: string; body: string }> = {
+      confirmed: { title: 'Booking confirmed', body: 'Your service booking is confirmed.' },
+      rejected: { title: 'Booking rejected', body: 'Your booking was rejected.' },
+      en_route: { title: 'Provider en route', body: 'Your service provider is on the way.' },
+      in_progress: { title: 'Service started', body: 'Your service is now in progress.' },
+      completed: { title: 'Service completed', body: 'Your service is complete. Please pay.' },
+      cancelled: { title: 'Booking cancelled', body: 'Your booking was cancelled.' },
+    }
+    const bn = bookingNotice[(updated?.status as string) ?? '']
+    if (bn && booking.customer_id) {
+      await sendPush({
+        user_id: booking.customer_id,
+        title: bn.title,
+        body: bn.body,
+        data: {
+          type: 'booking_status',
+          booking_id: booking.id,
+          booking_type: 'service',
+        },
+        app: 'customer',
       })
     }
 
