@@ -55,7 +55,7 @@ export default function HomeCarousel({ banners }: HomeCarouselProps) {
           {banner.title_en}
         </h2>
         {banner.cta_text_en && (
-          <span className="inline-flex items-center bg-white text-[#1A56DB] text-xs font-semibold px-3 py-1.5 rounded-full w-fit">
+          <span className="inline-flex items-center bg-white text-shop text-xs font-semibold px-3 py-1.5 rounded-full w-fit">
             {banner.cta_text_en} →
           </span>
         )}

@@ -84,7 +84,7 @@ export default async function ServiceCategoryPage({ params }: Props) {
             title="No packages yet"
             description="We're adding service packages to this category. Check back soon."
             action={
-              <Link href="/services" className="text-sm text-[#1A56DB] font-medium hover:underline">
+              <Link href="/services" className="text-sm text-service font-medium hover:underline">
                 Browse other services
               </Link>
             }
@@ -120,12 +120,12 @@ export default async function ServiceCategoryPage({ params }: Props) {
                     )}
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-base font-bold text-[#1A56DB]">{formatPrice(p.price)}</p>
+                    <p className="text-base font-bold text-service">{formatPrice(p.price)}</p>
                   </div>
                 </div>
                 <Link
                   href={`/services/book/${p.id}`}
-                  className="mt-3 block w-full text-center bg-[#1A56DB] text-white text-sm font-semibold py-2.5 rounded-lg hover:bg-[#1E40AF] active:bg-[#1E3A8A] transition-colors"
+                  className="mt-3 block w-full text-center bg-service text-white text-sm font-semibold py-2.5 rounded-lg hover:bg-service-dark active:bg-service-dark transition-colors"
                 >
                   Book now
                 </Link>

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -9,7 +9,7 @@ import { timeAgo } from '@kurnool-mall/shared-utils'
 import type { Notification } from '@kurnool-mall/shared-types'
 
 const TYPE_ICONS: Record<string, { icon: React.ElementType; color: string }> = {
-  order: { icon: Package, color: 'bg-blue-50 text-[#1A56DB]' },
+  order: { icon: Package, color: 'bg-blue-50 text-shop' },
   promo: { icon: Tag, color: 'bg-amber-50 text-amber-500' },
   review: { icon: Star, color: 'bg-yellow-50 text-yellow-500' },
   loyalty: { icon: Gift, color: 'bg-purple-50 text-purple-600' },
@@ -86,7 +86,7 @@ export default function NotificationsPage() {
           <ArrowLeft className="h-5 w-5 text-gray-700" />
         </Link>
         <h1 className="text-base font-semibold text-gray-900 flex items-center gap-2">
-          <Bell className="h-4 w-4 text-[#1A56DB]" />
+          <Bell className="h-4 w-4 text-shop" />
           Notifications
         </h1>
       </div>
@@ -126,7 +126,7 @@ export default function NotificationsPage() {
                         <p className="text-[10px] text-gray-400 mt-1">{timeAgo(notif.created_at)}</p>
                       </div>
                       {!notif.is_read && (
-                        <div className="w-2 h-2 bg-[#1A56DB] rounded-full shrink-0 mt-1.5" />
+                        <div className="w-2 h-2 bg-shop rounded-full shrink-0 mt-1.5" />
                       )}
                     </div>
                   )

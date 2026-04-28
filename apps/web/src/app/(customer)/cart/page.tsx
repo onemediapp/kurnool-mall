@@ -79,7 +79,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className={`${colors.bgLight} min-h-screen pb-36`}>
+    <div className="bg-shop-light min-h-screen pb-36">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 flex items-center justify-between h-14">
         <h1 className="text-base font-semibold text-gray-900">My Cart ({items.length} items)</h1>
@@ -110,8 +110,8 @@ export default function CartPage() {
       {/* Cart items */}
       <div className="mx-4 mt-3 bg-white rounded-2xl overflow-hidden divide-y divide-gray-50 shadow-card">
         {items.map((item) => (
-          <div key={item.product_id} className="flex items-center gap-3 p-3">
-            <div className="relative w-16 h-16 rounded-xl bg-gray-100 overflow-hidden shrink-0">
+          <div key={item.product_id} className="flex items-center gap-4 p-4">
+            <div className="relative w-16 h-16 rounded-2xl bg-gray-100 overflow-hidden shrink-0">
               {item.image ? (
                 <Image src={item.image} alt={item.name_en} fill className="object-cover" sizes="64px" />
               ) : (
@@ -120,7 +120,7 @@ export default function CartPage() {
             </div>
 
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">{item.name_en}</p>
+              <p className="text-sm font-semibold text-gray-900 truncate">{item.name_en}</p>
               <p className="text-xs text-gray-500">{item.unit}</p>
               <p className="text-sm font-bold text-gray-900 mt-0.5">
                 {formatPrice(item.price_selling * item.quantity)}
@@ -135,10 +135,10 @@ export default function CartPage() {
               >
                 <Trash2 className="h-4 w-4" />
               </button>
-              <div className="flex items-center gap-1 bg-blue-600 rounded-lg overflow-hidden">
+              <div className="flex items-center gap-1 bg-shop rounded-lg overflow-hidden">
                 <button
                   onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
-                  className="flex items-center justify-center w-7 h-7 text-white hover:bg-blue-700 transition-colors"
+                  className="flex items-center justify-center w-7 h-7 text-white hover:bg-shop-dark transition-colors"
                   aria-label="Decrease quantity"
                 >
                   <Minus className="h-3 w-3" />
@@ -149,7 +149,7 @@ export default function CartPage() {
                 <button
                   onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
                   disabled={item.quantity >= item.max_qty}
-                  className="flex items-center justify-center w-7 h-7 text-white hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="flex items-center justify-center w-7 h-7 text-white hover:bg-shop-dark transition-colors disabled:opacity-50"
                   aria-label="Increase quantity"
                 >
                   <Plus className="h-3 w-3" />
@@ -163,7 +163,7 @@ export default function CartPage() {
       {/* Coupon section */}
       <div className="mx-4 mt-3 bg-white rounded-2xl p-4 shadow-card">
         <div className="flex items-center gap-2 mb-3">
-          <Tag className={`h-4 w-4 ${colors.text}`} />
+          <Tag className="h-4 w-4 text-shop" />
           <span className="text-sm font-semibold text-gray-900">Apply Coupon</span>
         </div>
         <div className="flex gap-2">
@@ -175,7 +175,7 @@ export default function CartPage() {
               if (couponResult) setCouponResult(null)
             }}
             placeholder="Enter coupon code"
-            className="flex-1 bg-gray-100 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#1A56DB]/20 uppercase"
+            className="flex-1 bg-gray-100 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-shop/20 uppercase"
             aria-label="Coupon code"
           />
           <Button
@@ -213,38 +213,46 @@ export default function CartPage() {
       {/* Bill summary */}
       <div className="mx-4 mt-3 bg-white rounded-2xl p-4 shadow-card">
         <h2 className="text-sm font-semibold text-gray-900 mb-3">Bill Summary</h2>
-        <div className="space-y-2.5">
-          <div className="flex justify-between text-sm text-gray-600">
+        <div className="space-y-1">
+          <div className="flex justify-between text-sm text-gray-600 p-2 rounded-lg bg-gray-50/80">
             <span>Items total</span>
             <span>{formatPrice(subtotal)}</span>
           </div>
-          <div className="flex justify-between text-sm text-gray-600">
+          <div className="flex justify-between text-sm text-gray-600 p-2 rounded-lg">
             <span>Delivery fee</span>
             <span className={deliveryFee === 0 ? 'text-green-600 font-medium' : ''}>
               {deliveryFee === 0 ? 'FREE' : formatPrice(deliveryFee)}
             </span>
           </div>
           {couponDiscount > 0 && (
-            <div className="flex justify-between text-sm text-green-600 font-medium">
+            <div className="flex justify-between text-sm text-green-600 font-medium p-2 rounded-lg bg-gray-50/80">
               <span>Coupon ({couponCode})</span>
               <span>-{formatPrice(couponDiscount)}</span>
             </div>
           )}
           <Divider />
-          <div className="flex justify-between text-base font-bold text-gray-900">
+          <div className="flex justify-between text-base font-bold text-gray-900 p-2">
             <span>Grand Total</span>
             <span>{formatPrice(grandTotal)}</span>
           </div>
         </div>
       </div>
 
-      {/* Checkout CTA */}
-      <div className="fixed bottom-16 left-1/2 -translate-x-1/2 w-full max-w-md px-4 py-3 bg-white border-t border-gray-100">
+      {/* Checkout CTA — floating pill */}
+      <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md z-50">
         <Link href={`/checkout${couponResult?.valid ? `?coupon=${couponCode}` : ''}`}>
-          <Button size="lg" fullWidth className="justify-between">
-            <span>Proceed to Checkout</span>
-            <span className="font-bold">{formatPrice(grandTotal)}</span>
-          </Button>
+          <div className="flex items-center justify-between hero-gradient text-white rounded-full px-6 py-4 shadow-float hover:shadow-xl transition-all active:scale-[0.98]">
+            <div className="flex flex-col">
+              <span className="text-xs text-shop-light/90 font-medium uppercase tracking-wider">Total</span>
+              <span className="text-lg font-bold">{formatPrice(grandTotal)}</span>
+            </div>
+            <div className="flex items-center gap-2 font-semibold">
+              <span>Proceed to Checkout</span>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
         </Link>
       </div>
 

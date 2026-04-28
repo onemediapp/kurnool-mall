@@ -42,7 +42,7 @@ export function ProviderCard({
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
           <p className="font-semibold text-gray-900 truncate">{businessName}</p>
-          {verified && <CheckCircle2 className="h-4 w-4 text-[#1A56DB] flex-shrink-0" />}
+          {verified && <CheckCircle2 className="h-4 w-4 text-service flex-shrink-0" />}
         </div>
         <div className="flex items-center gap-3 mt-0.5 text-xs text-gray-500">
           <span className="flex items-center gap-1">

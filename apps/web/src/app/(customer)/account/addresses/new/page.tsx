@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -90,7 +90,7 @@ export default function NewAddressPage() {
                 onClick={() => setLabel(opt)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium border-2 transition-colors ${
                   label === opt
-                    ? 'border-brand bg-brand-light text-brand'
+                    ? 'border-shop bg-shop-light text-shop'
                     : 'border-gray-200 text-gray-600 hover:border-gray-300'
                 }`}
               >
@@ -110,7 +110,7 @@ export default function NewAddressPage() {
             onChange={(e) => { setAddressLine(e.target.value); setErrors((p) => ({ ...p, addressLine: '' })) }}
             placeholder="House/Flat no., Street, Area"
             rows={3}
-            className={`w-full border rounded-lg px-3 py-2.5 text-sm outline-none resize-none focus:ring-2 focus:ring-brand focus:border-brand transition-colors ${
+            className={`w-full border rounded-lg px-3 py-2.5 text-sm outline-none resize-none focus:ring-2 focus:ring-shop focus:border-shop transition-colors ${
               errors.addressLine ? 'border-red-400' : 'border-gray-300'
             }`}
           />
@@ -142,7 +142,7 @@ export default function NewAddressPage() {
             placeholder="518001"
             maxLength={6}
             inputMode="numeric"
-            className={`w-full border rounded-lg px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-brand focus:border-brand transition-colors ${
+            className={`w-full border rounded-lg px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-shop focus:border-shop transition-colors ${
               errors.pincode ? 'border-red-400' : 'border-gray-300'
             }`}
           />

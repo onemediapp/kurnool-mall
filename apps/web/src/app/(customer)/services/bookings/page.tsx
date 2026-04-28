@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@kurnool-mall/supabase-client/server'
 import { BookingStatusBadge, EmptyState } from '@/components/shared'
@@ -41,7 +41,7 @@ export default async function MyBookingsPage() {
             title="No bookings yet"
             description="Browse services and book your first job."
             action={
-              <Link href="/services" className="text-sm text-[#1A56DB] font-medium">
+              <Link href="/services" className="text-sm text-service font-medium">
                 Browse services
               </Link>
             }
@@ -55,7 +55,7 @@ export default async function MyBookingsPage() {
                 className="block bg-white rounded-xl border border-gray-100 p-4 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start gap-3">
-                  <div className="h-11 w-11 rounded-full bg-blue-50 flex items-center justify-center text-2xl flex-shrink-0">
+                  <div className="h-11 w-11 rounded-full bg-service-light flex items-center justify-center text-2xl flex-shrink-0">
                     {b.category?.emoji || '🛠️'}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -72,7 +72,7 @@ export default async function MyBookingsPage() {
                     )}
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-sm font-bold text-[#1A56DB]">{formatPrice(b.price)}</p>
+                    <p className="text-sm font-bold text-service">{formatPrice(b.price)}</p>
                     <ChevronRight className="h-4 w-4 text-gray-400 ml-auto mt-1" />
                   </div>
                 </div>

@@ -81,7 +81,7 @@ export function AddToCartSection({ product }: AddToCartSectionProps) {
                   >
                     Clear cart &amp; add
                   </button>
-                  <Link href="/cart" className="text-xs text-[#1A56DB] font-semibold hover:underline">
+                  <Link href="/cart" className="text-xs text-shop font-semibold hover:underline">
                     View cart
                   </Link>
                 </div>
@@ -125,10 +125,10 @@ export function AddToCartSection({ product }: AddToCartSectionProps) {
               </Button>
             ) : (
               <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1 bg-[#1A56DB] rounded-xl overflow-hidden">
+                <div className="flex items-center gap-1 bg-shop rounded-xl overflow-hidden">
                   <button
                     onClick={() => updateQuantity(product.id, qty - 1)}
-                    className="flex items-center justify-center w-11 h-11 text-white hover:bg-[#1746C0] transition-colors"
+                    className="flex items-center justify-center w-11 h-11 text-white hover:bg-shop-dark transition-colors"
                     aria-label="Decrease quantity"
                   >
                     <Minus className="h-4 w-4" />
@@ -137,7 +137,7 @@ export function AddToCartSection({ product }: AddToCartSectionProps) {
                   <button
                     onClick={() => updateQuantity(product.id, qty + 1)}
                     disabled={qty >= product.stock_qty}
-                    className="flex items-center justify-center w-11 h-11 text-white hover:bg-[#1746C0] transition-colors disabled:opacity-50"
+                    className="flex items-center justify-center w-11 h-11 text-white hover:bg-shop-dark transition-colors disabled:opacity-50"
                     aria-label="Increase quantity"
                   >
                     <Plus className="h-4 w-4" />

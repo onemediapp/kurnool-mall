@@ -70,7 +70,7 @@ export function ProductCard({ product, language = 'en', onVendorConflict, showVe
   return (
     <Link
       href={`/products/${product.id}`}
-      className="block bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow"
+      className="group relative block bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 hover:after:opacity-100 after:absolute after:inset-0 after:bg-gradient-to-t after:from-shop-light/30 after:to-transparent after:opacity-0 after:transition-opacity"
     >
       {/* Image */}
       <div className="relative aspect-square bg-gray-50">
@@ -82,15 +82,18 @@ export function ProductCard({ product, language = 'en', onVendorConflict, showVe
             className="object-cover"
             onError={() => setImageError(true)}
             sizes="(max-width: 768px) 50vw, 200px"
-            loading="lazy"
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-4xl">📦</div>
+          <div className="flex items-center justify-center h-full bg-shop-light">
+            <svg className="w-12 h-12 text-shop-dark/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+          </div>
         )}
 
         {/* Discount badge */}
         {discount > 0 && (
-          <span className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
+          <span className="absolute top-2 left-2 bg-success text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">
             {discount}% OFF
           </span>
         )}
@@ -100,13 +103,13 @@ export function ProductCard({ product, language = 'en', onVendorConflict, showVe
           <motion.button
             whileTap={{ scale: 0.85 }}
             onClick={handleWishlist}
-            className="absolute top-2 right-2 h-7 w-7 rounded-full bg-white/90 shadow flex items-center justify-center"
+            className="absolute top-2 right-2 h-10 w-10 rounded-full bg-white/90 shadow flex items-center justify-center"
             aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
           >
             <Heart
               className={cn(
-                'h-3.5 w-3.5 transition-colors',
-                wishlisted ? 'fill-red-500 text-red-500' : 'text-gray-400',
+                'h-5 w-5 transition-colors',
+                wishlisted ? 'fill-danger text-danger' : 'text-gray-400',
               )}
             />
           </motion.button>
@@ -114,7 +117,7 @@ export function ProductCard({ product, language = 'en', onVendorConflict, showVe
 
         {/* Out of stock overlay */}
         {!product.is_available && (
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-2xl">
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
             <span className="text-white text-xs font-semibold bg-black/60 px-3 py-1.5 rounded-full">
               Out of Stock
             </span>
@@ -123,11 +126,11 @@ export function ProductCard({ product, language = 'en', onVendorConflict, showVe
       </div>
 
       {/* Info */}
-      <div className="p-2.5">
-        <p className="text-xs text-gray-500 mb-0.5">{product.unit}</p>
-        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-tight mb-1">
+      <div className="p-3 relative z-10">
+        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-tight mb-0.5">
           {name}
         </h3>
+        <p className="text-xs text-gray-500 mb-1.5">{product.unit}</p>
 
         {/* Rating */}
         {(product as Product & { rating?: number }).rating !== undefined && (
@@ -148,12 +151,12 @@ export function ProductCard({ product, language = 'en', onVendorConflict, showVe
         )}
 
         <div className="flex items-center justify-between gap-1 mt-1.5">
-          <div>
-            <span className="text-sm font-bold text-gray-900">
+          <div className="flex flex-col">
+            <span className="text-base font-bold text-gray-900">
               {formatPrice(product.price_selling)}
             </span>
             {product.price_mrp > product.price_selling && (
-              <span className="text-xs line-through text-gray-400 ml-1">
+              <span className="text-xs line-through text-gray-400">
                 {formatPrice(product.price_mrp)}
               </span>
             )}
@@ -179,7 +182,7 @@ export function ProductCard({ product, language = 'en', onVendorConflict, showVe
                   className="btn-stepper"
                 >
                   <button onClick={handleDecrement} aria-label="Decrease quantity">
-                    <Minus className="h-3.5 w-3.5" />
+                    <Minus className="h-4 w-4" />
                   </button>
                   <span>{qty}</span>
                   <button
@@ -188,7 +191,7 @@ export function ProductCard({ product, language = 'en', onVendorConflict, showVe
                     aria-label="Increase quantity"
                     disabled={qty >= product.stock_qty}
                   >
-                    <Plus className="h-3.5 w-3.5" />
+                    <Plus className="h-4 w-4" />
                   </button>
                 </motion.div>
               )}

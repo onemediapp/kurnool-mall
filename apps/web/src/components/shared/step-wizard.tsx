@@ -53,7 +53,7 @@ export function StepWizard({
                 disabled={i > current}
                 className={cn(
                   'flex items-center gap-2 text-xs font-medium whitespace-nowrap',
-                  active && 'text-[#1A56DB]',
+                  active && 'text-shop',
                   done && 'text-green-600',
                   !active && !done && 'text-gray-400',
                 )}
@@ -61,7 +61,7 @@ export function StepWizard({
                 <span
                   className={cn(
                     'h-6 w-6 rounded-full flex items-center justify-center text-[11px] font-semibold',
-                    active && 'bg-[#1A56DB] text-white',
+                    active && 'bg-shop text-white',
                     done && 'bg-green-100 text-green-700',
                     !active && !done && 'bg-gray-100 text-gray-400',
                   )}

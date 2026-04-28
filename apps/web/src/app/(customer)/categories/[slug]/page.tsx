@@ -153,7 +153,7 @@ export default async function CategoryPage({ params }: Props) {
             title="No products yet"
             description="We're working on adding products in this category. Check back soon!"
             action={
-              <Link href="/" className="text-sm text-brand font-medium hover:underline">
+              <Link href="/" className="text-sm text-shop font-medium hover:underline">
                 Browse other categories
               </Link>
             }

@@ -131,7 +131,7 @@ export default function SearchPage() {
           <button
             onClick={() => setSelectedCategory(null)}
             className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-              !selectedCategory ? 'bg-[#1A56DB] text-white' : 'bg-gray-100 text-gray-600'
+              !selectedCategory ? 'bg-shop text-white' : 'bg-gray-100 text-gray-600'
             }`}
           >
             All
@@ -141,7 +141,7 @@ export default function SearchPage() {
               key={cat.id}
               onClick={() => setSelectedCategory(selectedCategory === cat.id ? null : cat.id)}
               className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                selectedCategory === cat.id ? 'bg-[#1A56DB] text-white' : 'bg-gray-100 text-gray-600'
+                selectedCategory === cat.id ? 'bg-shop text-white' : 'bg-gray-100 text-gray-600'
               }`}
             >
               {cat.name_en}
@@ -161,7 +161,7 @@ export default function SearchPage() {
                   key={s}
                   onClick={() => setSortBy(s)}
                   className={`px-2.5 py-1 text-xs rounded-lg transition-colors ${
-                    sortBy === s ? 'bg-[#1A56DB] text-white' : 'bg-gray-100 text-gray-600'
+                    sortBy === s ? 'bg-shop text-white' : 'bg-gray-100 text-gray-600'
                   }`}
                 >
                   {s === 'relevance' ? 'Best' : s === 'price_asc' ? 'Low ↑' : 'High ↓'}
@@ -180,7 +180,7 @@ export default function SearchPage() {
               <p className="text-sm font-medium text-gray-700">Recent Searches</p>
               <button
                 onClick={() => { localStorage.removeItem(RECENT_KEY); setRecentSearches([]) }}
-                className="text-xs text-[#1A56DB]"
+                className="text-xs text-shop font-medium"
               >
                 Clear all
               </button>
@@ -232,7 +232,7 @@ export default function SearchPage() {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className="px-3 py-1.5 bg-blue-50 text-[#1A56DB] text-xs font-medium rounded-full"
+                  className="px-3 py-1.5 bg-shop-light text-shop text-xs font-medium rounded-full"
                 >
                   {cat.name_en}
                 </button>

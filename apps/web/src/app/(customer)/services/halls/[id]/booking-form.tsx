@@ -63,7 +63,7 @@ export function HallBookingForm({ hallId, pricePerDay }: { hallId: string; price
             value={date}
             min={minDate}
             onChange={(e) => setDate(e.target.value)}
-            className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1A56DB]/20"
+            className="mt-1 w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-service/20"
           />
         </div>
         <div>
@@ -78,7 +78,7 @@ export function HallBookingForm({ hallId, pricePerDay }: { hallId: string; price
         </div>
         <div className="flex justify-between text-sm pt-2 border-t border-gray-100">
           <span className="text-gray-500">Total</span>
-          <span className="font-bold text-[#1A56DB]">{formatPrice(pricePerDay)}</span>
+          <span className="font-bold text-service">{formatPrice(pricePerDay)}</span>
         </div>
         <Button variant="primary" onClick={book} loading={loading} className="w-full">
           Request booking

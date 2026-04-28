@@ -89,7 +89,7 @@ export default async function BookingDetailPage({ params, searchParams }: Props)
                     className={`h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold ${
                       reached
                         ? isCurrent
-                          ? 'bg-[#1A56DB] text-white ring-4 ring-[#1A56DB]/15'
+                          ? 'bg-service text-white ring-4 ring-service/15'
                           : 'bg-green-500 text-white'
                         : 'bg-gray-100 text-gray-400'
                     }`}
@@ -122,7 +122,7 @@ export default async function BookingDetailPage({ params, searchParams }: Props)
               {(booking.provider as { user?: { phone?: string } }).user?.phone && (
                 <a
                   href={`tel:${(booking.provider as { user?: { phone?: string } }).user!.phone}`}
-                  className="p-2 rounded-full bg-blue-50 text-[#1A56DB]"
+                  className="p-2 rounded-full bg-service-light text-service"
                 >
                   <Phone className="h-4 w-4" />
                 </a>
@@ -158,9 +158,9 @@ export default async function BookingDetailPage({ params, searchParams }: Props)
               <p className="text-gray-700 text-xs">{booking.notes}</p>
             </div>
           )}
-          <div className="p-3 flex justify-between text-sm bg-blue-50">
+          <div className="p-3 flex justify-between text-sm bg-service-light">
             <span className="font-semibold text-gray-900">Total</span>
-            <span className="font-bold text-[#1A56DB]">{formatPrice(booking.price)}</span>
+            <span className="font-bold text-service">{formatPrice(booking.price)}</span>
           </div>
         </div>
 
@@ -196,7 +196,7 @@ export default async function BookingDetailPage({ params, searchParams }: Props)
         {(booking.status === 'completed' || booking.status === 'paid') && (
           <Link
             href={`/services/bookings/${booking.id}#review`}
-            className="block w-full text-center bg-[#1A56DB] text-white text-sm font-semibold py-3 rounded-xl"
+            className="block w-full text-center bg-service text-white text-sm font-semibold py-3 rounded-xl"
           >
             Leave a review
           </Link>

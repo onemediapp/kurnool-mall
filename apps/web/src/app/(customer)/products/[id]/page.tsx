@@ -136,7 +136,7 @@ export default async function ProductDetailPage({ params }: Props) {
         {category && (
           <Link
             href={`/categories/${category.slug}`}
-            className="inline-flex items-center gap-1 text-xs text-[#1A56DB] font-medium bg-[#DBEAFE] rounded-full px-2.5 py-1 mb-2"
+            className="inline-flex items-center gap-1 text-xs text-shop font-medium bg-shop-light rounded-full px-2.5 py-1 mb-2"
           >
             <span>{CATEGORY_EMOJIS[category.slug] || '📦'}</span>
             {category.name_en}
@@ -166,8 +166,8 @@ export default async function ProductDetailPage({ params }: Props) {
         <StockBadge stock={product.stock_qty} />
 
         {/* Delivery ETA chip */}
-        <div className="flex items-center gap-1.5 text-xs text-[#1A56DB] font-medium mb-4">
-          <Zap className="h-3.5 w-3.5 fill-[#1A56DB]" />
+        <div className="flex items-center gap-1.5 text-xs text-shop font-medium mb-4">
+          <Zap className="h-3.5 w-3.5 fill-shop" />
           Express delivery in 1–2 hrs
         </div>
 
@@ -253,8 +253,8 @@ export default async function ProductDetailPage({ params }: Props) {
                     <p className="text-xs text-gray-600 leading-snug">{review.comment}</p>
                   )}
                   {review.vendor_reply && (
-                    <div className="mt-2 pl-2 border-l-2 border-[#1A56DB]">
-                      <p className="text-[10px] text-[#1A56DB] font-semibold mb-0.5">Vendor reply</p>
+                    <div className="mt-2 pl-2 border-l-2 border-shop">
+                      <p className="text-[10px] text-shop font-semibold mb-0.5">Vendor reply</p>
                       <p className="text-xs text-gray-500">{review.vendor_reply}</p>
                     </div>
                   )}

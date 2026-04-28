@@ -76,7 +76,7 @@ export function ShoppingFilters({
                 className={cn(
                   'w-full px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors',
                   !selectedCategory
-                    ? 'bg-[#1A56DB] text-white'
+                    ? 'bg-shop text-white'
                     : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                 )}
               >
@@ -89,7 +89,7 @@ export function ShoppingFilters({
                   className={cn(
                     'w-full px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors',
                     selectedCategory === cat.id
-                      ? 'bg-[#1A56DB] text-white'
+                      ? 'bg-shop text-white'
                       : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                   )}
                 >
@@ -143,8 +143,8 @@ export function ShoppingFilters({
                 />
               </div>
 
-              <div className="flex items-center justify-between p-2 bg-blue-50 rounded-lg">
-                <span className="text-xs font-semibold text-[#1A56DB]">
+              <div className="flex items-center justify-between p-2 bg-shop-light rounded-lg">
+                <span className="text-xs font-semibold text-shop">
                   ₹{priceRange[0].toLocaleString()} - ₹{priceRange[1].toLocaleString()}
                 </span>
               </div>

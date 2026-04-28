@@ -81,7 +81,7 @@ export default function OrderDetailPage() {
   if (loading) {
     return (
       <div className="bg-white min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-[#1A56DB]" />
+        <Loader2 className="h-8 w-8 animate-spin text-shop" />
       </div>
     )
   }
@@ -97,7 +97,7 @@ export default function OrderDetailPage() {
         <div className="flex flex-col items-center py-16 text-gray-400">
           <Package className="h-12 w-12 mb-3" />
           <p className="text-gray-600 font-medium">{error || 'Order not found'}</p>
-          <Link href="/orders" className="text-sm text-[#1A56DB] mt-2 hover:underline">Back to orders</Link>
+          <Link href="/orders" className="text-sm text-shop mt-2 hover:underline">Back to orders</Link>
         </div>
       </div>
     )
@@ -152,7 +152,7 @@ export default function OrderDetailPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mx-4 mt-4 bg-[#1A56DB] rounded-2xl p-4 text-white"
+            className="mx-4 mt-4 bg-shop rounded-2xl p-4 text-white"
           >
             <div className="flex items-center gap-1.5 mb-3">
               <Bike className="h-4 w-4" />
@@ -171,7 +171,7 @@ export default function OrderDetailPage() {
               {order.rider_phone && (
                 <a
                   href={`tel:${order.rider_phone}`}
-                  className="flex items-center gap-1.5 bg-white text-[#1A56DB] text-xs font-semibold px-3 py-2 rounded-xl"
+                  className="flex items-center gap-1.5 bg-white text-shop text-xs font-semibold px-3 py-2 rounded-xl"
                 >
                   <Phone className="h-3.5 w-3.5" />
                   Call
@@ -201,9 +201,9 @@ export default function OrderDetailPage() {
                     <div
                       className={`relative w-6 h-6 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0 transition-all duration-500 ${
                         isDone
-                          ? 'bg-[#1A56DB]'
+                          ? 'bg-shop'
                           : isCurrent
-                          ? 'bg-[#1A56DB] ring-4 ring-[#1A56DB]/20'
+                          ? 'bg-shop ring-4 ring-shop/20'
                           : 'bg-gray-200'
                       }`}
                     >
@@ -226,7 +226,7 @@ export default function OrderDetailPage() {
                     {!isLast && (
                       <div
                         className={`w-0.5 h-8 mt-0.5 rounded-full transition-colors duration-500 ${
-                          isDone ? 'bg-[#1A56DB]' : 'bg-gray-200'
+                          isDone ? 'bg-shop' : 'bg-gray-200'
                         }`}
                       />
                     )}
@@ -243,7 +243,7 @@ export default function OrderDetailPage() {
                       </p>
                     </div>
                     {isCurrent && (
-                      <p className="text-xs text-[#1A56DB] mt-1 ml-6">
+                      <p className="text-xs text-shop mt-1 ml-6">
                         {step.status === 'pending' ? 'Waiting for vendor to accept...' :
                          step.status === 'accepted' ? 'Your order has been accepted!' :
                          step.status === 'preparing' ? 'Being prepared now...' :
@@ -272,7 +272,7 @@ export default function OrderDetailPage() {
           {order.rejection_reason && (
             <p className="text-xs text-red-600 mt-1">{order.rejection_reason}</p>
           )}
-          <Link href="/" className="inline-block mt-3 text-xs text-[#1A56DB] font-medium">
+          <Link href="/" className="inline-block mt-3 text-xs text-shop font-medium">
             Browse more products →
           </Link>
         </div>
@@ -281,7 +281,7 @@ export default function OrderDetailPage() {
       {/* Vendor info */}
       {order.vendor && (
         <div className="mx-4 mt-3 bg-white rounded-2xl p-3 shadow-card flex items-center gap-2">
-          <Package className="h-4 w-4 text-[#1A56DB] shrink-0" />
+          <Package className="h-4 w-4 text-shop shrink-0" />
           <div>
             <p className="text-[10px] text-gray-500 uppercase tracking-wide font-medium">Sold by</p>
             <p className="text-sm font-medium text-gray-900">
@@ -355,7 +355,7 @@ export default function OrderDetailPage() {
       {order.delivery_address_snapshot && (
         <div className="mx-4 mt-3 bg-white rounded-2xl p-4 shadow-card">
           <h2 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1.5">
-            <MapPin className="h-4 w-4 text-[#1A56DB]" /> Delivery Address
+            <MapPin className="h-4 w-4 text-shop" /> Delivery Address
           </h2>
           <p className="text-sm text-gray-700">{order.delivery_address_snapshot.address_line}</p>
           <p className="text-xs text-gray-500 mt-0.5">
@@ -367,7 +367,7 @@ export default function OrderDetailPage() {
       {/* Need help? */}
       <div className="mx-4 mt-3 text-center">
         <p className="text-xs text-gray-400">Need help with your order?</p>
-        <a href="tel:+919999999999" className="text-xs text-[#1A56DB] font-medium">Contact Support</a>
+        <a href="tel:+919999999999" className="text-xs text-shop font-medium">Contact Support</a>
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -90,7 +90,7 @@ export default function AddressesPage() {
           </Link>
           <h1 className="text-base font-semibold text-gray-900">Saved Addresses</h1>
         </div>
-        <Link href="/account/addresses/new" className="flex items-center gap-1 text-xs text-brand font-medium">
+        <Link href="/account/addresses/new" className="flex items-center gap-1 text-xs text-shop font-medium">
           <Plus className="h-4 w-4" /> Add
         </Link>
       </div>
@@ -101,7 +101,7 @@ export default function AddressesPage() {
           title="No saved addresses"
           description="Add a delivery address to checkout faster."
           action={
-            <Link href="/account/addresses/new" className="inline-flex items-center gap-1 bg-brand text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-blue-700">
+            <Link href="/account/addresses/new" className="inline-flex items-center gap-1 bg-shop text-white text-sm font-medium px-4 py-2.5 rounded-lg hover:bg-blue-700">
               <Plus className="h-4 w-4" /> Add Address
             </Link>
           }
@@ -117,7 +117,7 @@ export default function AddressesPage() {
                     {addr.label}
                   </span>
                   {addr.is_default && (
-                    <span className="flex items-center gap-0.5 text-xs font-medium text-brand">
+                    <span className="flex items-center gap-0.5 text-xs font-medium text-shop">
                       <Star className="h-3 w-3 fill-brand" /> Default
                     </span>
                   )}
@@ -130,7 +130,7 @@ export default function AddressesPage() {
                 <button
                   onClick={() => setDefault(addr.id)}
                   disabled={settingDefault === addr.id}
-                  className="mt-3 text-xs text-brand font-medium hover:underline disabled:opacity-50"
+                  className="mt-3 text-xs text-shop font-medium hover:underline disabled:opacity-50"
                 >
                   {settingDefault === addr.id ? 'Setting...' : 'Set as default'}
                 </button>
