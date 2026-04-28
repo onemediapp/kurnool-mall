@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -25,7 +25,7 @@ type DeliverySlot = 'express' | 'morning' | 'afternoon' | 'evening'
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={<div className="flex justify-center py-16"><div className="h-6 w-6 border-2 border-[#1A56DB] border-t-transparent rounded-full animate-spin" /></div>}>
+    <Suspense fallback={<div className="flex justify-center py-16"><div className="h-6 w-6 border-2 border-shop border-t-transparent rounded-full animate-spin" /></div>}>
       <CheckoutContent />
     </Suspense>
   )

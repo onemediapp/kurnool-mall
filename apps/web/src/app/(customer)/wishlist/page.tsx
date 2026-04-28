@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -59,7 +59,7 @@ export default function WishlistPage() {
           icon="💝"
           title="Your wishlist is empty"
           description="Save products you love by tapping the heart icon."
-          action={<Link href="/" className="text-sm text-[#1A56DB] font-medium hover:underline">Browse Products</Link>}
+          action={<Link href="/" className="text-sm text-shop font-medium hover:underline">Browse Products</Link>}
         />
       ) : (
         <div className="grid grid-cols-2 gap-3 p-4">

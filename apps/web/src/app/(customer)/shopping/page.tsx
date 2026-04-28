@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -129,7 +129,7 @@ export default function ShoppingPage() {
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
-              <div className="h-8 w-8 rounded-full border-2 border-[#1A56DB] border-t-transparent animate-spin mx-auto mb-3" />
+              <div className="h-8 w-8 rounded-full border-2 border-shop border-t-transparent animate-spin mx-auto mb-3" />
               <p className="text-sm text-gray-600">Loading products...</p>
             </div>
           </div>

@@ -19,17 +19,17 @@ export function ServiceCategoryCard({
   const body = (
     <div
       className={cn(
-        'flex flex-col items-center text-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#1A56DB]/30 transition-all',
+        'flex flex-col items-center text-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-service/30 transition-all',
         className,
       )}
     >
-      <div className="h-14 w-14 rounded-full bg-blue-50 flex items-center justify-center text-3xl mb-2">
+      <div className="h-14 w-14 rounded-full bg-service-light flex items-center justify-center text-3xl mb-2">
         {emoji}
       </div>
       <p className="text-sm font-semibold text-gray-900 leading-tight">{nameEn}</p>
       {nameTe && <p className="text-[11px] text-gray-500 font-telugu leading-tight mt-0.5">{nameTe}</p>}
       {basePrice > 0 && (
-        <p className="text-xs text-[#1A56DB] font-medium mt-1.5">
+        <p className="text-xs text-service font-medium mt-1.5">
           From {formatPrice(basePrice)}
         </p>
       )}

@@ -73,7 +73,7 @@ export function ShoppingToolbar({
             className={cn(
               'p-1.5 rounded transition-colors',
               viewMode === 'grid'
-                ? 'bg-white text-[#1A56DB] shadow-sm'
+                ? 'bg-white text-shop shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
             )}
             title="Grid view"
@@ -85,7 +85,7 @@ export function ShoppingToolbar({
             className={cn(
               'p-1.5 rounded transition-colors',
               viewMode === 'list'
-                ? 'bg-white text-[#1A56DB] shadow-sm'
+                ? 'bg-white text-shop shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
             )}
             title="List view"

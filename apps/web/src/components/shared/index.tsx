@@ -103,7 +103,7 @@ export function IconButton({
 }: IconButtonProps) {
   const sizes = { sm: 'h-8 w-8', md: 'h-10 w-10', lg: 'h-12 w-12' }
   const variants = {
-    primary: 'bg-[#1A56DB] text-white hover:bg-[#1746C0]',
+    primary: 'bg-shop text-white hover:bg-shop-dark',
     ghost: 'text-gray-600 hover:bg-gray-100',
     outline: 'border border-gray-200 text-gray-600 hover:bg-gray-50',
   }
@@ -188,7 +188,7 @@ export function OrderStatusBadge({ status }: { status: OrderStatus }) {
 // ─────────────────────────────────────────────────────────────
 export function Spinner({ size = 'md', centered = true }: { size?: 'sm' | 'md' | 'lg'; centered?: boolean }) {
   const sizes = { sm: 'h-4 w-4', md: 'h-8 w-8', lg: 'h-12 w-12' }
-  const el = <Loader2 className={cn('animate-spin text-[#1A56DB]', sizes[size])} />
+  const el = <Loader2 className={cn('animate-spin text-shop', sizes[size])} />
   if (centered) return <div className="flex items-center justify-center p-8">{el}</div>
   return el
 }
@@ -293,7 +293,7 @@ export function SectionHeader({ title, href }: { title: string; href?: string })
     <div className="flex items-center justify-between mb-3 px-4">
       <h2 className="text-base font-semibold text-gray-900">{title}</h2>
       {href && (
-        <Link href={href} className="text-sm text-[#1A56DB] font-medium flex items-center gap-0.5">
+        <Link href={href} className="text-sm text-shop font-medium flex items-center gap-0.5">
           See all <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       )}
@@ -459,7 +459,7 @@ export function FloatingCartPill() {
           className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50"
         >
           <Link href="/cart">
-            <div className="flex items-center gap-3 bg-[#1A56DB] text-white px-5 py-3 rounded-full shadow-floating">
+            <div className="flex items-center gap-3 hero-gradient text-white px-5 py-3 rounded-full shadow-floating">
               <div className="flex items-center gap-1.5">
                 <ShoppingCart className="h-4 w-4" />
                 <span className="text-xs font-semibold bg-white/20 rounded-full px-1.5 py-0.5">
@@ -687,7 +687,7 @@ export function Tabs({ items, value, onValueChange, className }: TabsProps) {
             value={item.value}
             className={cn(
               'flex-shrink-0 flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-all whitespace-nowrap',
-              'data-[state=active]:bg-white data-[state=active]:text-[#1A56DB] data-[state=active]:shadow-sm',
+              'data-[state=active]:bg-white data-[state=active]:text-shop data-[state=active]:shadow-sm',
               'data-[state=inactive]:text-gray-600',
             )}
           >
@@ -733,7 +733,7 @@ export function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full pl-9 pr-9 py-2.5 bg-gray-100 rounded-xl text-sm outline-none focus:bg-white focus:ring-2 focus:ring-[#1A56DB]/20 transition-all placeholder:text-gray-400"
+        className="w-full pl-9 pr-9 py-2.5 bg-gray-100 rounded-xl text-sm outline-none focus:bg-white focus:ring-2 focus:ring-shop/20 transition-all placeholder:text-gray-400"
         aria-label={placeholder}
       />
       <AnimatePresence>
@@ -765,7 +765,7 @@ interface ProgressBarProps {
   className?: string
 }
 
-export function ProgressBar({ value, color = 'bg-[#1A56DB]', label, showLabel = false, className }: ProgressBarProps) {
+export function ProgressBar({ value, color = 'bg-shop', label, showLabel = false, className }: ProgressBarProps) {
   return (
     <div className={className}>
       {(label || showLabel) && (
@@ -822,12 +822,12 @@ export function VendorCard({ id, shopName, categoryName, rating, isActive, logoU
         whileTap={{ scale: 0.98 }}
         className="bg-white rounded-2xl shadow-card p-4 w-44 flex-shrink-0"
       >
-        <div className="h-16 w-16 rounded-2xl bg-[#DBEAFE] flex items-center justify-center mb-3 mx-auto overflow-hidden">
+        <div className="h-16 w-16 rounded-2xl bg-shop-light flex items-center justify-center mb-3 mx-auto overflow-hidden">
           {logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={logoUrl} alt={shopName} className="h-full w-full object-cover" />
           ) : (
-            <span className="text-2xl font-bold text-[#1A56DB]">
+            <span className="text-2xl font-bold text-shop">
               {shopName.charAt(0).toUpperCase()}
             </span>
           )}

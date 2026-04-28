@@ -9,7 +9,7 @@ const ShoppingHomeContent = dynamic(() => import('./shopping-home-content'), {
   loading: () => (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center">
-        <div className="h-8 w-8 rounded-full border-2 border-[#1A56DB] border-t-transparent animate-spin mx-auto mb-3" />
+        <div className="h-8 w-8 rounded-full border-2 border-shop border-t-transparent animate-spin mx-auto mb-3" />
         <p className="text-sm text-gray-600">Loading shopping...</p>
       </div>
     </div>
@@ -21,7 +21,7 @@ const ServicesHomeContent = dynamic(() => import('./services-home-content'), {
   loading: () => (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center">
-        <div className="h-8 w-8 rounded-full border-2 border-[#1A56DB] border-t-transparent animate-spin mx-auto mb-3" />
+        <div className="h-8 w-8 rounded-full border-2 border-shop border-t-transparent animate-spin mx-auto mb-3" />
         <p className="text-sm text-gray-600">Loading services...</p>
       </div>
     </div>
@@ -40,7 +40,7 @@ export function HomeContent() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="h-8 w-8 rounded-full border-2 border-[#1A56DB] border-t-transparent animate-spin mx-auto mb-3" />
+          <div className="h-8 w-8 rounded-full border-2 border-shop border-t-transparent animate-spin mx-auto mb-3" />
           <p className="text-sm text-gray-600">Loading...</p>
         </div>
       </div>

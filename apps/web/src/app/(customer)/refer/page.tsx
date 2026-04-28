@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -61,7 +61,7 @@ export default function ReferPage() {
       </div>
 
       {/* Hero */}
-      <div className="mx-4 mt-4 rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #1E3A5F 0%, #1A56DB 100%)' }}>
+      <div className="mx-4 mt-4 rounded-2xl overflow-hidden hero-gradient">
         <div className="p-6 text-white text-center">
           <div className="text-5xl mb-3">🎁</div>
           <h2 className="text-xl font-extrabold mb-1">Earn ₹50 per referral!</h2>
@@ -77,7 +77,7 @@ export default function ReferPage() {
           <button
             onClick={handleCopy}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${
-              copied ? 'bg-green-100 text-green-700' : 'bg-[#DBEAFE] text-[#1A56DB]'
+              copied ? 'bg-green-100 text-green-700' : 'bg-shop-light text-shop'
             }`}
           >
             {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
@@ -100,7 +100,7 @@ export default function ReferPage() {
           <p className="text-xs text-gray-500 mt-0.5">Friends Referred</p>
         </div>
         <div className="bg-white rounded-2xl p-4 shadow-card text-center">
-          <p className="text-2xl font-extrabold text-[#1A56DB]">₹0</p>
+          <p className="text-2xl font-extrabold text-service">₹0</p>
           <p className="text-xs text-gray-500 mt-0.5">Total Earned</p>
         </div>
       </div>
@@ -108,7 +108,7 @@ export default function ReferPage() {
       {/* How it works */}
       <div className="mx-4 mt-4 bg-white rounded-2xl p-4 shadow-card">
         <h2 className="text-sm font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <Gift className="h-4 w-4 text-[#1A56DB]" /> How it Works
+          <Gift className="h-4 w-4 text-service" /> How it Works
         </h2>
         <div className="space-y-4">
           {HOW_IT_WORKS.map((step) => (

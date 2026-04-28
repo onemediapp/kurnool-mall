@@ -46,10 +46,9 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/90 backdrop-blur-md border-t border-gray-100 z-40"
+      className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/90 backdrop-blur-md border-t border-gray-100 z-40 shadow-bottom-nav md:hidden"
       style={{
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
-        boxShadow: '0 -1px 0 rgba(0,0,0,0.06), 0 -4px 12px rgba(0,0,0,0.04)',
       }}
     >
       <div className="flex items-center justify-around h-16">
@@ -61,47 +60,54 @@ export function BottomNav() {
               key={href}
               href={href}
               className={cn(
-                'flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors relative',
+                'flex flex-col items-center justify-center flex-1 h-full transition-colors relative',
                 active ? accentClass : 'text-gray-500 hover:text-gray-700',
               )}
               aria-label={label}
             >
-              <motion.div
-                className="relative"
-                animate={active ? { scale: 1.1 } : { scale: 1 }}
-                transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+              <div
+                className={cn(
+                  'flex flex-col items-center justify-center px-4 py-1 rounded-2xl gap-0.5 transition-colors',
+                  active ? (mode === 'shopping' ? 'bg-shop/10' : 'bg-service/10') : 'bg-transparent'
+                )}
               >
                 <motion.div
-                  animate={isCart && cartBounce ? { y: [0, -4, 0] } : { y: 0 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  className="relative"
+                  animate={active ? { scale: 1.1 } : { scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                 >
-                  <Icon className="h-5 w-5" />
+                  <motion.div
+                    animate={isCart && cartBounce ? { y: [0, -4, 0] } : { y: 0 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </motion.div>
+
+                  {/* Cart badge */}
+                  {isCart && (
+                    <AnimatePresence>
+                      {mounted && totalItems > 0 && (
+                        <motion.span
+                          key="cart-badge"
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          exit={{ scale: 0 }}
+                          transition={{ type: 'spring', stiffness: 600, damping: 20 }}
+                          className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center leading-none"
+                        >
+                          {totalItems > 9 ? '9+' : totalItems}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  )}
                 </motion.div>
 
-                {/* Cart badge */}
-                {isCart && (
-                  <AnimatePresence>
-                    {mounted && totalItems > 0 && (
-                      <motion.span
-                        key={totalItems}
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        transition={{ type: 'spring', stiffness: 600, damping: 20 }}
-                        className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center leading-none"
-                      >
-                        {totalItems > 9 ? '9+' : totalItems}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                )}
-              </motion.div>
+                <span className={cn('text-[10px] font-medium transition-colors', active ? accentClass : '')}>
+                  {label}
+                </span>
+              </div>
 
-              <span className={cn('text-[10px] font-medium transition-colors', active ? accentClass : '')}>
-                {label}
-              </span>
-
-              {/* Active indicator dot */}
+              {/* Active indicator */}
               {active && (
                 <motion.div
                   layoutId="nav-indicator"

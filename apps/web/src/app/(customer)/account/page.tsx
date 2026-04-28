@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -10,7 +10,7 @@ import { getLoyaltyTier, TIER_CONFIG } from '@kurnool-mall/shared-utils'
 import type { User as UserType, LoyaltyAccount } from '@kurnool-mall/shared-types'
 
 const QUICK_LINKS = [
-  { icon: ClipboardList, label: 'My Orders', href: '/orders', color: 'bg-blue-50 text-[#1A56DB]' },
+  { icon: ClipboardList, label: 'My Orders', href: '/orders', color: 'bg-blue-50 text-shop' },
   { icon: Heart, label: 'Wishlist', href: '/wishlist', color: 'bg-pink-50 text-pink-500' },
   { icon: MapPin, label: 'Addresses', href: '/account/addresses', color: 'bg-green-50 text-green-600' },
   { icon: Gift, label: 'Refer & Earn', href: '/refer', color: 'bg-amber-50 text-amber-500' },
@@ -97,8 +97,8 @@ export default function AccountPage() {
 
       {/* User card */}
       <div className="mx-4 mt-4 bg-white rounded-2xl p-4 shadow-card flex items-center gap-3">
-        <div className="w-14 h-14 bg-[#DBEAFE] rounded-full flex items-center justify-center">
-          <User className="h-7 w-7 text-[#1A56DB]" />
+        <div className="w-14 h-14 bg-shop-light rounded-full flex items-center justify-center">
+          <User className="h-7 w-7 text-shop" />
         </div>
         <div className="flex-1">
           <p className="font-semibold text-gray-900">{user.name || 'User'}</p>
@@ -180,10 +180,10 @@ export default function AccountPage() {
             disabled={langSaving}
             className="flex items-center gap-0.5 bg-gray-100 rounded-lg overflow-hidden"
           >
-            <span className={`px-3 py-1.5 text-xs font-semibold transition-colors ${user.language_pref === 'en' ? 'bg-[#1A56DB] text-white' : 'text-gray-500 hover:bg-gray-200'}`}>
+            <span className={`px-3 py-1.5 text-xs font-semibold transition-colors ${user.language_pref === 'en' ? 'bg-shop text-white' : 'text-gray-500 hover:bg-gray-200'}`}>
               EN
             </span>
-            <span className={`px-3 py-1.5 text-xs font-semibold transition-colors font-telugu ${user.language_pref === 'te' ? 'bg-[#1A56DB] text-white' : 'text-gray-500 hover:bg-gray-200'}`}>
+            <span className={`px-3 py-1.5 text-xs font-semibold transition-colors font-telugu ${user.language_pref === 'te' ? 'bg-shop text-white' : 'text-gray-500 hover:bg-gray-200'}`}>
               తెలుగు
             </span>
           </button>

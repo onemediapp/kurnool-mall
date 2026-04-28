@@ -128,29 +128,36 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center p-4">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-shop to-shop-dark flex items-center justify-center p-4">
+      <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden relative">
+        {/* Top accent bar */}
+        <div className="h-1.5 w-full hero-gradient" />
+
         {/* Header */}
-        <div className="bg-gradient-to-r from-brand to-brand-dark p-6 text-white text-center">
-          <div className="text-4xl mb-2">🛒</div>
-          <h1 className="text-2xl font-bold">Kurnool Mall</h1>
-          <p className="text-blue-200 text-sm mt-1">Shop local, delivered fast</p>
+        <div className="hero-gradient p-8 text-white text-center flex flex-col items-center">
+          <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-shop" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight">Kurnool Mall</h1>
+          <p className="text-shop-light/90 text-sm mt-1 font-medium">Shop local, delivered fast</p>
         </div>
 
         <div className="p-6">
           {step === 'phone' ? (
             <>
               <h2 className="text-lg font-semibold text-gray-800 mb-1">Enter your mobile number</h2>
-              <p className="text-sm text-gray-500 mb-5">We'll send you a one-time password</p>
+              <p className="text-sm text-gray-500 mb-5">We&apos;ll send you a one-time password</p>
 
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
                   Mobile Number
                 </label>
-                <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-brand focus-within:border-brand">
-                  <div className="flex items-center gap-1.5 px-3 bg-gray-50 border-r border-gray-300 h-12 shrink-0">
+                <div className="flex items-center border border-gray-200 rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-shop/30 focus-within:border-shop transition-all">
+                  <div className="flex items-center gap-1.5 px-3 bg-gray-50 border-r border-gray-200 h-14 shrink-0">
                     <span className="text-base">🇮🇳</span>
-                    <span className="text-sm font-medium text-gray-700">+91</span>
+                    <span className="text-sm font-semibold text-gray-700">+91</span>
                   </div>
                   <input
                     type="tel"
@@ -163,7 +170,7 @@ function LoginForm() {
                     placeholder="9876543210"
                     maxLength={10}
                     inputMode="numeric"
-                    className="flex-1 px-3 h-12 text-base outline-none bg-transparent"
+                    className="flex-1 px-3 h-14 text-base outline-none bg-transparent"
                     autoFocus
                   />
                 </div>
@@ -192,7 +199,7 @@ function LoginForm() {
               <p className="text-center text-xs text-gray-500">
                 <Phone className="inline h-3 w-3 mr-1" />
                 Want to sell on Kurnool Mall?{' '}
-                <a href="tel:+919000000000" className="text-brand font-medium">
+                <a href="tel:+919000000000" className="text-shop font-medium">
                   Contact us
                 </a>
               </p>
@@ -201,7 +208,7 @@ function LoginForm() {
             <>
               <button
                 onClick={() => { setStep('phone'); setOtp(''); setOtpError('') }}
-                className="text-sm text-brand mb-4 hover:underline flex items-center gap-1"
+                className="text-sm text-shop mb-4 hover:underline flex items-center gap-1"
               >
                 ← Change number
               </button>
@@ -227,7 +234,7 @@ function LoginForm() {
                   maxLength={6}
                   inputMode="numeric"
                   autoFocus
-                  className="w-full border border-gray-300 rounded-lg px-4 h-14 text-2xl font-bold tracking-[0.5em] text-center outline-none focus:ring-2 focus:ring-brand focus:border-brand"
+                  className="w-full border border-gray-200 rounded-2xl px-4 h-16 text-2xl font-bold tracking-[0.6em] text-center outline-none focus:ring-2 focus:ring-shop/30 focus:border-shop transition-all"
                 />
                 {otpError && (
                   <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1">
@@ -242,7 +249,7 @@ function LoginForm() {
                 onClick={verifyOtp}
                 className="mt-2"
               >
-                Verify & Login
+                Verify &amp; Login
               </Button>
 
               <div className="text-center mt-4">
@@ -254,7 +261,7 @@ function LoginForm() {
                 ) : (
                   <button
                     onClick={resendOtp}
-                    className="text-sm text-brand hover:underline"
+                    className="text-sm text-shop hover:underline font-medium"
                   >
                     Resend OTP
                   </button>
@@ -271,7 +278,7 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-brand to-brand-dark flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-shop to-shop-dark flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin" />
       </div>
     }>

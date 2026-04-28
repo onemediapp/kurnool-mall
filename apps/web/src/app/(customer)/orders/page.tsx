@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation'
+﻿import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ClipboardList } from 'lucide-react'
 import { createClient } from '@kurnool-mall/supabase-client/server'
@@ -33,7 +33,7 @@ export default async function OrdersPage() {
           title="No orders yet"
           description="Place your first order from local vendors in Kurnool."
           action={
-            <Link href="/" className="text-sm text-brand font-medium hover:underline">
+            <Link href="/" className="text-sm text-shop font-medium hover:underline">
               Browse Products
             </Link>
           }

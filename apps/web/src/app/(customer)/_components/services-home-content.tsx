@@ -94,7 +94,7 @@ export default function ServicesHomeContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* ── Booking Promise Strip ─── */}
-      <div className="flex items-center justify-center gap-5 bg-gradient-to-r from-[#7C3AED] to-[#1A56DB] px-4 py-2">
+      <div className="flex items-center justify-center gap-5 service-gradient px-4 py-2">
         <div className="flex items-center gap-1.5 text-white">
           <Wrench className="h-3.5 w-3.5" />
           <span className="text-xs font-medium">Book Instantly</span>
@@ -109,16 +109,21 @@ export default function ServicesHomeContent() {
       </div>
 
       {/* ── Services Hero Banner ─── */}
-      <div className="mx-4 mt-4 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#1A56DB] p-6 text-white">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-xs font-medium opacity-90 mb-1">🔧 Local Experts</p>
-            <h2 className="text-2xl font-extrabold leading-tight mb-2">
-              Home Services<br />at Your Doorstep
-            </h2>
-            <p className="text-sm opacity-90">Professional & trusted service providers</p>
-          </div>
-          <div className="text-4xl">🔧</div>
+      <div className="mx-4 mt-4 rounded-2xl service-gradient p-6 text-white relative overflow-hidden">
+        <div className="absolute -top-6 -right-6 text-white/10">
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20Z" />
+          </svg>
+        </div>
+        <div className="absolute -bottom-2 right-4 text-7xl opacity-20 transform rotate-12">🔧</div>
+        <div className="absolute top-8 right-20 text-3xl opacity-20 transform -rotate-12">✨</div>
+        <div className="absolute bottom-10 right-24 text-2xl opacity-20">⚡</div>
+        <div className="relative z-10">
+          <p className="text-xs font-medium text-white/90 mb-1 tracking-wider uppercase">🔧 Local Experts</p>
+          <h2 className="text-2xl font-extrabold leading-tight mb-2">
+            Home Services<br />at Your Doorstep
+          </h2>
+          <p className="text-sm text-white/90">Professional & trusted service providers</p>
         </div>
       </div>
 
@@ -130,13 +135,15 @@ export default function ServicesHomeContent() {
             <Link
               key={service.id}
               href={service.href}
-              className="rounded-xl bg-white p-4 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+              className="group rounded-xl bg-white p-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex flex-col"
             >
-              <div className="text-3xl mb-2">{service.emoji}</div>
-              <h3 className="font-semibold text-sm text-gray-900 mb-0.5">
+              <div className="h-12 w-12 rounded-full bg-service-light flex items-center justify-center text-2xl mb-3 group-hover:scale-110 transition-transform">
+                {service.emoji}
+              </div>
+              <h3 className="font-semibold text-sm text-gray-900 mb-0.5 group-hover:text-service transition-colors">
                 {service.name}
               </h3>
-              <p className="text-xs text-gray-500">{service.description}</p>
+              <p className="text-xs text-gray-500 line-clamp-1">{service.description}</p>
             </Link>
           ))}
         </div>
@@ -150,19 +157,24 @@ export default function ServicesHomeContent() {
             <Link
               key={provider.id}
               href={`/services/provider/${provider.id}`}
-              className="flex-shrink-0 w-40 bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-lg transition-shadow"
+              className="flex-shrink-0 w-44 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group"
             >
-              <div className="h-24 bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center text-4xl">
+              <div className="relative h-28 bg-service-light flex items-center justify-center text-5xl group-hover:bg-service-muted transition-colors">
                 {provider.image}
+                <div className="absolute top-2 right-2 bg-white/95 backdrop-blur-sm px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
+                  <span className="text-[10px] font-bold text-gray-900">⭐ {provider.rating}</span>
+                </div>
               </div>
               <div className="p-3">
-                <h4 className="font-semibold text-sm text-gray-900 line-clamp-2 mb-1">
+                <h4 className="font-semibold text-sm text-gray-900 line-clamp-1 mb-0.5 group-hover:text-service transition-colors">
                   {provider.name}
                 </h4>
                 <p className="text-xs text-gray-500 mb-2">{provider.category}</p>
-                <div className="flex items-center gap-1">
-                  <span className="text-xs font-bold text-gray-900">⭐ {provider.rating}</span>
-                  <span className="text-xs text-gray-500">({provider.reviews})</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-gray-500 font-medium">{provider.reviews} reviews</span>
+                  <span className="text-[10px] font-semibold text-service bg-service-light px-2 py-0.5 rounded-full">
+                    View
+                  </span>
                 </div>
               </div>
             </Link>
@@ -173,40 +185,40 @@ export default function ServicesHomeContent() {
       {/* ── How It Works ─── */}
       <div className="mt-5 mx-4 mb-6">
         <h3 className="text-base font-semibold text-gray-900 mb-3">How It Works</h3>
-        <div className="space-y-2">
-          <div className="flex gap-3 bg-white rounded-lg p-3">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#1A56DB] text-white flex items-center justify-center font-bold text-sm">
+        <div className="space-y-3">
+          <div className="flex gap-4 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-service text-white flex items-center justify-center font-bold text-sm shadow-sm">
               1
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">Browse & Select</p>
+              <p className="text-sm font-semibold text-gray-900 mb-0.5">Browse & Select</p>
               <p className="text-xs text-gray-500">Choose a service category and provider</p>
             </div>
           </div>
-          <div className="flex gap-3 bg-white rounded-lg p-3">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#1A56DB] text-white flex items-center justify-center font-bold text-sm">
+          <div className="flex gap-4 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-service text-white flex items-center justify-center font-bold text-sm shadow-sm">
               2
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">Book Appointment</p>
+              <p className="text-sm font-semibold text-gray-900 mb-0.5">Book Appointment</p>
               <p className="text-xs text-gray-500">Pick your preferred date and time slot</p>
             </div>
           </div>
-          <div className="flex gap-3 bg-white rounded-lg p-3">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#1A56DB] text-white flex items-center justify-center font-bold text-sm">
+          <div className="flex gap-4 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-service text-white flex items-center justify-center font-bold text-sm shadow-sm">
               3
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">Expert Arrives</p>
+              <p className="text-sm font-semibold text-gray-900 mb-0.5">Expert Arrives</p>
               <p className="text-xs text-gray-500">Professional arrives on time & completes work</p>
             </div>
           </div>
-          <div className="flex gap-3 bg-white rounded-lg p-3">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#1A56DB] text-white flex items-center justify-center font-bold text-sm">
+          <div className="flex gap-4 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-service text-white flex items-center justify-center font-bold text-sm shadow-sm">
               4
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-900">Pay & Review</p>
+              <p className="text-sm font-semibold text-gray-900 mb-0.5">Pay & Review</p>
               <p className="text-xs text-gray-500">Secure payment & rate your experience</p>
             </div>
           </div>

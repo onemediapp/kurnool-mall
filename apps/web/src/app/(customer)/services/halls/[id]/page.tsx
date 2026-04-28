@@ -56,7 +56,7 @@ export default async function HallDetailPage({ params }: Props) {
               <MapPin className="h-3 w-3" /> {hall.city}
             </span>
           </div>
-          <p className="text-xl font-bold text-[#1A56DB] mt-3">
+          <p className="text-xl font-bold text-service mt-3">
             {formatPrice(hall.price_per_day)}<span className="text-xs font-normal text-gray-500">/day</span>
           </p>
           {hall.description_en && <p className="text-xs text-gray-600 mt-3">{hall.description_en}</p>}

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import { createClient } from '@kurnool-mall/supabase-client/server'
 import { EmptyState } from '@/components/shared'
 import { formatPrice } from '@kurnool-mall/shared-utils'
@@ -62,7 +62,7 @@ export default async function HallsListPage() {
                         <Users className="h-3 w-3" /> Capacity {h.capacity}
                       </p>
                     </div>
-                    <p className="text-sm font-bold text-[#1A56DB] flex-shrink-0">{formatPrice(h.price_per_day)}<span className="text-[10px] font-normal">/day</span></p>
+                    <p className="text-sm font-bold text-service flex-shrink-0">{formatPrice(h.price_per_day)}<span className="text-[10px] font-normal">/day</span></p>
                   </div>
                   {h.amenities && h.amenities.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-3">

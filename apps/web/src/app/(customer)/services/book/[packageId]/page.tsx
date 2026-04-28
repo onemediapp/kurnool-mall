@@ -280,7 +280,7 @@ export default function BookServicePage({ params }: Props) {
               <button
                 type="button"
                 onClick={() => setUseManual(true)}
-                className="text-xs text-[#1A56DB] font-medium"
+                className="text-xs text-service font-medium"
               >
                 + Enter a different address
               </button>
@@ -322,7 +322,7 @@ export default function BookServicePage({ params }: Props) {
                 <button
                   type="button"
                   onClick={() => setUseManual(false)}
-                  className="text-xs text-[#1A56DB] font-medium"
+                  className="text-xs text-service font-medium"
                 >
                   ← Use saved address
                 </button>
